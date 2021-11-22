@@ -1,0 +1,103 @@
+From b3e28d5cde56d19d7c2ff0bc039bf15ad23bc140 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng drivers/iommu
+
+Feiteng drivers/iommu
+---
+ drivers/iommu/arm-smmu.c | 17 +++++++
+ drivers/iommu/iommu.c    | 25 ++++++++++
+ 2 files changed, 42 insertions(+)
+
+diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+index 0c3b8f1c7225..56a4675cd659 100644
+--- a/drivers/iommu/arm-smmu.c
++++ b/drivers/iommu/arm-smmu.c
+@@ -53,9 +53,15 @@
+ 
+ #include <linux/amba/bus.h>
+ 
++#include <asm/cputype.h>
++
+ #include "io-pgtable.h"
+ #include "arm-smmu-regs.h"
+ 
++#ifdef CONFIG_ARCH_PHYTIUM
++#define FWID_READ(id) (((u16)(id) >> 3) | (((id) >> SMR_MASK_SHIFT | 0x7000) << SMR_MASK_SHIFT))
++#endif
++
+ /*
+  * Apparently, some Qualcomm arm64 platforms which appear to expose their SMMU
+  * global register space are still, in fact, using a hypervisor to mediate it
+@@ -1392,6 +1398,17 @@ static int arm_smmu_add_device(struct device *dev)
+ 		return -ENODEV;
+ 	}
+ 
++#ifdef CONFIG_ARCH_PHYTIUM
++	/* FT2000PLUS workaround patch */
++        if ((read_cpuid_id() & MIDR_CPU_MODEL_MASK) == MIDR_PHYTIUM_FT2000PLUS) {
++		int num = fwspec->num_ids;
++		for (i = 0; i < num; i++) {
++			u32 fwid = FWID_READ(fwspec->ids[i]);
++			iommu_fwspec_add_ids(dev, &fwid, 1);
++		}
++	}
++#endif
++
+ 	ret = -EINVAL;
+ 	for (i = 0; i < fwspec->num_ids; i++) {
+ 		u16 sid = fwspec->ids[i];
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 85ef6c9bc898..9c02fa383801 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -33,6 +33,9 @@
+ #include <linux/bitops.h>
+ #include <linux/property.h>
+ #include <trace/events/iommu.h>
++#ifdef CONFIG_ARCH_PHYTIUM
++#include <asm/cputype.h>
++#endif
+ 
+ static struct kset *iommu_group_kset;
+ static DEFINE_IDA(iommu_group_ida);
+@@ -126,7 +129,19 @@ static int __init iommu_set_def_domain_type(char *str)
+ 	if (ret)
+ 		return ret;
+ 
++#ifdef CONFIG_ARCH_PHYTIUM
++	/*
++	 * Always set default iommu type to IOMMU_DOMAIN_IDENTITY
++	 * on Phytium FT-2000+ SoC to avoid unnecessary troubles
++	 * introduced by the SMMU workaround.
++	 */
++	if ((read_cpuid_id() & MIDR_CPU_MODEL_MASK) == MIDR_PHYTIUM_FT2000PLUS)
++		iommu_def_domain_type = IOMMU_DOMAIN_IDENTITY;
++	else
++		iommu_def_domain_type = pt ? IOMMU_DOMAIN_IDENTITY : IOMMU_DOMAIN_DMA;
++#else
+ 	iommu_def_domain_type = pt ? IOMMU_DOMAIN_IDENTITY : IOMMU_DOMAIN_DMA;
++#endif
+ 	return 0;
+ }
+ early_param("iommu.passthrough", iommu_set_def_domain_type);
+@@ -1241,6 +1256,16 @@ int bus_set_iommu(struct bus_type *bus, const struct iommu_ops *ops)
+ 
+ 	bus->iommu_ops = ops;
+ 
++#ifdef CONFIG_ARCH_PHYTIUM
++	/*
++	 * Always set default iommu type to IOMMU_DOMAIN_IDENTITY
++	 * on Phytium FT-2000+ SoC to avoid unnecessary troubles
++	 * introduced by the SMMU workaround.
++	 */
++	if ((read_cpuid_id() & MIDR_CPU_MODEL_MASK) == MIDR_PHYTIUM_FT2000PLUS)
++		iommu_def_domain_type = IOMMU_DOMAIN_IDENTITY;
++#endif
++
+ 	/* Do IOMMU specific setup for this bus-type */
+ 	err = iommu_bus_init(bus, ops);
+ 	if (err)
+-- 
+Armbian
+

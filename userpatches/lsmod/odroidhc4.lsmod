@@ -1,0 +1,72 @@
+Module                  Size  Used by
+tls                   102400  0
+rfkill                 32768  1
+cpufreq_powersave      20480  0
+cpufreq_conservative    16384  0
+sunrpc                335872  1
+snd_soc_meson_g12a_tohdmitx    20480  1
+snd_soc_meson_axg_tdmout    24576  1
+snd_soc_meson_axg_frddr    36864  3
+snd_soc_meson_axg_sound_card    16384  0
+snd_soc_meson_axg_tdm_interface    16384  2 snd_soc_meson_axg_sound_card
+snd_soc_meson_card_utils    16384  1 snd_soc_meson_axg_sound_card
+snd_soc_hdmi_codec     24576  1
+snd_soc_meson_axg_tdm_formatter    16384  2 snd_soc_meson_axg_tdm_interface,snd_soc_meson_axg_tdmout
+snd_soc_meson_codec_glue    16384  1 snd_soc_meson_g12a_tohdmitx
+snd_soc_meson_axg_fifo    20480  1 snd_soc_meson_axg_frddr
+meson_vdec             81920  0
+videobuf2_dma_contig    24576  1 meson_vdec
+snd_soc_core          245760  10 snd_soc_meson_axg_tdm_formatter,snd_soc_meson_axg_sound_card,snd_soc_hdmi_codec,snd_soc_meson_g12a_tohdmitx,snd_soc_meson_axg_tdm_interface,snd_soc_meson_axg_fifo,snd_soc_meson_axg_tdmout,snd_soc_meson_axg_frddr,snd_soc_meson_card_utils,snd_soc_meson_codec_glue
+polyval_ce             16384  0
+v4l2_mem2mem           36864  1 meson_vdec
+polyval_generic        16384  1 polyval_ce
+videobuf2_memops       20480  1 videobuf2_dma_contig
+videobuf2_v4l2         32768  2 meson_vdec,v4l2_mem2mem
+meson_gxbb_wdt         16384  0
+snd_compress           24576  1 snd_soc_core
+ir_nec_decoder         20480  0
+rc_odroid              16384  0
+videodev              237568  3 meson_vdec,videobuf2_v4l2,v4l2_mem2mem
+meson_ir               16384  0
+ac97_bus               16384  1 snd_soc_core
+rc_core                57344  4 ir_nec_decoder,meson_ir,rc_odroid
+snd_pcm_dmaengine      16384  1 snd_soc_core
+snd_pcm               135168  7 snd_soc_hdmi_codec,snd_compress,snd_soc_meson_axg_tdm_interface,snd_soc_core,snd_soc_meson_axg_fifo,snd_soc_meson_codec_glue,snd_pcm_dmaengine
+meson_saradc           24576  0
+videobuf2_common       57344  5 meson_vdec,videobuf2_dma_contig,videobuf2_v4l2,v4l2_mem2mem,videobuf2_memops
+mc                     65536  4 videodev,videobuf2_v4l2,videobuf2_common,v4l2_mem2mem
+snd_timer              40960  1 snd_pcm
+snd                   102400  5 snd_soc_hdmi_codec,snd_timer,snd_compress,snd_soc_core,snd_pcm
+soundcore              16384  1 snd
+nvmem_meson_efuse      16384  0
+pwm_fan                20480  0
+lz4hc                  16384  0
+lz4                    16384  0
+zram                   36864  3
+ramoops                32768  0
+reed_solomon           24576  1 ramoops
+pstore_blk             16384  0
+pstore_zone            28672  1 pstore_blk
+efi_pstore             16384  0
+ip_tables              32768  0
+x_tables               45056  1 ip_tables
+autofs4                45056  2
+pata_acpi              16384  0
+meson_gxl              20480  0
+realtek                32768  1
+dwmac_generic          16384  0
+rtc_pcf8563            24576  0
+reset_meson_audio_arb    16384  3
+axg_audio              77824  13
+sclk_div               16384  1 axg_audio
+clk_phase              16384  1 axg_audio
+ahci                   49152  0
+dw_hdmi_i2s_audio      16384  0
+libahci                49152  1 ahci
+meson_rng              16384  0
+libata                253952  3 libahci,ahci,pata_acpi
+rtc_meson_vrtc         20480  1
+panfrost               69632  0
+gpu_sched              36864  1 panfrost
+drm_shmem_helper       28672  1 panfrost
+dwmac_meson8b          16384  0

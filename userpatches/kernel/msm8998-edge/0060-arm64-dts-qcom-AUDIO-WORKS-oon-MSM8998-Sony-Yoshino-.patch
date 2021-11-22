@@ -1,0 +1,318 @@
+From f1c6188dcdd3e8bac3ac9a0eb7ebfad97fc2ae7b Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Tue, 10 Aug 2021 16:40:05 +0200
+Subject: [PATCH 060/127] arm64: dts: qcom: AUDIO WORKS oon MSM8998 Sony
+ Yoshino platform!!!
+
+---
+ .../msm8998-sony-xperia-yoshino-maple.dts     |   2 +-
+ .../dts/qcom/msm8998-sony-xperia-yoshino.dtsi | 215 ++++++++++++++++--
+ 2 files changed, 202 insertions(+), 15 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts
+index 3e0857b6a270..78502477ab56 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts
++++ b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts
+@@ -79,7 +79,7 @@ ear_en_default: ear-en-active {
+ 		function = "normal";
+ 		bias-disable;
+ 		drive-push-pull;
+-		output-low;
++		output-high;
+ 		power-source = <1>; /* 1.8V */
+ 		qcom,drive-strength = <1>;
+ 	};
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi
+index 3e152318e012..3c4362555fcc 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi
+@@ -521,13 +521,11 @@ dai@1 {
+ 	dai@2 {
+ 		reg = <2>;
+ 	};
+-/*
+ 	dai@3 {
+ 		reg = <3>;
+-		direction = <2>;
+-		is-compress-dai;
++//		direction = <2>;
++//		is-compress-dai;
+ 	};
+-*/
+ };
+ 
+ &qusb2phy {
+@@ -738,6 +736,8 @@ &sdhc2 {
+ 	pinctrl-1 = <&sdc2_off &sdc2_cd>;
+ };
+ 
++ /* EAR-EN is NXP NX5L2750C */
++
+ /* Downstream example
+ &snd_9335 {
+ 	qcom,msm-mbhc-hphl-swh = <1>;
+@@ -786,21 +786,27 @@ wcd9335: codec@1{
+ 			 <&rpmcc RPM_SMD_LN_BB_CLK1>;
+ 		#clock-cells = <0>;
+ 
+-		vdd-buck-supply = <&vreg_s4a_1p8>;
+-		vdd-buck-sido-supply = <&vreg_s4a_1p8>;
+-		vdd-tx-supply = <&vreg_s4a_1p8>;
+-		vdd-rx-supply = <&vreg_s4a_1p8>;
+-		vdd-io-supply = <&vreg_s4a_1p8>;
+-
+ 		interrupt-parent = <&tlmm>;
+ 		interrupts = <54 IRQ_TYPE_LEVEL_HIGH>;
+ 		interrupt-names  = "intr1";
+ 		interrupt-controller;
+ 		#interrupt-cells = <1>;
+-		reset-gpios = <&tlmm 64 0>;
++
++		reset-gpios = <&tlmm 64 GPIO_ACTIVE_LOW>;
+ 
+ 		slim-ifc-dev  = <&tasha_ifd>;
+ 
++		vdd-buck-supply = <&vreg_s4a_1p8>;
++		vdd-buck-sido-supply = <&vreg_s4a_1p8>;
++		vdd-tx-supply = <&vreg_s4a_1p8>;
++		vdd-rx-supply = <&vreg_s4a_1p8>;
++		vdd-io-supply = <&vreg_s4a_1p8>;
++		qcom,mbhc-vthreshold = <1700>;
++
++		/* On SoMC Yoshino, HPHL is normally open, GND normally closed */
++		qcom,hphl-jack-type-normally-open;
++		//qcom,gnd-jack-type-normally-open;
++
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+ 		#sound-dai-cells = <1>;
+@@ -848,20 +854,197 @@ right_spkr: wsa8810-right {
+ 	};
+ };
+ 
++
++/* NOTES */
++/*
++	# This is Dragonboard 820C
++	EnableSequence [
++		cset "name='SLIM RX0 MUX' ZERO"
++		cset "name='SLIM RX1 MUX' ZERO"
++		cset "name='SLIM RX2 MUX' ZERO"
++		cset "name='SLIM RX3 MUX' ZERO"
++		cset "name='SLIM RX4 MUX' ZERO"
++		cset "name='SLIM RX5 MUX' AIF4_PB"
++		cset "name='SLIM RX6 MUX' AIF4_PB"
++		cset "name='SLIM RX7 MUX' ZERO"
++		cset "name='RX INT1_2 MUX' RX5"
++		cset "name='RX INT2_2 MUX' RX6"
++		## gain to  0dB
++		cset "name='RX5 Digital Volume' 68"
++		## gain to  0dB
++		cset "name='RX6 Digital Volume' 68"
++		cset "name='SLIMBUS_6_RX Audio Mixer MultiMedia2' 1"
++		cset "name='RX INT1 DEM MUX' CLSH_DSM_OUT"
++		cset "name='RX INT2 DEM MUX' CLSH_DSM_OUT"
++	]
++
++
++######### WORKS!!!!!! SHE SPEEEEEAKS!!!!!!! #########
++tinymix set "SLIM RX2 MUX" ZERO
++tinymix set "SLIM RX3 MUX" ZERO
++tinymix set "SLIM RX4 MUX" ZERO
++tinymix set "SLIM RX5 MUX" ZERO
++tinymix set "SLIM RX6 MUX" ZERO
++tinymix set "SLIM RX7 MUX" ZERO
++tinymix set "SLIM RX0 MUX" AIF1_PB
++tinymix set "SLIM RX1 MUX" AIF1_PB
++tinymix set "RX INT1_2 MUX" RX0
++tinymix set "RX INT2_2 MUX" RX1
++tinymix set "RX INT1_1 MIX1 INP0" RX0
++tinymix set "RX INT2_1 MIX1 INP0" RX1
++tinymix set "SLIMBUS_0_RX Audio Mixer MultiMedia1" 1
++tinymix set "RX INT1 DEM MUX" CLSH_DSM_OUT
++tinymix set "RX INT2 DEM MUX" CLSH_DSM_OUT
++tinymix set "SLIM TX0 MUX" DEC0
++tinymix set "AIF1_CAP Mixer SLIM TX0" 1
++
++tinymix set "RX INT2_1 MIX1 INP0" RX1
++tinymix set "RX INT1_1 MIX1 INP0" RX0
++tinymix set "RX INT1_1 MIX1 INP0" RX2
++tinymix set "RX INT1_1 MIX1 INP0" RX0
++tinymix set "RX INT1_1 MIX1 INP0" RX2
++tinymix set "RX INT2_1 MIX1 INP0" RX2
++tinymix set "RX INT2_1 MIX1 INP0" RX1
++tinymix set "RX INT1_1 MIX1 INP0" RX0
++tinymix set "RX INT0_1 MIX1 INP0" RX0
++tinymix set "RX INT0_1 MIX1 INP0" RX1
++tinymix set "RX INT0_1 MIX1 INP0" RX2
++tinymix set "RX INT0_1 MIX1 INP0" RX0
++tinymix set "RX INT3_1 MIX1 INP0" RX0
++tinymix set "RX INT4_1 MIX1 INP0" RX0
++tinymix set "RX INT5_1 MIX1 INP0" RX0
++tinymix set "RX INT6_1 MIX1 INP0" RX1
++tinymix set "RX INT7_1 MIX1 INP0" RX1
++tinymix set "RX INT7_1 MIX1 INP0" RX1
++tinymix set "RX INT8_1 MIX1 INP0" RX1
++tinymix set "RX INT0_1 MIX1 INP1" RX0
++tinymix set "RX INT0_1 MIX1 INP1" RX2
++tinymix set "RX INT0_1 MIX1 INP1" RX0
++tinymix set "RX INT1_1 MIX1 INP1" RX0
++tinymix set "RX INT2_1 MIX1 INP1" RX0
++tinymix set "RX INT3_1 MIX1 INP1" RX0
++tinymix set "RX INT4_1 MIX1 INP1" RX0
++tinymix set "RX INT5_1 MIX1 INP1" RX0
++tinymix set "RX INT6_1 MIX1 INP1" RX0
++tinymix set "RX INT7_1 MIX1 INP1" RX0
++tinymix set "RX INT8_1 MIX1 INP1" RX0
++tinymix set "RX INT0_1 MIX1 INP2" RX1
++tinymix set "RX INT1_1 MIX1 INP2" RX1
++tinymix set "RX INT2_1 MIX1 INP2" RX1
++tinymix set "RX INT3_1 MIX1 INP2" RX1
++tinymix set "RX INT4_1 MIX1 INP2" RX1
++tinymix set "RX INT5_1 MIX1 INP2" RX1
++tinymix set "RX INT6_1 MIX1 INP2" RX1
++tinymix set "RX INT7_1 MIX1 INP2" RX1
++tinymix set "RX INT8_1 MIX1 INP2" RX1
++tinymix set "RX INT8_1 MIX1 INP2" RX0
++tinymix set "RX INT7_1 MIX1 INP2" RX0
++tinymix set "RX INT6_1 MIX1 INP2" RX0   
++
++tinymix set "RX0 Digital Volume" 80
++tinymix set "RX1 Digital Volume" 80
++tinymix set "RX2 Digital Volume" 80
++
++*/
++
+ &sound {
+ 	compatible = "qcom,msm8998-sndcard";
+ 	model = "Sony-Xperia-Yoshino";
+ 
+-	audio-routing = "RX_BIAS", "MCLK",
++	/* Audio routing including WSA amp speakers */
++/*	audio-routing = "RX_BIAS", "MCLK",
+ 			"AMIC2", "MIC BIAS2",
+ 			"AMIC3", "MIC BIAS3",
+ 			"DMIC0", "MIC BIAS1",
+ 			"DMIC4", "MIC BIAS4",
+ 			"SpkrLeft IN", "SPK1 OUT",
+ 			"SpkrRight IN", "SPK2 OUT",
+-			"MM_DL1", "MultiMedia1 Playback";
++			"MM_DL1", "MultiMedia1 Playback",
++			"MM_DL2", "MultiMedia2 Playback",
++			"MultiMedia3 Capture", "MM_UL3";
++*/
++
++	/* Basic routing, 3.5mm jack only */
++	audio-routing = "RX_BIAS", "MCLK",
++			"AMIC2", "MIC BIAS2",
++			"AMIC3", "MIC BIAS3",
++			"DMIC0", "MIC BIAS1",
++			"DMIC4", "MIC BIAS4",
++			"MM_DL1", "MultiMedia1 Playback",
++			"MM_DL2", "MultiMedia2 Playback",
++			"MultiMedia3 Capture", "MM_UL3";
++
++/*
++   <path name="voicemmode1-call headphones">
++        <ctl name="SLIM_0_RX_Voice Mixer VoiceMMode1" value="1" />
++        <ctl name="VoiceMMode1_Tx Mixer SLIM_0_TX_MMode1" value="1" />
++    </path>
++
++    <path name="sidetone-headphones">
++        <path name="sidetone-iir" />
++        <!-- 45 % of 124 (range 0 - 124) Register: 0x340 -->
++        <ctl name="IIR0 INP0 Volume" value="44" />
++        <ctl name="RX INT1 MIX2 INP" value="SRC0" />
++        <ctl name="RX INT2 MIX2 INP" value="SRC0" />
++    </path>
++
++    <path name="speaker-and-headphones">
++        <path name="speaker" />
++        <ctl name="RX INT1_1 MIX1 INP0" value="RX1" />
++        <ctl name="RX INT2_1 MIX1 INP0" value="RX1" />
++        <ctl name="RX INT1 DEM MUX" value="CLSH_DSM_OUT" />
++        <ctl name="RX INT2 DEM MUX" value="CLSH_DSM_OUT" />
++        <ctl name="RX1 Digital Volume" value="55" />
++        <ctl name="RX2 Digital Volume" value="55" />
++        <path name="headphones-hpf" />
++        <ctl name="Set Custom Stereo" value="Mix" />
++    </path>
++
++    <path name="headphones">
++        <ctl name="SLIM RX0 MUX" value="AIF_MIX1_PB" />
++        <ctl name="SLIM RX1 MUX" value="AIF_MIX1_PB" />
++        <ctl name="SLIM_0_RX Channels" value="Two" />
++        <ctl name="RX INT1_1 MIX1 INP0" value="RX0" />
++        <ctl name="RX INT2_1 MIX1 INP0" value="RX1" />
++        <ctl name="RX INT1 DEM MUX" value="CLSH_DSM_OUT" />
++        <ctl name="RX INT2 DEM MUX" value="CLSH_DSM_OUT" />
++        <ctl name="RX1 Digital Volume" value="80" />
++        <ctl name="RX2 Digital Volume" value="80" />
++    </path>
++
++    <path name="headphones-hpf">
++        <ctl name="RX INT1_1 HPF cut off" value="CF_NEG_3DB_150HZ" />
++        <ctl name="RX INT2_1 HPF cut off" value="CF_NEG_3DB_150HZ" />
++    </path>
++
++
++    <path name="anc-off-headphone">
++        <ctl name="SLIM RX0 MUX" value="AIF_MIX1_PB" />
++        <ctl name="SLIM RX1 MUX" value="AIF_MIX1_PB" />
++        <ctl name="SLIM_0_RX Channels" value="Two" />
++        <ctl name="RX INT1_1 MIX1 INP0" value="RX0" />
++        <ctl name="RX INT2_1 MIX1 INP0" value="RX1" />
++        <ctl name="RX INT1 DEM MUX" value="CLSH_DSM_OUT" />
++        <ctl name="RX INT2 DEM MUX" value="CLSH_DSM_OUT" />
++        <ctl name="COMP1 Switch" value="0" />
++        <ctl name="COMP2 Switch" value="0" />
++        <ctl name="HPHL Volume" value="20" />
++        <ctl name="HPHR Volume" value="20" />
++        <ctl name="RX1 Digital Volume" value="77" />
++        <ctl name="RX2 Digital Volume" value="77" />
++    </path>
++
++    <path name="audio-record">
++        <ctl name="MultiMedia1 Mixer SLIM_0_TX" value="1" />
++    </path>
++
++   <path name="deep-buffer-playback">
++        <ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia1" value="1" />
++    </path>
++*/
+ 
+ 	mm1-dai-link {
++		/* Deep Buffer playback for SLIM{0,7}, BT, USBAUDIO, AFE, DP, HDMI */
+ 		link-name = "MultiMedia1";
+ 		cpu {
+ 			sound-dai = <&q6asmdai  MSM_FRONTEND_DAI_MULTIMEDIA1>;
+@@ -869,6 +1052,7 @@ cpu {
+ 	};
+ 
+ 	mm2-dai-link {
++		/* Multichannel playback for HDMI and DP */
+ 		link-name = "MultiMedia2";
+ 		cpu {
+ 			sound-dai = <&q6asmdai  MSM_FRONTEND_DAI_MULTIMEDIA2>;
+@@ -876,6 +1060,7 @@ cpu {
+ 	};
+ 
+ 	mm3-dai-link {
++		/* Ultra Low Latency playback for SLIM0, HDMI, and DP */
+ 		link-name = "MultiMedia3";
+ 		cpu {
+ 			sound-dai = <&q6asmdai  MSM_FRONTEND_DAI_MULTIMEDIA3>;
+@@ -893,7 +1078,9 @@ platform {
+ 		};
+ 
+ 		codec {
+-			sound-dai =  <&left_spkr>, <&right_spkr>, <&swm 0>, <&wcd9335 0>;
++			/* Support only sound through 3.5mm for now: soundwire is currently unavailable */
++			//sound-dai =  <&left_spkr>, <&right_spkr>, <&swm 0>, <&wcd9335 0>;
++			sound-dai =  <&wcd9335 0>;
+ 		};
+ 	};
+ 
+-- 
+2.38.1
+

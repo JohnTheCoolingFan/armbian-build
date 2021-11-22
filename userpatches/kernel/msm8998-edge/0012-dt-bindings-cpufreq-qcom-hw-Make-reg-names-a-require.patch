@@ -1,0 +1,29 @@
+From 6e24871c50aae7b730a9031948c6f1340277ede8 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Thu, 17 Jun 2021 23:05:40 +0200
+Subject: [PATCH 012/127] dt-bindings: cpufreq: qcom-hw: Make reg-names a
+ required property
+
+The property reg-names is required after the addition of the OSM
+programming sequence, as that mandates specifying different register
+domains; to avoid confusion and improve devicetree readability,
+specifying the regions names was made mandatory.
+---
+ Documentation/devicetree/bindings/cpufreq/cpufreq-qcom-hw.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/cpufreq/cpufreq-qcom-hw.yaml b/Documentation/devicetree/bindings/cpufreq/cpufreq-qcom-hw.yaml
+index e93904e8d4ef..8589a5c06460 100644
+--- a/Documentation/devicetree/bindings/cpufreq/cpufreq-qcom-hw.yaml
++++ b/Documentation/devicetree/bindings/cpufreq/cpufreq-qcom-hw.yaml
+@@ -95,6 +95,7 @@ else:
+ required:
+   - compatible
+   - reg
++  - reg-names
+   - clocks
+   - clock-names
+   - '#freq-domain-cells'
+-- 
+2.38.1
+

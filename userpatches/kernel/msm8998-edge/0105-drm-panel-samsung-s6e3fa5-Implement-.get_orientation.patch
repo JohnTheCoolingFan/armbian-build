@@ -1,0 +1,48 @@
+From 3932b2d6d347db60a5c86a181f63a3d8a32465d8 Mon Sep 17 00:00:00 2001
+From: Jami Kettunen <jami.kettunen@protonmail.com>
+Date: Thu, 13 Oct 2022 04:03:43 +0300
+Subject: [PATCH 105/127] drm/panel: samsung-s6e3fa5: Implement
+ .get_orientation callback
+
+Other drivers supporting this were already changed as a part of the
+following series: https://patchwork.freedesktop.org/series/104807/
+---
+ drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c b/drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c
+index 061424496a61..4832afd419cc 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c
+@@ -196,16 +196,28 @@ static int s6e3fa5_get_modes(struct drm_panel *panel,
+ 	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+ 	connector->display_info.width_mm = mode->width_mm;
+ 	connector->display_info.height_mm = mode->height_mm;
++	/*
++	 * TODO: Remove once all drm drivers call
++	 * drm_connector_set_orientation_from_panel()
++	 */
+ 	drm_connector_set_panel_orientation(connector, ctx->orientation);
+ 	drm_mode_probed_add(connector, mode);
+ 
+ 	return 1;
+ }
+ 
++static enum drm_panel_orientation s6e3fa5_get_orientation(struct drm_panel *panel)
++{
++	struct s6e3fa5 *ctx = to_s6e3fa5_panel(panel);
++
++	return ctx->orientation;
++}
++
+ static const struct drm_panel_funcs s6e3fa5_panel_funcs = {
+ 	.prepare = s6e3fa5_prepare,
+ 	.unprepare = s6e3fa5_unprepare,
+ 	.get_modes = s6e3fa5_get_modes,
++	.get_orientation = s6e3fa5_get_orientation,
+ };
+ 
+ static int s6e3fa5_bl_update_status(struct backlight_device *bl)
+-- 
+2.38.1
+

@@ -1,0 +1,39 @@
+From 7a4a06ed69981dbbae2f8bace69751727df0b201 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Fri, 6 Aug 2021 15:15:33 +0200
+Subject: [PATCH 005/127] iommu/arm-smmu-qcom: Don't modify sACR on hypervisor
+ secured iommus
+
+Avoid modifying the contents of the secure Auxiliary Control Register
+on some Qualcomm SoCs: due to a hypervisor configuration on some
+firmware versions, this would result in a system crash.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+index 825d6f253ebb..e71706e2964c 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+@@ -378,8 +378,15 @@ static int qcom_sdm845_smmu500_reset(struct arm_smmu_device *smmu)
+ static int qcom_smmu500_reset(struct arm_smmu_device *smmu)
+ {
+ 	const struct device_node *np = smmu->dev->of_node;
++	struct qcom_smmu *qsmmu = to_qcom_smmu(smmu);
+ 
+-	arm_mmu500_reset(smmu);
++	/*
++	 * Execute the mmu-500 reset implementation detail only if there
++	 * are no secured untouchable contexts in this iommu, otherwise
++	 * the system will crash.
++	 */
++	if (bitmap_empty(qsmmu->reset_cb_nodisable_mask, ARM_SMMU_MAX_CBS))
++		arm_mmu500_reset(smmu);
+ 
+ 	if (of_device_is_compatible(np, "qcom,sdm845-smmu-500"))
+ 		return qcom_sdm845_smmu500_reset(smmu);
+-- 
+2.38.1
+

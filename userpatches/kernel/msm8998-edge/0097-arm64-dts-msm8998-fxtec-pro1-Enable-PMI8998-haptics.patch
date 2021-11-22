@@ -1,0 +1,30 @@
+From d7b1d6db050390632f08fdcee9b54c7d77db4fe9 Mon Sep 17 00:00:00 2001
+From: Danct12 <danct12@disroot.org>
+Date: Thu, 29 Apr 2021 00:21:49 +0700
+Subject: [PATCH 097/127] arm64: dts: msm8998-fxtec-pro1: Enable PMI8998
+ haptics
+
+---
+ arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts b/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts
+index 4c11d8af5ce2..718bf8505f8a 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts
++++ b/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts
+@@ -588,6 +588,12 @@ pm8005_s1: s1 { /* VDD_GFX supply */
+ 	};
+ };
+ 
++&pmi8998_haptics {
++	status = "okay";
++
++	qcom,wave-play-rate-us = <5000>;
++};
++
+ /* HACK! Push GPU voltage high until GPU CPR is hooked up */
+ &pm8005_s1 {
+ 	regulator-min-microvolt = <988000>;
+-- 
+2.38.1
+

@@ -1,0 +1,28 @@
+From b661403ff0d1905b8cd10c58b2716889f3e4e613 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng Documentation/devicetree/bindings/arm
+
+Feiteng Documentation/devicetree/bindings/arm
+---
+ Documentation/devicetree/bindings/arm/cpus.txt | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/cpus.txt b/Documentation/devicetree/bindings/arm/cpus.txt
+index 96dfccc0faa8..046a47e49a94 100644
+--- a/Documentation/devicetree/bindings/arm/cpus.txt
++++ b/Documentation/devicetree/bindings/arm/cpus.txt
+@@ -184,6 +184,10 @@ described below.
+ 			    "nvidia,tegra132-denver"
+ 			    "nvidia,tegra186-denver"
+ 			    "nvidia,tegra194-carmel"
++			    "phytium,ftc660"
++			    "phytium,ftc661"
++			    "phytium,ftc662"
++			    "phytium,ftc663"
+ 			    "qcom,krait"
+ 			    "qcom,kryo"
+ 			    "qcom,kryo385"
+-- 
+Armbian
+

@@ -1,0 +1,28 @@
+From 51eb7f5d39dd967231b7be70d96faf6d96ccebf1 Mon Sep 17 00:00:00 2001
+From: Jami Kettunen <jami.kettunen@protonmail.com>
+Date: Thu, 24 Feb 2022 02:59:40 +0200
+Subject: [PATCH 088/127] [HACK] net: ipa: Disable automatic suspend
+
+1aac309d3207 ("net: ipa: use autosuspend") currently causes my device to
+enter 900E crashdump mode as soon as IPA is probed :/
+
+With this we at least can run ModemManager once again...
+---
+ drivers/net/ipa/ipa_power.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/net/ipa/ipa_power.c b/drivers/net/ipa/ipa_power.c
+index 8420f93128a2..ed904cf90273 100644
+--- a/drivers/net/ipa/ipa_power.c
++++ b/drivers/net/ipa/ipa_power.c
+@@ -395,6 +395,7 @@ ipa_power_init(struct device *dev, const struct ipa_power_data *data)
+ 
+ 	pm_runtime_set_autosuspend_delay(dev, IPA_AUTOSUSPEND_DELAY);
+ 	pm_runtime_use_autosuspend(dev);
++	pm_runtime_forbid(dev);
+ 	pm_runtime_enable(dev);
+ 
+ 	return power;
+-- 
+2.38.1
+

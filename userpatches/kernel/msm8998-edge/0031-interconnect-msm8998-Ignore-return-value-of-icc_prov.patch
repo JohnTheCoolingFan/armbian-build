@@ -1,0 +1,30 @@
+From 043c1b90e8f4dc9b7730261676374f38b866a383 Mon Sep 17 00:00:00 2001
+From: Jami Kettunen <jami.kettunen@protonmail.com>
+Date: Tue, 18 Oct 2022 15:46:47 +0300
+Subject: [PATCH 031/127] interconnect: msm8998: Ignore return value of
+ icc_provider_del() in .remove()
+
+A similar fix for sm8450 was done in fa80a2994d35, fixes compilation on
+v6.1-rc1.
+---
+ drivers/interconnect/qcom/msm8998.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/interconnect/qcom/msm8998.c b/drivers/interconnect/qcom/msm8998.c
+index 94ba8f6aca06..e565cc0f3afb 100644
+--- a/drivers/interconnect/qcom/msm8998.c
++++ b/drivers/interconnect/qcom/msm8998.c
+@@ -952,7 +952,9 @@ static int qnoc_remove(struct platform_device *pdev)
+ 
+ 	icc_nodes_remove(&qp->provider);
+ 	clk_bulk_disable_unprepare(qp->num_clks, qp->bus_clks);
+-	return icc_provider_del(&qp->provider);
++	icc_provider_del(&qp->provider);
++
++	return 0;
+ }
+ 
+ static const struct of_device_id msm8998_noc_of_match[] = {
+-- 
+2.38.1
+

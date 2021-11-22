@@ -1,0 +1,37 @@
+From be456627312545dcb95701dc7960f814f0887aa8 Mon Sep 17 00:00:00 2001
+From: Caleb Connolly <caleb@connolly.tech>
+Date: Fri, 10 Dec 2021 02:27:00 +0000
+Subject: [PATCH 081/127] arm64: dts: qcom: pmi8998: introduce spmi haptics
+
+Add bindings for Qualcomm SPMI haptics on platforms using pmi8998.
+
+Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+(JAMI: fixup for v6.0-rc2 & v7 of driver patches)
+---
+ arch/arm64/boot/dts/qcom/pmi8998.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/pmi8998.dtsi b/arch/arm64/boot/dts/qcom/pmi8998.dtsi
+index 79d47540fa8b..8783175a83b0 100644
+--- a/arch/arm64/boot/dts/qcom/pmi8998.dtsi
++++ b/arch/arm64/boot/dts/qcom/pmi8998.dtsi
+@@ -72,5 +72,16 @@ pmi8998_wled: leds@d800 {
+ 
+ 			status = "disabled";
+ 		};
++
++		pmi8998_haptics: haptics@c000 {
++			compatible = "qcom,pmi8998-haptics";
++			reg = <0xc000>;
++
++			interrupts = <0x3 0xc0 0x0 IRQ_TYPE_EDGE_BOTH>,
++				     <0x3 0xc0 0x1 IRQ_TYPE_EDGE_BOTH>;
++			interrupt-names = "short", "play";
++
++			status = "disabled";
++		};
+ 	};
+ };
+-- 
+2.38.1
+

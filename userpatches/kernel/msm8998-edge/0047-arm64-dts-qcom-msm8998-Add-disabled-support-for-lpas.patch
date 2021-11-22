@@ -1,0 +1,58 @@
+From f530abd105b40d76c974965c19bb1b17d8936b81 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Mon, 9 Aug 2021 17:11:02 +0200
+Subject: [PATCH 047/127] arm64: dts: qcom: msm8998: Add disabled support for
+ lpass iommu for q6
+
+Add support for the LPASS (Q6) SMMU and keep it disabled as this is
+used only when the audio DSP is present and used, which is not
+mandatory to have.
+It is expected for board-specific device-trees to enable this node
+if supported.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+index 2d0d27de82ec..6abb33bcb17a 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+@@ -2146,6 +2146,33 @@ gpucc: clock-controller@5065000 {
+ 				      "gpll0";
+ 		};
+ 
++		lpass_q6_smmu: iommu@5100000 {
++			compatible = "qcom,msm8998-smmu-v2", "qcom,smmu-v2";
++			reg = <0x05100000 0x40000>;
++			clocks = <&gcc HLOS1_VOTE_LPASS_ADSP_SMMU_CLK>;
++			clock-names = "iface";
++
++			#global-interrupts = <0>;
++			#iommu-cells = <1>;
++			interrupts =
++				<GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH>,
++				<GIC_SPI 393 IRQ_TYPE_LEVEL_HIGH>,
++				<GIC_SPI 394 IRQ_TYPE_LEVEL_HIGH>,
++				<GIC_SPI 395 IRQ_TYPE_LEVEL_HIGH>,
++				<GIC_SPI 396 IRQ_TYPE_LEVEL_HIGH>,
++				<GIC_SPI 397 IRQ_TYPE_LEVEL_HIGH>,
++				<GIC_SPI 398 IRQ_TYPE_LEVEL_HIGH>,
++				<GIC_SPI 399 IRQ_TYPE_LEVEL_HIGH>,
++				<GIC_SPI 400 IRQ_TYPE_LEVEL_HIGH>,
++				<GIC_SPI 401 IRQ_TYPE_LEVEL_HIGH>,
++				<GIC_SPI 402 IRQ_TYPE_LEVEL_HIGH>,
++				<GIC_SPI 403 IRQ_TYPE_LEVEL_HIGH>,
++				<GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>;
++
++			power-domains = <&gcc LPASS_ADSP_GDSC>;
++			status = "disabled";
++		};
++
+ 		remoteproc_slpi: remoteproc@5800000 {
+ 			compatible = "qcom,msm8998-slpi-pas";
+ 			reg = <0x05800000 0x4040>;
+-- 
+2.38.1
+

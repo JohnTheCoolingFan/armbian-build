@@ -1,0 +1,106 @@
+From b21e649c31dfcb6373f7eab8636720974a583160 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Sat, 9 Jan 2021 12:58:27 +0100
+Subject: [PATCH 011/127] dt-bindings: cpufreq: qcom-hw: Add bindings for 8998
+
+The OSM programming addition has been done under the
+qcom,cpufreq-hw-8998 compatible name: specify the requirement
+of two additional register spaces for this functionality.
+This implementation, with the same compatible, has been
+tested on MSM8998 and SDM630.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+[Fixed up for 5.18 by Jami]
+---
+ .../bindings/cpufreq/cpufreq-qcom-hw.yaml     | 60 +++++++++++++++----
+ 1 file changed, 48 insertions(+), 12 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/cpufreq/cpufreq-qcom-hw.yaml b/Documentation/devicetree/bindings/cpufreq/cpufreq-qcom-hw.yaml
+index 24fa3d87a40b..e93904e8d4ef 100644
+--- a/Documentation/devicetree/bindings/cpufreq/cpufreq-qcom-hw.yaml
++++ b/Documentation/devicetree/bindings/cpufreq/cpufreq-qcom-hw.yaml
+@@ -18,6 +18,10 @@ description: |
+ properties:
+   compatible:
+     oneOf:
++      - description: Non-secure v1 of CPUFREQ HW
++        items:
++          - const: qcom,cpufreq-hw-8998
++
+       - description: v1 of CPUFREQ HW
+         items:
+           - const: qcom,cpufreq-hw
+@@ -29,19 +33,9 @@ properties:
+               - qcom,sm8250-cpufreq-epss
+           - const: qcom,cpufreq-epss
+ 
+-  reg:
+-    minItems: 2
+-    items:
+-      - description: Frequency domain 0 register region
+-      - description: Frequency domain 1 register region
+-      - description: Frequency domain 2 register region
++  reg: {}
+ 
+-  reg-names:
+-    minItems: 2
+-    items:
+-      - const: freq-domain0
+-      - const: freq-domain1
+-      - const: freq-domain2
++  reg-names: {}
+ 
+   clocks:
+     items:
+@@ -56,6 +50,48 @@ properties:
+   '#freq-domain-cells':
+     const: 1
+ 
++if:
++  properties:
++    compatible:
++      contains:
++        const: qcom,cpufreq-hw-8998
++then:
++  properties:
++    reg:
++      minItems: 2
++      items:
++        - description: Frequency domain 0 register region
++        - description: Operating State Manager domain 0 register region
++        - description: Frequency domain 1 register region
++        - description: Operating State Manager domain 1 register region
++        - description: PLL ACD domain 0 register region (if ACD programming required)
++        - description: PLL ACD domain 1 register region (if ACD programming required)
++
++    reg-names:
++      minItems: 2
++      items:
++        - const: "osm-domain0"
++        - const: "freq-domain0"
++        - const: "osm-domain1"
++        - const: "freq-domain1"
++        - const: "osm-acd0"
++        - const: "osm-acd1"
++
++else:
++  properties:
++    reg:
++      minItems: 2
++      items:
++        - description: Frequency domain 0 register region
++        - description: Frequency domain 1 register region
++        - description: Frequency domain 2 register region
++    reg-names:
++      minItems: 2
++      items:
++        - const: "freq-domain0"
++        - const: "freq-domain1"
++        - const: "freq-domain2"
++
+ required:
+   - compatible
+   - reg
+-- 
+2.38.1
+

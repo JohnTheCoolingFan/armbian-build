@@ -1,0 +1,59 @@
+From cf1beebd902d7e7d4e01c93562e82bf67f2d27db Mon Sep 17 00:00:00 2001
+From: Konrad Dybcio <konrad.dybcio@somainline.org>
+Date: Fri, 22 Apr 2022 22:39:24 +0200
+Subject: [PATCH 122/127] arm64: dts: qcom: msm8998*: Keep MMCC & MMSS_SMMU
+ enabled by default
+
+MMCC is a component of the SoC that should always be configured. It was kept
+off due to misconfiguration on clamshell machines. Keep it disabled on these
+ones and enable it by default on all the others.
+
+Exactly the same story applies to MMSS_SMMU, which directly depends on MMCC.
+
+Do note, that if a platform doesn't use neither EFIFB (only applies to WoA
+devices in this case) or simplefb (applies to precisely 2 msm8998 devices
+as of this commit), this will not cause any harm.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+---
+ arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts           | 4 ----
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi | 8 --------
+ 2 files changed, 12 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts b/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts
+index 439b6dbc2dcb..5c88ac629dc9 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts
++++ b/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts
+@@ -516,10 +516,6 @@ &remoteproc_slpi {
+ 	firmware-name = "qcom/msm8998/fxtec/slpi_v2.mbn";
+ };
+ 
+-&mmcc {
+-	status = "okay";
+-};
+-
+ &etf {
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi
+index 462d20a9c591..e9f257821bab 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi
+@@ -402,14 +402,6 @@ &mdss {
+ 	status = "okay";
+ };
+ 
+-&mmcc {
+-	status = "ok";
+-};
+-
+-&mmss_smmu {
+-	status = "ok";
+-};
+-
+ &pm8005_regulators {
+ 	/* VDD_GFX supply */
+ 	pm8005_s1: s1 {
+-- 
+2.38.1
+

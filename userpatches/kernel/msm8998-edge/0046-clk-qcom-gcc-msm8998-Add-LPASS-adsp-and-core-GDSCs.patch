@@ -1,0 +1,70 @@
+From 1292643eda86c47a950eef236e1b01273f0ccec8 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Mon, 9 Aug 2021 17:03:36 +0200
+Subject: [PATCH 046/127] clk: qcom: gcc-msm8998: Add LPASS adsp and core GDSCs
+
+As a final step to entirely enable the required clock tree for the
+lpass iommu and audio dsp, add the lpass core/adsp GDSCs.
+
+As a side note, it was found out that disabling the lpass core GDSC
+at any time would cause a system lockup (and reboot): disabling
+this GDSC will leave the lpass iommu completely unclocked, losing
+its state entirely - including the secure contexts that have been
+previously set-up from the bootloader/TrustZone.
+Losing this IOMMU configuration will trigger a hypervisor fault,
+which will reboot the system; the only workaround for this issue
+is to declare the lpass core gdsc as always-on.
+
+It should also not be forgotten that this is all about firmware and
+there may be a version of it that doesn't enable this GDSC at all
+before booting Linux, which is the reason why this specific declaration
+wasn't simply omitted.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ drivers/clk/qcom/gcc-msm8998.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/drivers/clk/qcom/gcc-msm8998.c b/drivers/clk/qcom/gcc-msm8998.c
+index 8c86de5c347e..dc2fd84e23f3 100644
+--- a/drivers/clk/qcom/gcc-msm8998.c
++++ b/drivers/clk/qcom/gcc-msm8998.c
+@@ -2954,6 +2954,26 @@ static struct gdsc usb_30_gdsc = {
+ 	.flags = VOTABLE,
+ };
+ 
++static struct gdsc hlos1_vote_lpass_adsp = {
++	.gdscr = 0x7d034,
++	.gds_hw_ctrl = 0x0,
++	.pd = {
++		.name = "lpass_adsp_gdsc",
++	},
++	.pwrsts = PWRSTS_OFF_ON,
++	.flags = VOTABLE,
++};
++
++static struct gdsc hlos1_vote_lpass_core = {
++	.gdscr = 0x7d038,
++	.gds_hw_ctrl = 0x0,
++	.pd = {
++		.name = "lpass_core_gdsc",
++	},
++	.pwrsts = PWRSTS_OFF_ON,
++	.flags = ALWAYS_ON,
++};
++
+ static struct clk_regmap *gcc_msm8998_clocks[] = {
+ 	[BLSP1_QUP1_I2C_APPS_CLK_SRC] = &blsp1_qup1_i2c_apps_clk_src.clkr,
+ 	[BLSP1_QUP1_SPI_APPS_CLK_SRC] = &blsp1_qup1_spi_apps_clk_src.clkr,
+@@ -3140,6 +3160,8 @@ static struct gdsc *gcc_msm8998_gdscs[] = {
+ 	[PCIE_0_GDSC] = &pcie_0_gdsc,
+ 	[UFS_GDSC] = &ufs_gdsc,
+ 	[USB_30_GDSC] = &usb_30_gdsc,
++	[LPASS_ADSP_GDSC] = &hlos1_vote_lpass_adsp,
++	[LPASS_CORE_GDSC] = &hlos1_vote_lpass_core,
+ };
+ 
+ static const struct qcom_reset_map gcc_msm8998_resets[] = {
+-- 
+2.38.1
+

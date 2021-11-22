@@ -1,0 +1,104 @@
+Module                  Size  Used by
+iscsi_tcp              24576  6
+libiscsi_tcp           28672  1 iscsi_tcp
+libiscsi               57344  2 libiscsi_tcp,iscsi_tcp
+scsi_transport_iscsi    98304  4 libiscsi_tcp,iscsi_tcp,libiscsi
+rpcsec_gss_krb5        32768  0
+nfsv4                 716800  2
+nfs                   311296  2 nfsv4
+fscache               356352  1 nfs
+netfs                  36864  1 fscache
+rdma_ucm               28672  0
+ib_uverbs             126976  1 rdma_ucm
+rdma_cm                98304  1 rdma_ucm
+iw_cm                  45056  1 rdma_cm
+ib_cm                 102400  1 rdma_cm
+ib_core               299008  5 rdma_cm,iw_cm,rdma_ucm,ib_uverbs,ib_cm
+cls_bpf                24576  79
+sch_ingress            16384  40
+xt_TPROXY              20480  2
+nf_tproxy_ipv6         20480  1 xt_TPROXY
+nf_tproxy_ipv4         20480  1 xt_TPROXY
+xt_CT                  16384  3
+xfrm_user              36864  0
+xfrm_algo              16384  1 xfrm_user
+algif_hash             16384  0
+af_alg                 24576  1 algif_hash
+xt_socket              16384  1
+nf_socket_ipv4         16384  1 xt_socket
+nf_socket_ipv6         20480  1 xt_socket
+ip6table_raw           16384  0
+iptable_raw            16384  1
+iptable_mangle         16384  1
+ip6table_mangle        16384  1
+ip6table_filter        16384  1
+ip6table_nat           16384  1
+ip6_tables             32768  4 ip6table_filter,ip6table_raw,ip6table_nat,ip6table_mangle
+xt_conntrack           16384  2
+iptable_filter         16384  1
+xt_multiport           20480  1
+xt_nat                 16384  1
+xt_tcpudp              20480  3
+xt_addrtype            16384  2
+xt_mark                16384  24
+xt_MASQUERADE          20480  4
+xt_comment             16384  40
+iptable_nat            16384  1
+nf_nat                 40960  4 ip6table_nat,xt_nat,iptable_nat,xt_MASQUERADE
+nf_conntrack          122880  5 xt_conntrack,nf_nat,xt_nat,xt_CT,xt_MASQUERADE
+nf_defrag_ipv6         24576  3 nf_conntrack,xt_socket,xt_TPROXY
+nf_defrag_ipv4         16384  3 nf_conntrack,xt_socket,xt_TPROXY
+veth                   32768  0
+overlay               126976  101
+br_netfilter           28672  0
+bridge                262144  1 br_netfilter
+stp                    16384  1 bridge
+llc                    16384  2 bridge,stp
+dm_thin_pool           65536  6
+dm_persistent_data     69632  1 dm_thin_pool
+dm_bio_prison          16384  1 dm_thin_pool
+dm_bufio               24576  1 dm_persistent_data
+nfsd                  475136  13
+auth_rpcgss           114688  2 nfsd,rpcsec_gss_krb5
+nfs_acl                16384  1 nfsd
+lockd                 102400  2 nfsd,nfs
+grace                  16384  2 nfsd,lockd
+sunrpc                446464  27 nfsd,nfsv4,auth_rpcgss,lockd,rpcsec_gss_krb5,nfs_acl,nfs
+bfq                    77824  5
+nf_tables             196608  0
+libcrc32c              16384  4 nf_conntrack,nf_nat,dm_persistent_data,nf_tables
+nfnetlink              20480  1 nf_tables
+intel_rapl_msr         20480  0
+intel_rapl_common      24576  1 intel_rapl_msr
+kvm_intel             274432  0
+kvm                   737280  1 kvm_intel
+crct10dif_pclmul       16384  1
+ghash_clmulni_intel    16384  0
+aesni_intel           376832  0
+crypto_simd            16384  1 aesni_intel
+cryptd                 20480  2 crypto_simd,ghash_clmulni_intel
+nls_iso8859_1          16384  1
+rapl                   16384  0
+joydev                 28672  0
+serio_raw              20480  0
+input_leds             16384  0
+iTCO_wdt               16384  0
+intel_pmc_bxt          16384  1 iTCO_wdt
+iTCO_vendor_support    16384  1 iTCO_wdt
+qemu_fw_cfg            20480  0
+mac_hid                16384  0
+sch_fq_codel           20480  2
+drm                   405504  0
+ip_tables              32768  4 iptable_filter,iptable_raw,iptable_nat,iptable_mangle
+x_tables               36864  21 ip6table_filter,xt_conntrack,ip6table_raw,iptable_filter,ip6table_nat,xt_multiport,xt_socket,xt_tcpudp,xt_addrtype,xt_nat,xt_comment,ip6_tables,xt_TPROXY,xt_CT,iptable_raw,ip_tables,iptable_nat,ip6table_mangle,xt_MASQUERADE,iptable_mangle,xt_mark
+autofs4                40960  2
+crc32_pclmul           16384  0
+ahci                   45056  0
+i2c_i801               36864  0
+psmouse               147456  0
+i2c_smbus              20480  1 i2c_i801
+libahci                28672  1 ahci
+lpc_ich                28672  0
+virtio_net             53248  0
+net_failover           20480  1 virtio_net
+failover               16384  1 net_failover

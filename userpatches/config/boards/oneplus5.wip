@@ -1,0 +1,8 @@
+# OnePlus 5 "cheeseburger" - Snapdragon 835 - 4.4 big.LITTLE Kryo 280 - 6/8Gb RAM - 64/128 UFS 2.1
+BOARD_NAME="Oneplus 5"
+BOARDFAMILY="msm8998"
+BOOTCONFIG="none"
+KERNEL_TARGET="edge"
+FULL_DESKTOP="no"
+SERIALCON="ttyGS1"                                    # ttyGS1 should be setup via an USB gadget ACM function. I dunno if there's a way to get physical access to Qualcomm's proper UART
+BOOT_FDT_FILE="qcom/msm8998-oneplus-cheeseburger.dtb" # this is already in torvald's tree btw

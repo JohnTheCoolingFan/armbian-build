@@ -1,0 +1,53 @@
+From 51d1648bac1cf9c95e1967b1eed4f812de9410ed Mon Sep 17 00:00:00 2001
+From: Jami Kettunen <jami.kettunen@protonmail.com>
+Date: Sun, 25 Apr 2021 17:33:06 +0300
+Subject: [PATCH 079/127] power: supply: qcom_fg: Report online property
+
+---
+ drivers/power/supply/qcom_fg.c | 4 ++++
+ drivers/power/supply/qcom_fg.h | 2 ++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/drivers/power/supply/qcom_fg.c b/drivers/power/supply/qcom_fg.c
+index dc41f6072828..7e3bfad0de0c 100644
+--- a/drivers/power/supply/qcom_fg.c
++++ b/drivers/power/supply/qcom_fg.c
+@@ -594,6 +594,7 @@ int qcom_fg_get_prop_batt_status(struct qcom_fg_chip *chip, int *val){
+ 	}
+ 	dev_dbg(chip->dev, "USB ONLINE val : %d\n", usb_online_val);
+ 	usb_online = (bool)usb_online_val;
++	chip->online = usb_online;
+ 
+ 	if (!usb_online) {
+ 		*val = POWER_SUPPLY_STATUS_DISCHARGING;
+@@ -828,6 +829,9 @@ static int fg_get_property(struct power_supply *psy,
+ 	case POWER_SUPPLY_PROP_STATUS:
+ 		error = chip->ops->get_batt_status(chip, &val->intval);
+ 		break;
++	case POWER_SUPPLY_PROP_ONLINE:
++		val->intval = chip->online;
++		break;
+ 	case POWER_SUPPLY_PROP_HEALTH:
+ 		error = chip->ops->get_health_status(chip, &val->intval);
+ 		break;
+diff --git a/drivers/power/supply/qcom_fg.h b/drivers/power/supply/qcom_fg.h
+index 2bc6df2fdd9d..2617d0203e57 100644
+--- a/drivers/power/supply/qcom_fg.h
++++ b/drivers/power/supply/qcom_fg.h
+@@ -125,6 +125,7 @@ static enum power_supply_property fg_properties[] = {
+ 	POWER_SUPPLY_PROP_VOLTAGE_MIN_DESIGN,
+ 	POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN,
+ 	POWER_SUPPLY_PROP_STATUS,
++	POWER_SUPPLY_PROP_ONLINE,
+ 	POWER_SUPPLY_PROP_HEALTH,
+ 	POWER_SUPPLY_PROP_CHARGE_FULL,
+ 	POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN,
+@@ -171,4 +172,5 @@ struct qcom_fg_chip {
+ 
+ 	int health;
+ 	int status;
++	bool online;
+ };
+-- 
+2.38.1
+

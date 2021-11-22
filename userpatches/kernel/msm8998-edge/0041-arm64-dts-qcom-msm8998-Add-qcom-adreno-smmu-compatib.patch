@@ -1,0 +1,27 @@
+From c4e0a0f196b30d6b7a041c57547aafcdc0c42ba6 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Mon, 9 Aug 2021 16:35:27 +0200
+Subject: [PATCH 041/127] arm64: dts: qcom: msm8998: Add qcom,adreno-smmu
+ compatible
+
+---
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+index 762cd4497126..2b000c531585 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+@@ -2107,7 +2107,8 @@ opp-257000000 {
+ 		};
+ 
+ 		adreno_smmu: iommu@5040000 {
+-			compatible = "qcom,msm8998-smmu-v2", "qcom,smmu-v2";
++			compatible = "qcom,msm8998-smmu-v2", "qcom,smmu-v2",
++				     "qcom,adreno-smmu";
+ 			reg = <0x05040000 0x10000>;
+ 			clocks = <&gcc GCC_GPU_CFG_AHB_CLK>,
+ 				 <&gcc GCC_BIMC_GFX_CLK>,
+-- 
+2.38.1
+

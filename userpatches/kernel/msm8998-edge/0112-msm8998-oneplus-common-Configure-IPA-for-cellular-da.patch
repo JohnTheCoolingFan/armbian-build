@@ -1,0 +1,31 @@
+From 492f8fb2113c0f678db422121b62a1074af5f941 Mon Sep 17 00:00:00 2001
+From: Jami Kettunen <jami.kettunen@protonmail.com>
+Date: Sat, 22 May 2021 14:29:54 +0300
+Subject: [PATCH 112/127] msm8998-oneplus-common: Configure IPA for cellular
+ data
+
+---
+ arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
+index 2b773695405d..eb58763cb6cf 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
+@@ -273,6 +273,13 @@ &blsp2_uart1 {
+ 	status = "okay";
+ };
+ 
++&ipa {
++	status = "okay";
++
++	memory-region = <&ipa_fws_region>; // ipa_fw_mem? ipa_gsi_mem?
++	firmware-name = "qcom/msm8998/oneplus/ipa_fws.mbn";
++};
++
+ &pm8005_regulators {
+ 	/* VDD_GFX supply */
+ 	pm8005_s1: s1 {
+-- 
+2.38.1
+

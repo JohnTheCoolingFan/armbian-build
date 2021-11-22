@@ -1,0 +1,136 @@
+From ca2c4b27da6c5c06b7ba35806a317ee64d24f0be Mon Sep 17 00:00:00 2001
+From: Jami Kettunen <jami.kettunen@protonmail.com>
+Date: Mon, 31 Oct 2022 02:05:05 +0200
+Subject: [PATCH 127/127] [WIP] arm64: msm8998-oneplus-common: fix node names
+ for reserved mem
+
+---
+ .../boot/dts/qcom/msm8998-oneplus-common.dtsi | 98 ++++++++++++-------
+ 1 file changed, 65 insertions(+), 33 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
+index e86b629adebc..459625c5d04b 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
+@@ -16,6 +16,20 @@
+ #include "pm8998.dtsi"
+ #include "pmi8998.dtsi"
+ 
++/*
++ * Delete following upstream (msm8998.dtsi) reserved
++ * memory mappings which are different in this device.
++ */
++/delete-node/ &adsp_mem;
++/delete-node/ &mpss_mem;
++/delete-node/ &venus_mem;
++/delete-node/ &mba_mem;
++/delete-node/ &slpi_mem;
++/delete-node/ &ipa_fw_mem;
++/delete-node/ &ipa_gsi_mem;
++/delete-node/ &gpu_mem;
++/delete-node/ &wlan_msa_mem;
++
+ / {
+ 	/* Required for bootloader to select correct board */
+ 	qcom,msm-id = <292 0x20001>; /* 8998 v2.1 */
+@@ -51,6 +65,57 @@ framebuffer0: framebuffer@9d400000 {
+ 	};
+ 
+ 	reserved-memory {
++		// FIXME: https://patchwork.kernel.org/project/linux-arm-msm/patch/20220617122007.2307726-1-dsankouski@gmail.com/
++		/*
++		 * OnePlus' ADSP firmware requires 30 MiB in total, so increase the adsp_mem
++		 * region by 4 MiB to account for this while relocating the other now
++		 * conflicting memory nodes accordingly.
++		 */
++		adsp_mem: memory@8b200000 {
++			reg = <0x0 0x8b200000 0x0 0x1e00000>;
++			no-map;
++		};
++
++		mpss_mem: memory@8d000000 {
++			reg = <0x0 0x8d000000 0x0 0x7000000>;
++			no-map;
++		};
++
++		venus_mem: memory@94000000 {
++			reg = <0x0 0x94000000 0x0 0x500000>;
++			no-map;
++		};
++
++		mba_mem: memory@94500000 {
++			reg = <0x0 0x94500000 0x0 0x200000>;
++			no-map;
++		};
++
++		slpi_mem: memory@94700000 {
++			reg = <0x0 0x94700000 0x0 0xf00000>;
++			no-map;
++		};
++
++		ipa_fw_mem: memory@95600000 {
++			reg = <0x0 0x95600000 0x0 0x10000>;
++			no-map;
++		};
++
++		ipa_gsi_mem: memory@95610000 {
++			reg = <0x0 0x95610000 0x0 0x5000>;
++			no-map;
++		};
++
++		gpu_mem: memory@95615000 {
++			reg = <0x0 0x95615000 0x0 0x100000>;
++			no-map;
++		};
++
++		wlan_msa_mem: memory@95715000 {
++			reg = <0x0 0x95715000 0x0 0x100000>;
++			no-map;
++		};
++
+ 		/* Bootloader display framebuffer region */
+ 		cont_splash_mem: memory@9d400000 {
+ 			reg = <0x0 0x9d400000 0x0 0x2400000>;
+@@ -143,39 +208,6 @@ vph_pwr: vph-pwr-regulator {
+ 	};
+ };
+ 
+-/*
+- * OnePlus' ADSP firmware requires 30 MiB in total, so increase the adsp_mem
+- * region by 4 MiB to account for this while relocating the other now
+- * conflicting memory nodes accordingly.
+- */
+-&adsp_mem {
+-	reg = <0x0 0x8b200000 0x0 0x1e00000>;
+-};
+-&mpss_mem {
+-	reg = <0x0 0x8d000000 0x0 0x7000000>;
+-};
+-&venus_mem {
+-	reg = <0x0 0x94000000 0x0 0x500000>;
+-};
+-&mba_mem {
+-	reg = <0x0 0x94500000 0x0 0x200000>;
+-};
+-&slpi_mem {
+-	reg = <0x0 0x94700000 0x0 0xf00000>;
+-};
+-&ipa_fw_mem {
+-	reg = <0x0 0x95600000 0x0 0x10000>;
+-};
+-&ipa_gsi_mem {
+-	reg = <0x0 0x95610000 0x0 0x5000>;
+-};
+-&gpu_mem {
+-	reg = <0x0 0x95615000 0x0 0x100000>;
+-};
+-&wlan_msa_mem {
+-	reg = <0x0 0x95715000 0x0 0x100000>;
+-};
+-
+ &apc_cprh {
+ 	status = "okay";
+ };
+-- 
+2.38.1
+

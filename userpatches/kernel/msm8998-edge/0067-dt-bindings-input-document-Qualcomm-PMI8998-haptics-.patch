@@ -1,0 +1,97 @@
+From df1488009c63c9ebb2e7f21557614562497b4d87 Mon Sep 17 00:00:00 2001
+From: Caleb Connolly <caleb@connolly.tech>
+Date: Sat, 15 Oct 2022 17:30:35 +0000
+Subject: [PATCH 067/127] dt-bindings: input: document Qualcomm PMI8998 haptics
+ driver
+
+Add bindings for qcom PMIC PMI8998 haptics driver.
+
+Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../bindings/input/qcom,pmi8998-haptics.yaml  | 73 +++++++++++++++++++
+ 1 file changed, 73 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml b/Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml
+new file mode 100644
+index 000000000000..d43324cceb89
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml
+@@ -0,0 +1,73 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright 2020 Unisoc Inc.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/qcom,pmi8998-haptics.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm PMI8998/PM660 Haptics
++
++maintainers:
++  - Caleb Connolly <caleb@connolly.tech>
++
++description: |
++  Qualcomm SPMI haptics is a peripheral on some QTI PMICs. It supports linear resonant
++  actuators and eccentric rotating mass type haptics commonly found in mobile devices.
++  It supports multiple sources of wave data such as an internal buffer, direct play
++  (from kernel or userspace) as well as an audio output mode.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - qcom,pmi8998-haptics
++          - qcom,pm660-charger
++          - qcom,pmi8996-haptics
++          - qcom,pmi8941-haptics
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 2
++
++  interrupt-names:
++    items:
++      - const: short
++      - const: play
++
++  qcom,wave-play-duration-us:
++    description: |
++      Wave sample duration in microseconds, 1/f where f
++      is the resonant frequency of the actuator.
++      This property is named qcom,wave-play-rate-us in
++      downstream kernels.
++    minimum: 0
++    maximum: 20475
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - qcom,wave-play-rate-us
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    spmi {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      pmi8998_haptics: haptics@c000 {
++        compatible = "qcom,pmi8998-haptics";
++        reg = <0xc000>;
++
++        interrupts = <0x3 0xc0 0x0 IRQ_TYPE_EDGE_BOTH>,
++                     <0x3 0xc0 0x1 IRQ_TYPE_EDGE_BOTH>;
++        interrupt-names = "short", "play";
++
++        qcom,wave-play-rate-us = <4255>;
++      };
++    };
+-- 
+2.38.1
+

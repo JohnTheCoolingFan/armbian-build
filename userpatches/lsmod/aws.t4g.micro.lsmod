@@ -1,0 +1,27 @@
+Module                  Size  Used by
+aes_ce_blk             40960  0
+crypto_simd            24576  1 aes_ce_blk
+cryptd                 28672  1 crypto_simd
+aes_ce_cipher          20480  1 aes_ce_blk
+crct10dif_ce           20480  1
+ghash_ce               24576  0
+sha2_ce                20480  1
+sha256_arm64           32768  1 sha2_ce
+sha1_ce                20480  0
+efi_pstore             16384  0
+nls_iso8859_1          16384  1
+qemu_fw_cfg            24576  0
+sch_fq_codel           28672  3
+drm                   659456  0
+nfsd                  602112  13
+auth_rpcgss           151552  1 nfsd
+nfs_acl                20480  1 nfsd
+lockd                 114688  1 nfsd
+grace                  20480  2 nfsd,lockd
+sunrpc                651264  17 nfsd,auth_rpcgss,lockd,nfs_acl
+ip_tables              36864  0
+x_tables               61440  1 ip_tables
+autofs4                57344  2
+nvme                   49152  2
+ena                   131072  0
+nvme_core             139264  3 nvme

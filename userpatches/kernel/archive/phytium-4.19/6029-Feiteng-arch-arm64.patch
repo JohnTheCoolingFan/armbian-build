@@ -1,0 +1,43 @@
+From f7a7d7df0e5ec3e8ac61616190ceea946c6e9c44 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng arch/arm64
+
+Feiteng arch/arm64
+---
+ arch/arm64/Kconfig           | 1 +
+ arch/arm64/Kconfig.platforms | 6 ++++++
+ 2 files changed, 7 insertions(+)
+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index e16f0d45b47a..ebbe2da16f03 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -75,6 +75,7 @@ config ARM64
+ 	select CLONE_BACKWARDS
+ 	select COMMON_CLK
+ 	select CPU_PM if (SUSPEND || CPU_IDLE)
++	select CRC32
+ 	select DCACHE_WORD_ACCESS
+ 	select DMA_DIRECT_OPS
+ 	select EDAC_SUPPORT
+diff --git a/arch/arm64/Kconfig.platforms b/arch/arm64/Kconfig.platforms
+index 91c7ffad8541..7283daa25ab1 100644
+--- a/arch/arm64/Kconfig.platforms
++++ b/arch/arm64/Kconfig.platforms
+@@ -140,6 +140,12 @@ config ARCH_MVEBU
+ 	   - Armada 7K SoC Family
+ 	   - Armada 8K SoC Family
+ 
++config ARCH_PHYTIUM
++	bool "Phytium SoC Family"
++	help
++	  This enables support for Phytium ARMv8 SoC family.
++	select ARM_GIC_PHYTIUM_2500
++
+ config ARCH_QCOM
+ 	bool "Qualcomm Platforms"
+ 	select GPIOLIB
+-- 
+Armbian
+

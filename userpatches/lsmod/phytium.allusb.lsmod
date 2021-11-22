@@ -1,0 +1,152 @@
+Module                  Size  Used by
+cdc_mbim               16384  0
+cdc_wdm                24576  1 cdc_mbim
+cdc_ncm                36864  1 cdc_mbim
+asix                   49152  0
+usbnet                 45056  3 cdc_mbim,cdc_ncm,asix
+mii                    20480  2 usbnet,asix
+algif_hash             20480  1
+algif_skcipher         16384  1
+af_alg                 24576  6 algif_hash,algif_skcipher
+bnep                   24576  2
+btusb                  49152  0
+btrtl                  20480  1 btusb
+btbcm                  16384  1 btusb
+btintel                24576  1 btusb
+bluetooth             585728  28 btrtl,btintel,btbcm,bnep,btusb
+jitterentropy_rng      20480  1
+drbg                   32768  1
+ansi_cprng             16384  0
+ecdh_generic           24576  2 bluetooth
+snd_seq_dummy          16384  0
+snd_hrtimer            16384  0
+rfkill                 28672  3 bluetooth
+cpufreq_userspace      16384  0
+cpufreq_ondemand       20480  0
+cpufreq_powersave      16384  0
+cpufreq_conservative    16384  0
+sunrpc                376832  1
+joydev                 28672  0
+lz4hc                  16384  8
+lz4hc_compress         24576  1 lz4hc
+binfmt_misc            20480  1
+zram                   32768  2
+zsmalloc               32768  1 zram
+hid_logitech_hidpp     36864  0
+snd_hda_codec_hdmi     61440  1
+nls_ascii              16384  1
+nls_cp437              20480  1
+uvcvideo              106496  0
+snd_hda_intel          40960  0
+aes_ce_blk             28672  5
+crypto_simd            16384  1 aes_ce_blk
+cryptd                 28672  2 crypto_simd
+aes_ce_cipher          16384  3 aes_ce_blk
+snd_hda_phytium        24576  0
+videobuf2_vmalloc      16384  1 uvcvideo
+crct10dif_ce           16384  0
+videobuf2_memops       16384  1 videobuf2_vmalloc
+snd_hda_codec         139264  3 snd_hda_phytium,snd_hda_codec_hdmi,snd_hda_intel
+videobuf2_v4l2         24576  1 uvcvideo
+snd_usb_audio         221184  0
+videobuf2_common       45056  2 videobuf2_v4l2,uvcvideo
+ghash_ce               20480  0
+gf128mul               16384  1 ghash_ce
+snd_usbmidi_lib        36864  1 snd_usb_audio
+aes_arm64              16384  3 aes_ce_cipher,ghash_ce,aes_ce_blk
+snd_seq_midi           16384  0
+vfat                   24576  1
+snd_seq_midi_event     16384  1 snd_seq_midi
+videodev              221184  3 videobuf2_v4l2,uvcvideo,videobuf2_common
+fat                    86016  1 vfat
+sd_mod                 57344  0
+snd_hda_core           81920  4 snd_hda_phytium,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec
+hid_logitech_dj        20480  0
+media                  40960  2 videodev,uvcvideo
+snd_rawmidi            36864  2 snd_seq_midi,snd_usbmidi_lib
+evdev                  28672  0
+snd_hwdep              20480  2 snd_usb_audio,snd_hda_codec
+ti_usb_3410_5052       28672  0
+sha2_ce                16384  1
+sg                     40960  0
+usbserial              45056  1 ti_usb_3410_5052
+sha256_arm64           24576  1 sha2_ce
+snd_pcm_oss            61440  0
+snd_seq                90112  3 snd_seq_midi,snd_seq_midi_event,snd_seq_dummy
+snd_mixer_oss          32768  1 snd_pcm_oss
+sha1_ce                16384  0
+snd_pcm               122880  7 snd_hda_phytium,snd_hda_codec_hdmi,snd_hda_intel,snd_usb_audio,snd_hda_codec,snd_pcm_oss,snd_hda_core
+sbsa_gwdt              16384  0
+snd_seq_device         16384  3 snd_seq,snd_seq_midi,snd_rawmidi
+snd_timer              40960  3 snd_seq,snd_hrtimer,snd_pcm
+snd                    94208  14 snd_seq,snd_hda_phytium,snd_seq_device,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_usb_audio,snd_usbmidi_lib,snd_hda_codec,snd_timer,snd_pcm_oss,snd_pcm,snd_rawmidi,snd_mixer_oss
+phytium_can_plat       16384  0
+optee                  32768  0
+soundcore              16384  1 snd
+phytium_can            20480  1 phytium_can_plat
+phytium_mailbox        16384  0
+can_dev                28672  2 phytium_can,phytium_can_plat
+tee                    32768  1 optee
+squashfs               57344  6
+loop                   36864  12
+ramoops                28672  0
+reed_solomon           20480  1 ramoops
+fuse                  122880  1
+efi_pstore             16384  0
+efivars                20480  1 efi_pstore
+configfs               49152  1
+efivarfs               20480  1
+ip_tables              28672  0
+x_tables               36864  1 ip_tables
+autofs4                49152  2
+ext4                  675840  2
+crc16                  16384  2 bluetooth,ext4
+mbcache                16384  1 ext4
+jbd2                  118784  1 ext4
+fscrypto               32768  1 ext4
+btrfs                1298432  0
+xor                    20480  1 btrfs
+zstd_compress         163840  1 btrfs
+raid6_pq              106496  1 btrfs
+libcrc32c              16384  1 btrfs
+crc32c_generic         16384  0
+zstd_decompress        65536  2 squashfs,btrfs
+xxhash                 16384  2 zstd_compress,zstd_decompress
+uas                    24576  0
+hid_generic            16384  0
+usb_storage            73728  1 uas
+scsi_mod              233472  4 sd_mod,usb_storage,uas,sg
+usbhid                 57344  0
+at803x                 16384  1
+amdgpu               2842624  1
+chash                  16384  1 amdgpu
+gpu_sched              28672  1 amdgpu
+i2c_algo_bit           16384  1 amdgpu
+ttm                   114688  1 amdgpu
+xhci_pci               20480  0
+drm_kms_helper        176128  1 amdgpu
+xhci_hcd              245760  1 xhci_pci
+dwmac_generic          16384  0
+syscopyarea            16384  1 drm_kms_helper
+stmmac_platform        24576  1 dwmac_generic
+sysfillrect            16384  1 drm_kms_helper
+stmmac                176128  2 stmmac_platform,dwmac_generic
+sysimgblt              16384  1 drm_kms_helper
+fb_sys_fops            16384  1 drm_kms_helper
+usbcore               278528  16 usbserial,xhci_hcd,usbnet,ti_usb_3410_5052,snd_usb_audio,usbhid,snd_usbmidi_lib,cdc_mbim,cdc_ncm,usb_storage,cdc_wdm,uvcvideo,btusb,xhci_pci,uas,asix
+nvme                   40960  2
+i2c_hid                32768  0
+of_mdio                24576  3 stmmac_platform,stmmac
+usb_common             16384  1 usbcore
+drm                   450560  5 gpu_sched,drm_kms_helper,amdgpu,ttm
+hid                   151552  5 i2c_hid,usbhid,hid_generic,hid_logitech_dj,hid_logitech_hidpp
+fixed_phy              16384  1 of_mdio
+spi_phytium_plat       16384  0
+nvme_core              77824  4 nvme
+spi_phytium            16384  1 spi_phytium_plat
+libphy                 65536  5 of_mdio,stmmac,fixed_phy,asix,at803x
+i2c_designware_platform    16384  0
+phytium_sdci           28672  0
+i2c_designware_core    20480  1 i2c_designware_platform
+gpio_phytium_platform    16384  0
+gpio_phytium_core      16384  1 gpio_phytium_platform

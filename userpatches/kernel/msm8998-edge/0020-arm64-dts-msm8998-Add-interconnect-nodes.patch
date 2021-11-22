@@ -1,0 +1,124 @@
+From 3623b0ba747de49f24a9f788522247f525bb0cf9 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Mon, 4 Jan 2021 18:17:58 +0100
+Subject: [PATCH 020/127] arm64: dts: msm8998: Add interconnect nodes
+
+This SoC features Network-on-Chip (NoC) and Bus Integrated Memory
+Controller (BIMC) interconnects: add the required nodes now that
+the driver is present.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 68 +++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+index c1b0048f56e4..26a77d5959fe 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+@@ -6,6 +6,7 @@
+ #include <dt-bindings/clock/qcom,gpucc-msm8998.h>
+ #include <dt-bindings/clock/qcom,mmcc-msm8998.h>
+ #include <dt-bindings/clock/qcom,rpmcc.h>
++#include <dt-bindings/interconnect/qcom,msm8998.h>
+ #include <dt-bindings/power/qcom-rpmpd.h>
+ #include <dt-bindings/gpio/gpio.h>
+ 
+@@ -843,6 +844,15 @@ qusb2_hstx_trim: hstx-trim@23a {
+ 			};
+ 		};
+ 
++		bimc: interconnect@1008000 {
++			compatible = "qcom,msm8998-bimc";
++			reg = <0x01008000 0x78000>;
++			#interconnect-cells = <1>;
++			clock-names = "bus", "bus_a";
++			clocks = <&rpmcc RPM_SMD_BIMC_CLK>,
++				 <&rpmcc RPM_SMD_BIMC_A_CLK>;
++		};
++
+ 		tsens0: thermal@10ab000 {
+ 			compatible = "qcom,msm8998-tsens", "qcom,tsens-v2";
+ 			reg = <0x010ab000 0x1000>, /* TM */
+@@ -865,6 +875,33 @@ tsens1: thermal@10ae000 {
+ 			#thermal-sensor-cells = <1>;
+ 		};
+ 
++		cnoc: interconnect@1500000 {
++			compatible = "qcom,msm8998-cnoc";
++			reg = <0x01500000 0x10000>;
++			#interconnect-cells = <1>;
++			clock-names = "bus", "bus_a";
++			clocks = <&rpmcc RPM_SMD_CNOC_CLK>,
++				 <&rpmcc RPM_SMD_CNOC_A_CLK>;
++		};
++
++		snoc: interconnect@1625000 {
++			compatible = "qcom,msm8998-snoc";
++			reg = <0x01625000 0x6100>;
++			#interconnect-cells = <1>;
++			clock-names = "bus", "bus_a";
++			clocks = <&rpmcc RPM_SMD_SNOC_CLK>,
++				 <&rpmcc RPM_SMD_SNOC_A_CLK>;
++		};
++
++		a1noc: interconnect@1669000 {
++			compatible = "qcom,msm8998-a1noc";
++			reg = <0x01669000 0x5020>;
++			#interconnect-cells = <1>;
++			clock-names = "bus", "bus_a";
++			clocks = <&rpmcc RPM_SMD_AGGR1_NOC_CLK>,
++				 <&rpmcc RPM_SMD_AGGR1_NOC_A_CLK>;
++		};
++
+ 		anoc1_smmu: iommu@1680000 {
+ 			compatible = "qcom,msm8998-smmu-v2", "qcom,smmu-v2";
+ 			reg = <0x01680000 0x10000>;
+@@ -899,6 +936,25 @@ anoc2_smmu: iommu@16c0000 {
+ 				<GIC_SPI 465 IRQ_TYPE_EDGE_RISING>;
+ 		};
+ 
++		a2noc: interconnect@1705000 {
++			compatible = "qcom,msm8998-a2noc";
++			reg = <0x01705000 0xa090>;
++			#interconnect-cells = <1>;
++			clock-names = "bus", "bus_a";
++			clocks = <&rpmcc RPM_SMD_AGGR2_NOC_CLK>,
++				 <&rpmcc RPM_SMD_AGGR2_NOC_A_CLK>;
++		};
++
++		mnoc: interconnect@1744000 {
++			compatible = "qcom,msm8998-mnoc";
++			reg = <0x01744000 0xb010>;
++			#interconnect-cells = <1>;
++			clock-names = "bus", "bus_a", "iface";
++			clocks = <&rpmcc RPM_SMD_MMAXI_CLK>,
++				 <&rpmcc RPM_SMD_MMAXI_A_CLK>,
++				 <&mmcc AHB_CLK_SRC>;
++		};
++
+ 		pcie0: pci@1c00000 {
+ 			compatible = "qcom,pcie-msm8996";
+ 			reg =	<0x01c00000 0x2000>,
+@@ -2736,6 +2792,18 @@ glink-edge {
+ 			};
+ 		};
+ 
++		gnoc: interconnect@17900000 {
++			compatible = "qcom,msm8998-gnoc";
++			reg = <0x17900000 0xe000>;
++			#interconnect-cells = <1>;
++			/*
++			 * This one apparently features no clocks,
++			 * so let's not mess with the driver needlessly
++			 */
++			clock-names = "bus", "bus_a";
++			clocks = <&xo>, <&xo>;
++		};
++
+ 		apcs_glb: mailbox@17911000 {
+ 			compatible = "qcom,msm8998-apcs-hmss-global";
+ 			reg = <0x17911000 0x1000>;
+-- 
+2.38.1
+

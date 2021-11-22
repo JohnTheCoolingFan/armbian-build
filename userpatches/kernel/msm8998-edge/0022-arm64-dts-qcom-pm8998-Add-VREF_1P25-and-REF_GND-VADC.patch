@@ -1,0 +1,35 @@
+From 71c34c59faf60fc5e1e257898590fa6282cd0d7c Mon Sep 17 00:00:00 2001
+From: Konrad Dybcio <konrad.dybcio@somainline.org>
+Date: Mon, 14 Dec 2020 17:19:11 +0100
+Subject: [PATCH 022/127] arm64: dts: qcom: pm8998: Add VREF_1P25 and REF_GND
+ VADC channels
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+---
+ arch/arm64/boot/dts/qcom/pm8998.dtsi | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/pm8998.dtsi b/arch/arm64/boot/dts/qcom/pm8998.dtsi
+index d09f2954b6f9..ed68f44a7f11 100644
+--- a/arch/arm64/boot/dts/qcom/pm8998.dtsi
++++ b/arch/arm64/boot/dts/qcom/pm8998.dtsi
+@@ -78,6 +78,16 @@ pm8998_adc: adc@3100 {
+ 			#size-cells = <0>;
+ 			#io-channel-cells = <1>;
+ 
++			adc-chan@0 {
++				reg = <ADC5_REF_GND>;
++				label = "ref_gnd";
++			};
++
++			adc-chan@1 {
++				reg = <ADC5_REF_GND>;
++				label = "vref_1p25";
++			};
++
+ 			adc-chan@6 {
+ 				reg = <ADC5_DIE_TEMP>;
+ 				label = "die_temp";
+-- 
+2.38.1
+

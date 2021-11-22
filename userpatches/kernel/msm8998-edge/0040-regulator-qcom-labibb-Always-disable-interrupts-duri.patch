@@ -1,0 +1,85 @@
+From 6b3e594bf11ce9aaea6d85c39856ee4e2f6c4028 Mon Sep 17 00:00:00 2001
+From: Jami Kettunen <jami.kettunen@protonmail.com>
+Date: Fri, 28 Jan 2022 15:42:37 +0200
+Subject: [PATCH 040/127] regulator: qcom-labibb: Always disable interrupts
+ during OCP & SC
+
+Originally from: cd95ecae
+---
+ drivers/regulator/qcom-labibb-regulator.c | 32 +++++++++++++----------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/regulator/qcom-labibb-regulator.c b/drivers/regulator/qcom-labibb-regulator.c
+index 639b71eb41ff..3143e9765029 100644
+--- a/drivers/regulator/qcom-labibb-regulator.c
++++ b/drivers/regulator/qcom-labibb-regulator.c
+@@ -279,12 +279,6 @@ static irqreturn_t qcom_labibb_ocp_isr(int irq, void *chip)
+ 	}
+ 	vreg->ocp_irq_count++;
+ 
+-	/*
+-	 * Disable the interrupt temporarily, or it will fire continuously;
+-	 * we will re-enable it in the recovery worker function.
+-	 */
+-	disable_irq_nosync(irq);
+-
+ 	/* Warn the user for overcurrent */
+ 	dev_warn(vreg->dev, "Over-Current interrupt fired!\n");
+ 
+@@ -304,6 +298,12 @@ static irqreturn_t qcom_labibb_ocp_isr(int irq, void *chip)
+ 	if (ret)
+ 		return IRQ_NONE;
+ 
++	/*
++	 * Disable the interrupt temporarily, or it will fire continuously;
++	 * we will re-enable it in the recovery worker function.
++	 */
++	disable_irq_nosync(irq);
++
+ 	return IRQ_HANDLED;
+ }
+ 
+@@ -316,8 +316,11 @@ static int qcom_labibb_set_ocp(struct regulator_dev *rdev, int lim,
+ 	int irq_trig_low, ret;
+ 
+ 	/*
+-	 * labibb supports only protection - and does not support setting
+-	 * limit. Furthermore, we don't support disabling protection.
++	 * labibb does not support specifying a current limit that is
++	 * special to over-current protection, but only a global one
++	 * that will be used for both current limiting and protection;
++	 * for this reason, we only support enabling the OCP here.
++	 * Furthermore, we don't support disabling protection.
+ 	 */
+ 	if (lim || severity != REGULATOR_SEVERITY_PROT || !enable)
+ 		return -EINVAL;
+@@ -540,12 +543,6 @@ static irqreturn_t qcom_labibb_sc_isr(int irq, void *chip)
+ 	/* Warn the user for short circuit */
+ 	dev_warn(vreg->dev, "Short-Circuit interrupt fired!\n");
+ 
+-	/*
+-	 * Disable the interrupt temporarily, or it will fire continuously;
+-	 * we will re-enable it in the recovery worker function.
+-	 */
+-	disable_irq_nosync(irq);
+-
+ 	/* Signal out of regulation event to drivers */
+ 	regulator_notifier_call_chain(vreg->rdev,
+ 				      REGULATOR_EVENT_REGULATION_OUT, NULL);
+@@ -553,6 +550,13 @@ static irqreturn_t qcom_labibb_sc_isr(int irq, void *chip)
+ 	/* Schedule the short-circuit handling as high-priority work */
+ 	mod_delayed_work(system_highpri_wq, &vreg->sc_recovery_work,
+ 			 msecs_to_jiffies(SC_RECOVERY_INTERVAL_MS));
++
++	/*
++	 * Disable the interrupt temporarily, or it will fire continuously;
++	 * we will re-enable it in the recovery worker function.
++	 */
++	disable_irq_nosync(irq);
++
+ 	return IRQ_HANDLED;
+ }
+ 
+-- 
+2.38.1
+

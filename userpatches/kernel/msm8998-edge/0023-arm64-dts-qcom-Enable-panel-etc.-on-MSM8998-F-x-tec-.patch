@@ -1,0 +1,371 @@
+From dbc6ce2d0ca34bc64cdc44ba3f17f4251fab05ec Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Fri, 4 Dec 2020 23:04:52 +0100
+Subject: [PATCH 023/127] arm64: dts: qcom: Enable panel etc. on MSM8998
+ F(x)tec Pro1 QX1000
+
+(JAMI: fixup for 5.16 & 6.0-rc2)
+---
+ .../boot/dts/qcom/msm8998-fxtec-pro1.dts      | 287 ++++++++++++++++++
+ 1 file changed, 287 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts b/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts
+index 429ba57e20f7..76a44d9049c9 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts
++++ b/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts
+@@ -25,6 +25,15 @@ aliases {
+ 		serial1 = &blsp1_uart3;
+ 	};
+ 
++	/* This part enables graphical output via bootloader-enabled display */
++	chosen {
++		bootargs = "earlycon=tty0 console=tty0 clk_ignore_unused";
++
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
++	};
++
+ 	/*
+ 	 * Until we hook up type-c detection, we
+ 	 * have to stick with this. But it works.
+@@ -53,6 +62,8 @@ event-hall-sensor1 {
+ 	gpio-kb-extra-keys {
+ 		compatible = "gpio-keys";
+ 		label = "Keyboard extra keys";
++		#address-cells = <1>;
++		#size-cells = <0>;
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&gpio_kb_pins_extra>;
+ 
+@@ -105,6 +116,39 @@ key-alt {
+ 		};
+ 	};
+ 
++	gpio_keyboard: gpio-keyboard {
++		compatible = "gpio-fastmatrix-keyboard";
++		label = "F(x)Tec Pro1 Hardware Keyboard";
++		row-gpios =
++			<&gpioext0 0 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>,
++			<&gpioext0 1 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>,
++			<&gpioext0 2 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>,
++			<&gpioext0 3 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>,
++			<&gpioext0 4 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>,
++			<&gpioext0 5 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>,
++			<&gpioext0 6 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>,
++			<&gpioext0 7 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>;
++
++		col-gpios =
++			<&gpioext0 8 GPIO_ACTIVE_LOW>,
++			<&gpioext0 9 GPIO_ACTIVE_LOW>,
++			<&gpioext0 10 GPIO_ACTIVE_LOW>,
++			<&gpioext0 11 GPIO_ACTIVE_LOW>,
++			<&gpioext0 12 GPIO_ACTIVE_LOW>,
++			<&gpioext0 13 GPIO_ACTIVE_LOW>,
++			<&gpioext0 14 GPIO_ACTIVE_LOW>,
++			<&gpioext0 15 GPIO_ACTIVE_LOW>;
++		keypad,num-rows = <8>;
++		keypad,num-columns = <8>;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&keyboard_pins_col>, <&keyboard_pins_row>;
++
++		autorescan-ms = <5>;
++		debounce-delay-ms = <1>;
++		col-scan-delay-us = <1500>;
++	};
++
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 		label = "Side buttons";
+@@ -182,6 +226,53 @@ ramoops@ffc00000 {
+ 		};
+ 	};
+ 
++	disp_vcc_vreg: disp-vcc-regulator {
++		compatible = "regulator-fixed";
++		regulator-name = "disp_vcc";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
++	disp_vddio_vreg: disp-vddio-regulator {
++		compatible = "regulator-fixed";
++		regulator-name = "disp_vddio";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++		regulator-allow-set-load;
++	};
++
++	disp_vci_vreg: disp-vci-regulator {
++		compatible = "regulator-fixed";
++		regulator-name = "disp_vci";
++		regulator-min-microvolt = <3000000>;
++		regulator-max-microvolt = <3000000>;
++		regulator-boot-on;
++		regulator-always-on;
++		regulator-allow-set-load;
++	};
++
++	disp_elvdd_vreg: disp-elvdd-regulator {
++		compatible = "regulator-fixed";
++		regulator-name = "disp_elvdd";
++		regulator-min-microvolt = <4600000>;
++		regulator-max-microvolt = <4600000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
++	disp_elvss_vreg: disp-elvss-regulator {
++		compatible = "regulator-fixed";
++		regulator-name = "disp_elvss";
++		regulator-min-microvolt = <2400000>;
++		regulator-max-microvolt = <2400000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
+ 	ts_vio_vreg: ts-vio-vreg {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "ts_vio_reg";
+@@ -241,8 +332,61 @@ &blsp2_uart1 {
+ 	status = "okay";
+ };
+ 
++&adreno_gpu {
++	status = "okay";
++
++	zap-shader {
++		memory-region = <&zap_shader_region>;
++	};
++};
++
++&adreno_smmu {
++	status = "okay";
++};
++
++&apc_cprh {
++	status = "okay";
++};
++
++&blsp1_i2c6 {
++	status = "okay";
++
++	gpioext0: gpio-expander@58 {
++		compatible = "awinic,aw9523-pinctrl";
++		reg = <0x58>;
++		interrupt-parent = <&tlmm>;
++		interrupts = <50 IRQ_TYPE_EDGE_FALLING>;
++
++		gpio-controller;
++		#gpio-cells = <2>;
++		gpio-ranges = <&gpioext0 0 0 16>;
++		interrupt-controller;
++		#interrupt-cells = <2>;
++
++		pinctrl-0 = <&gpio_expander_int_n>, <&gpio_expander_rst_n>;
++		pinctrl-names = "default";
++		reset-gpios = <&tlmm 51 GPIO_ACTIVE_HIGH>;
++
++		keyboard_pins_col: keyboard-matrix-col-pins {
++			pins = "gpio8", "gpio9", "gpio10", "gpio11",
++			       "gpio12", "gpio13", "gpio14", "gpio15";
++			function = "gpio";
++			output-low;
++		};
++		keyboard_pins_row: keyboard-matrix-row-pins {
++			pins = "gpio0", "gpio1", "gpio2", "gpio3",
++			       "gpio4", "gpio5", "gpio6", "gpio7";
++			function = "gpio";
++			drive-open-drain;
++			input-enable;
++		};
++	};
++};
++
+ &blsp2_i2c1 {
+ 	status = "okay";
++	qcom,noise-reject-scl = <3>;
++	qcom,noise-reject-sda = <3>;
+ 
+ 	touchscreen@14 {
+ 		compatible = "goodix,gt9286";
+@@ -257,6 +401,108 @@ touchscreen@14 {
+ 	};
+ };
+ 
++&cpufreq_hw {
++	status = "okay";
++};
++
++&dsi0 {
++	#address-cells = <1>;
++	#size-cells = <0>;
++	status = "okay";
++
++	vdd-supply = <&vreg_l1a_0p875>;
++	vdda-supply = <&vreg_l2a_1p2>;
++
++	panel: panel@0 {
++		compatible = "boe,bf060y8m-aj0";
++		reg = <0>;
++
++		reset-gpios = <&tlmm 94 GPIO_ACTIVE_LOW>;
++		disp-te-gpios = <&tlmm 10 GPIO_ACTIVE_LOW>;
++		no-hpd;
++
++		vcc-supply = <&disp_vcc_vreg>;
++		vddio-supply = <&disp_vddio_vreg>;
++		vci-supply = <&disp_vci_vreg>;
++		elvdd-supply = <&disp_elvdd_vreg>;
++		elvss-supply = <&disp_elvss_vreg>;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&panel_reset_n &disp_en_default &mdp_vsync_n>;
++		port {
++			panel_in: endpoint {
++				remote-endpoint = <&dsi0_out>;
++			};
++		};
++	};
++};
++
++&dsi0_phy {
++	status = "okay";
++};
++
++&dsi0_out {
++	remote-endpoint = <&panel_in>;
++	data-lanes = <0 1 2 3>;
++};
++
++&gcc {
++	status = "okay";
++};
++
++&gpucc {
++	status = "okay";
++};
++
++&gpio_keyboard {
++	linux,keymap = <
++		MATRIX_KEY(0, 0, KEY_F1)    MATRIX_KEY(1, 0, KEY_H)
++		MATRIX_KEY(2, 0, KEY_B)     MATRIX_KEY(3, 0, KEY_7)
++		MATRIX_KEY(4, 0, KEY_UP)    MATRIX_KEY(5, 0, KEY_ENTER)
++		MATRIX_KEY(6, 0, KEY_Y)     MATRIX_KEY(7, 0, KEY_COMMA)
++		MATRIX_KEY(0, 1, KEY_3)     MATRIX_KEY(1, 1, KEY_S)
++		MATRIX_KEY(2, 1, KEY_Z)     MATRIX_KEY(3, 1, KEY_M)
++		MATRIX_KEY(4, 1, KEY_I)     MATRIX_KEY(5, 1, KEY_9)
++		MATRIX_KEY(6, 1, KEY_W)     MATRIX_KEY(7, 1, KEY_J)
++		MATRIX_KEY(0, 2, KEY_LEFT)  MATRIX_KEY(1, 2, KEY_G)
++		MATRIX_KEY(2, 2, KEY_V)     MATRIX_KEY(3, 2, KEY_6)
++		MATRIX_KEY(4, 2, KEY_RIGHT) MATRIX_KEY(5, 2, KEY_DELETE)
++		MATRIX_KEY(6, 2, KEY_T)     MATRIX_KEY(7, 2, KEY_DOT)
++		MATRIX_KEY(0, 3, KEY_SLASH) MATRIX_KEY(1, 3, KEY_A)
++		MATRIX_KEY(2, 3, KEY_RIGHTBRACE) MATRIX_KEY(3, 3, KEY_HOMEPAGE)
++		MATRIX_KEY(4, 3, KEY_P)     MATRIX_KEY(5, 3, KEY_MINUS)
++		MATRIX_KEY(6, 3, KEY_Q)     MATRIX_KEY(7, 3, KEY_L)
++		MATRIX_KEY(0, 4, KEY_BACKSPACE) MATRIX_KEY(1, 4, KEY_D)
++		MATRIX_KEY(2, 4, KEY_X)     MATRIX_KEY(3, 4, KEY_K)
++		MATRIX_KEY(4, 4, KEY_SEMICOLON) MATRIX_KEY(5, 4, KEY_EQUAL)
++		MATRIX_KEY(6, 4, KEY_E)     MATRIX_KEY(7, 4, KEY_APOSTROPHE)
++		MATRIX_KEY(0, 5, KEY_CAPSLOCK) MATRIX_KEY(1, 5, KEY_BACKSLASH)
++		MATRIX_KEY(2, 5, KEY_LEFTBRACE) MATRIX_KEY(3, 5, KEY_DOWN)
++		MATRIX_KEY(4, 5, KEY_O)     MATRIX_KEY(5, 5, KEY_0)
++		MATRIX_KEY(6, 5, KEY_GRAVE) MATRIX_KEY(7, 5, KEY_K)
++		MATRIX_KEY(0, 6, KEY_SPACE) MATRIX_KEY(1, 6, KEY_F)
++		MATRIX_KEY(2, 6, KEY_C)     MATRIX_KEY(3, 6, KEY_N)
++		MATRIX_KEY(4, 6, KEY_U)     MATRIX_KEY(5, 6, KEY_8)
++		MATRIX_KEY(6, 6, KEY_R)     MATRIX_KEY(7, 6, KEY_5)
++		MATRIX_KEY(0, 7, KEY_ESC)   MATRIX_KEY(1, 7, KEY_1)
++		MATRIX_KEY(2, 7, KEY_RESERVED) MATRIX_KEY(3, 7, KEY_RESERVED)
++		MATRIX_KEY(4, 7, KEY_2)     MATRIX_KEY(5, 7, KEY_4)
++		MATRIX_KEY(6, 7, KEY_TAB)   MATRIX_KEY(7, 7, KEY_RESERVED)
++	>;
++};
++
++&mdss {
++	status = "okay";
++};
++
++&mdss_mdp {
++	status = "okay";
++};
++
++&mmcc {
++	status = "okay";
++};
++
+ &etf {
+ 	status = "okay";
+ };
+@@ -342,7 +588,21 @@ pm8005_s1: s1 { /* VDD_GFX supply */
+ 	};
+ };
+ 
++/* HACK! Push GPU voltage high until GPU CPR is hooked up */
++&pm8005_s1 {
++	regulator-min-microvolt = <988000>;
++	regulator-max-microvolt = <1100000>;
++};
++
+ &pm8998_gpio {
++	unknown_pin_a: unk-active-state {
++		pins = "gpio5";
++		function = "normal";
++		input-enable;
++		bias-pull-up;
++		qcom,drive-strength = <PMIC_GPIO_STRENGTH_HIGH>;
++	};
++
+ 	vol_up_pin_a: vol-up-active-state {
+ 		pins = "gpio6";
+ 		function = "normal";
+@@ -630,6 +890,26 @@ gpio_kb_pins_extra: gpio-kb-pins-extra {
+ 		bias-pull-up;
+ 	};
+ 
++	gpio_expander_int_n: gpio-exp-intn-def {
++		pins = "gpio50";
++		function = "gpio";
++		drive-strength = <2>;
++		input-enable;
++	};
++
++	gpio_expander_rst_n: gpio-exp-rst-def {
++		pins = "gpio51";
++		function = "gpio";
++		drive-strength = <8>;
++	};
++
++	disp_en_default: disp-en {
++		pins = "gpio62";
++		function = "gpio";
++		drive-strength = <8>;
++		bias-disable;
++	};
++
+ 	ts_vio_default: ts-vio-def {
+ 		pins = "gpio81";
+ 		function = "gpio";
+@@ -658,6 +938,13 @@ ts_int_n: ts-int-n {
+ 		bias-disable;
+ 		drive-strength = <8>;
+ 	};
++
++	panel_reset_n: panel-rst-n {
++		pins = "gpio94";
++		function = "gpio";
++		drive-strength = <8>;
++		bias-disable;
++	};
+ };
+ 
+ &sdhc2 {
+-- 
+2.38.1
+

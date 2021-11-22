@@ -1,0 +1,60 @@
+From 70d7ac4ba321a2a42109575ba77177f4889b63b8 Mon Sep 17 00:00:00 2001
+From: Jami Kettunen <jami.kettunen@protonmail.com>
+Date: Mon, 28 Jun 2021 23:25:13 +0300
+Subject: [PATCH 101/127] arm64: dts: qcom: msm8998-oneplus-common: Enable
+ PMI8998 LPG leds
+
+Now the RGB notification LEDs can each be controlled individually :)
+---
+ .../boot/dts/qcom/msm8998-oneplus-common.dtsi | 28 +++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
+index f7896b337927..febaecee503d 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
+@@ -9,6 +9,7 @@
+ /dts-v1/;
+ 
+ #include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/leds/common.h>
+ #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
+ #include "msm8998.dtsi"
+ #include "pm8005.dtsi"
+@@ -285,6 +286,33 @@ &pmi8998_haptics {
+ 	qcom,wave-play-rate-us = <4255>;
+ };
+ 
++&pmi8998_lpg {
++	status = "okay";
++
++	multi-led {
++		color = <LED_COLOR_ID_RGB>;
++		function = LED_FUNCTION_STATUS;
++
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		led@3 {
++			reg = <3>;
++			color = <LED_COLOR_ID_BLUE>;
++		};
++
++		led@4 {
++			reg = <4>;
++			color = <LED_COLOR_ID_GREEN>;
++		};
++
++		led@5 {
++			reg = <5>;
++			color = <LED_COLOR_ID_RED>;
++		};
++	};
++};
++
+ &qusb2phy {
+ 	status = "okay";
+ 
+-- 
+2.38.1
+

@@ -1,0 +1,2 @@
+verbosity=7
+console=serial

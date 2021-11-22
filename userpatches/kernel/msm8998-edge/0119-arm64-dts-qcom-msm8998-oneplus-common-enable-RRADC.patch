@@ -1,0 +1,50 @@
+From 7ede3fd8bdd9c4daacc2b7763d3205b2d248f4c7 Mon Sep 17 00:00:00 2001
+From: Jami Kettunen <jami.kettunen@protonmail.com>
+Date: Sat, 2 Apr 2022 19:46:58 +0300
+Subject: [PATCH 119/127] arm64: dts: qcom: msm8998-oneplus-common: enable
+ RRADC
+
+---
+ .../boot/dts/qcom/msm8998-oneplus-common.dtsi | 25 +------------------
+ 1 file changed, 1 insertion(+), 24 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
+index 4261cadfc16b..72260b554deb 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
+@@ -350,31 +350,8 @@ &pmi8998_haptics {
+ 	qcom,wave-play-rate-us = <4255>;
+ };
+ 
+-&pmi8998_lpg {
++&pmi8998_rradc {
+ 	status = "okay";
+-
+-	multi-led {
+-		color = <LED_COLOR_ID_RGB>;
+-		function = LED_FUNCTION_STATUS;
+-
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-
+-		led@3 {
+-			reg = <3>;
+-			color = <LED_COLOR_ID_BLUE>;
+-		};
+-
+-		led@4 {
+-			reg = <4>;
+-			color = <LED_COLOR_ID_GREEN>;
+-		};
+-
+-		led@5 {
+-			reg = <5>;
+-			color = <LED_COLOR_ID_RED>;
+-		};
+-	};
+ };
+ 
+ &qusb2phy {
+-- 
+2.38.1
+

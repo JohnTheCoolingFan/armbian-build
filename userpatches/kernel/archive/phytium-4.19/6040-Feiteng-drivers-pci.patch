@@ -1,0 +1,25 @@
+From 4fee8e4471e0b6ff92f7ffa5783f242149767ae8 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng drivers/pci
+
+Feiteng drivers/pci
+---
+ drivers/pci/quirks.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index f494e76faaa0..53309e641295 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -5175,6 +5175,7 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_SERVERWORKS, 0x0142, quirk_no_ext_tags);
+ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_SERVERWORKS, 0x0144, quirk_no_ext_tags);
+ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_SERVERWORKS, 0x0420, quirk_no_ext_tags);
+ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_SERVERWORKS, 0x0422, quirk_no_ext_tags);
++DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_PHYTIUM, 0xdc3a, quirk_no_ext_tags);
+ 
+ #ifdef CONFIG_PCI_ATS
+ /*
+-- 
+Armbian
+

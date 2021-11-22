@@ -1,0 +1,28 @@
+From 20e390757f4309a123c51c35410a7032f1598380 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Tue, 15 Dec 2020 01:06:27 +0100
+Subject: [PATCH 006/127] cpufreq: Add MSM8998 to cpufreq-dt-platdev blocklist
+
+Add the MSM8998 to the blocklist since the CPU scaling is handled
+out of this.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ drivers/cpufreq/cpufreq-dt-platdev.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
+index 6ac3800db450..48a355ece763 100644
+--- a/drivers/cpufreq/cpufreq-dt-platdev.c
++++ b/drivers/cpufreq/cpufreq-dt-platdev.c
+@@ -138,6 +138,7 @@ static const struct of_device_id blocklist[] __initconst = {
+ 
+ 	{ .compatible = "qcom,apq8096", },
+ 	{ .compatible = "qcom,msm8996", },
++	{ .compatible = "qcom,msm8998", },
+ 	{ .compatible = "qcom,qcs404", },
+ 	{ .compatible = "qcom,sa8155p" },
+ 	{ .compatible = "qcom,sa8540p" },
+-- 
+2.38.1
+

@@ -1,0 +1,98 @@
+From 65ce5274e4eefd37238f9688b1e6d07dd7725839 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng sound/hda
+
+Feiteng sound/hda
+---
+ sound/hda/hdac_controller.c | 38 ++++++++++
+ sound/hda/hdac_stream.c     |  8 ++
+ 2 files changed, 46 insertions(+)
+
+diff --git a/sound/hda/hdac_controller.c b/sound/hda/hdac_controller.c
+index a65e8c0c630d..1cea7ba30954 100644
+--- a/sound/hda/hdac_controller.c
++++ b/sound/hda/hdac_controller.c
+@@ -139,6 +139,9 @@ int snd_hdac_bus_send_cmd(struct hdac_bus *bus, unsigned int val)
+ {
+ 	unsigned int addr = azx_command_addr(val);
+ 	unsigned int wp, rp;
++	unsigned long timeout;
++	unsigned int rirb_wp;
++	int i = 0;
+ 
+ 	spin_lock_irq(&bus->reg_lock);
+ 
+@@ -165,6 +168,41 @@ int snd_hdac_bus_send_cmd(struct hdac_bus *bus, unsigned int val)
+ 	bus->corb.buf[wp] = cpu_to_le32(val);
+ 	snd_hdac_chip_writew(bus, CORBWP, wp);
+ 
++	if (bus->cmd_resend) {
++		timeout = jiffies + msecs_to_jiffies(1000);
++		udelay(80);
++		rirb_wp = snd_hdac_chip_readw(bus, RIRBWP);
++		while (rirb_wp == bus->rirb.wp) {
++			udelay(80);
++			rirb_wp = snd_hdac_chip_readw(bus, RIRBWP);
++			if (rirb_wp != bus->rirb.wp)
++				break;
++			if (i > 5)
++				break;
++			if (time_after(jiffies, timeout))
++				break;
++
++			/* add command to corb */
++			wp = snd_hdac_chip_readw(bus, CORBWP);
++			if (wp == 0xffff) {
++				/* something wrong, controller likely turned to D3 */
++				spin_unlock_irq(&bus->reg_lock);
++				return -EIO;
++			}
++			wp++;
++			wp %= AZX_MAX_CORB_ENTRIES;
++
++			rp = snd_hdac_chip_readw(bus, CORBRP);
++			if (wp == rp) {
++				/* oops, it's full */
++				spin_unlock_irq(&bus->reg_lock);
++				return -EAGAIN;
++			}
++			bus->corb.buf[wp] = cpu_to_le32(val);
++			snd_hdac_chip_writew(bus, CORBWP, wp);
++			i++;
++		}
++	}
+ 	spin_unlock_irq(&bus->reg_lock);
+ 
+ 	return 0;
+diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
+index eee422390d8e..38586457ee09 100644
+--- a/sound/hda/hdac_stream.c
++++ b/sound/hda/hdac_stream.c
+@@ -51,7 +51,11 @@ void snd_hdac_stream_start(struct hdac_stream *azx_dev, bool fresh_start)
+ 
+ 	trace_snd_hdac_stream_start(bus, azx_dev);
+ 
++#ifdef CONFIG_SND_HDA_PHYTIUM
++	azx_dev->start_wallclk = snd_hdac_chip_readl(bus, WALLCLK) / 15;
++#else
+ 	azx_dev->start_wallclk = snd_hdac_chip_readl(bus, WALLCLK);
++#endif
+ 	if (!fresh_start)
+ 		azx_dev->start_wallclk -= azx_dev->period_wallclk;
+ 
+@@ -469,7 +473,11 @@ static u64 azx_cc_read(const struct cyclecounter *cc)
+ {
+ 	struct hdac_stream *azx_dev = container_of(cc, struct hdac_stream, cc);
+ 
++#ifdef CONFIG_SND_HDA_PHYTIUM
++	return snd_hdac_chip_readl(azx_dev->bus, WALLCLK) / 25;
++#else
+ 	return snd_hdac_chip_readl(azx_dev->bus, WALLCLK);
++#endif
+ }
+ 
+ static void azx_timecounter_init(struct hdac_stream *azx_dev,
+-- 
+Armbian
+

@@ -1,0 +1,38 @@
+From a9caee3e489b027ca2e93dcabde133f753c9afcf Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Tue, 10 Aug 2021 20:42:48 +0200
+Subject: [PATCH 062/127] iommu/arm-smmu-qcom: Add MSM8998 and SDM660 mss
+ compatibles for identity
+
+Add MSM8998 and SDM660's mss-pil compatibles to switch the default
+iommu domain type to IDENTITY, as similarly required by SDM845 and
+others.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+(JAMI: fixup for 6.0-rc2)
+---
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+index c743efb35372..03e016058ee5 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+@@ -247,12 +247,14 @@ static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
+ 	{ .compatible = "qcom,adreno" },
+ 	{ .compatible = "qcom,mdp4" },
+ 	{ .compatible = "qcom,mdss" },
++	{ .compatible = "qcom,msm8998-mss-pil" },
+ 	{ .compatible = "qcom,sc7180-mdss" },
+ 	{ .compatible = "qcom,sc7180-mss-pil" },
+ 	{ .compatible = "qcom,sc7280-mdss" },
+ 	{ .compatible = "qcom,sc7280-mss-pil" },
+ 	{ .compatible = "qcom,sc8180x-mdss" },
+ 	{ .compatible = "qcom,sm8250-mdss" },
++	{ .compatible = "qcom,sdm660-mss-pil" },
+ 	{ .compatible = "qcom,sdm845-mdss" },
+ 	{ .compatible = "qcom,sdm845-mss-pil" },
+ 	{ }
+-- 
+2.38.1
+

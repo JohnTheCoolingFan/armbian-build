@@ -1,0 +1,25 @@
+From 1186b7edb562ffe92edcc23586756f70a032300b Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng arch/arm64/boot/dts
+
+Feiteng arch/arm64/boot/dts
+---
+ arch/arm64/boot/dts/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/boot/dts/Makefile b/arch/arm64/boot/dts/Makefile
+index 4690364d584b..ff8820d78db5 100644
+--- a/arch/arm64/boot/dts/Makefile
++++ b/arch/arm64/boot/dts/Makefile
+@@ -16,6 +16,7 @@ subdir-y += lg
+ subdir-y += marvell
+ subdir-y += mediatek
+ subdir-y += nvidia
++subdir-y += phytium
+ subdir-y += qcom
+ subdir-y += realtek
+ subdir-y += renesas
+-- 
+Armbian
+

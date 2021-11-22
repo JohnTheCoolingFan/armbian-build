@@ -1,0 +1,68 @@
+From 51d24cc0a94f15f34de69cd2ca2a36deea695f65 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng drivers/usb/host
+
+Feiteng drivers/usb/host
+---
+ drivers/usb/host/xhci-mem.c | 4 ++++
+ drivers/usb/host/xhci-pci.c | 8 ++++++++
+ drivers/usb/host/xhci.h     | 1 +
+ 3 files changed, 13 insertions(+)
+
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 3bfb344a164a..c9e0c11e0b11 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2167,6 +2167,10 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
+ 	if (rhub->min_rev < minor_revision)
+ 		rhub->min_rev = minor_revision;
+ 
++	if (xhci->quirks & XHCI_SLOWDOWN_QUIRK)
++		if (major_revision == 0x03)
++			rhub->min_rev = 0;
++
+ 	/* Port offset and count in the third dword, see section 7.2 */
+ 	temp = readl(addr + 2);
+ 	port_offset = XHCI_EXT_PORT_OFF(temp);
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index 7f640603b103..3ef589c2d514 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -46,6 +46,8 @@
+ #define PCI_DEVICE_ID_INTEL_DNV_XHCI			0x19d0
+ #define PCI_DEVICE_ID_INTEL_CML_XHCI			0xa3af
+ 
++#define PCI_DEVICE_ID_PHYTIUM_XHCI			0xdc27
++
+ #define PCI_DEVICE_ID_AMD_PROMONTORYA_4			0x43b9
+ #define PCI_DEVICE_ID_AMD_PROMONTORYA_3			0x43ba
+ #define PCI_DEVICE_ID_AMD_PROMONTORYA_2			0x43bb
+@@ -236,6 +238,12 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+ 	if (pdev->vendor == PCI_VENDOR_ID_VIA)
+ 		xhci->quirks |= XHCI_RESET_ON_RESUME;
+ 
++	if (pdev->vendor == PCI_VENDOR_ID_PHYTIUM ||
++	    pdev->device == PCI_DEVICE_ID_PHYTIUM_XHCI) {
++		xhci->quirks |= XHCI_RESET_ON_RESUME;
++		xhci->quirks |= XHCI_SLOWDOWN_QUIRK;
++	}
++
+ 	/* See https://bugzilla.kernel.org/show_bug.cgi?id=79511 */
+ 	if (pdev->vendor == PCI_VENDOR_ID_VIA &&
+ 			pdev->device == 0x3432)
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 029ffcb13d62..580b1295fcf0 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1874,6 +1874,7 @@ struct xhci_hcd {
+ #define XHCI_SUSPEND_DELAY	BIT_ULL(30)
+ #define XHCI_INTEL_USB_ROLE_SW	BIT_ULL(31)
+ #define XHCI_ZERO_64B_REGS	BIT_ULL(32)
++#define XHCI_SLOWDOWN_QUIRK     BIT_ULL(33)
+ #define XHCI_RESET_PLL_ON_DISCONNECT	BIT_ULL(34)
+ #define XHCI_SNPS_BROKEN_SUSPEND    BIT_ULL(35)
+ #define XHCI_DISABLE_SPARSE	BIT_ULL(38)
+-- 
+Armbian
+

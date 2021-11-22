@@ -1,0 +1,56 @@
+From 95bd0dde8c9b7f40220017f493298737ead8f6d7 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Fri, 6 Aug 2021 13:14:41 +0200
+Subject: [PATCH 003/127] iommu/arm-smmu: Allow skipping context bank disable
+ at reset time
+
+On some SoCs some IOMMU context banks are actively used from TZ
+during system boot, or some hypervisor configurations will trigger
+a system reset upon disabling some protected/secured CBs.
+
+Allow skipping the disablement of such contexts at IOMMU reset time
+during initialization with a new implementation detail to work around
+this quirk.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ drivers/iommu/arm/arm-smmu/arm-smmu.c | 10 ++++++++++
+ drivers/iommu/arm/arm-smmu/arm-smmu.h |  1 +
+ 2 files changed, 11 insertions(+)
+
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+index 30dab1418e3f..3b8859d13503 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+@@ -1600,6 +1600,16 @@ static void arm_smmu_device_reset(struct arm_smmu_device *smmu)
+ 
+ 	/* Make sure all context banks are disabled and clear CB_FSR  */
+ 	for (i = 0; i < smmu->num_context_banks; ++i) {
++		/*
++		 * Some context banks cannot be disabled due to hypervisor
++		 * configuration on some systems; if this is the case,
++		 * skip disabling and writing FAULT on the CB FSR in order
++		 * to avoid a system crash.
++		 */
++		if (smmu->impl && smmu->impl->reset_cb_nodisable &&
++		    smmu->impl->reset_cb_nodisable(smmu, i)) {
++			continue;
++		}
+ 		arm_smmu_write_context_bank(smmu, i);
+ 		arm_smmu_cb_write(smmu, i, ARM_SMMU_CB_FSR, ARM_SMMU_FSR_FAULT);
+ 	}
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+index 703fd5817ec1..2f1364b1a968 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+@@ -430,6 +430,7 @@ struct arm_smmu_impl {
+ 			    u64 val);
+ 	int (*cfg_probe)(struct arm_smmu_device *smmu);
+ 	int (*reset)(struct arm_smmu_device *smmu);
++	bool (*reset_cb_nodisable)(struct arm_smmu_device *smmu, int cbndx);
+ 	int (*init_context)(struct arm_smmu_domain *smmu_domain,
+ 			struct io_pgtable_cfg *cfg, struct device *dev);
+ 	void (*tlb_sync)(struct arm_smmu_device *smmu, int page, int sync,
+-- 
+2.38.1
+

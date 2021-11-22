@@ -1,0 +1,215 @@
+From d0bd986ef0221d7c482a3a65a9f4bf44c60c2813 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng kernel/irq
+
+Feiteng kernel/irq
+---
+ kernel/irq/debugfs.c   |   3 +-
+ kernel/irq/internals.h |  10 +-
+ kernel/irq/irqdesc.c   |   6 +
+ kernel/irq/resend.c    | 106 ++++++----
+ 4 files changed, 85 insertions(+), 40 deletions(-)
+
+diff --git a/kernel/irq/debugfs.c b/kernel/irq/debugfs.c
+index b3f55dd581b0..9473b1d47199 100644
+--- a/kernel/irq/debugfs.c
++++ b/kernel/irq/debugfs.c
+@@ -209,8 +209,7 @@ static ssize_t irq_debug_write(struct file *file, const char __user *user_buf,
+ 			err = -EINVAL;
+ 		} else {
+ 			desc->istate |= IRQS_PENDING;
+-			check_irq_resend(desc);
+-			err = 0;
++			err = check_irq_resend(desc);
+ 		}
+ 
+ 		raw_spin_unlock_irqrestore(&desc->lock, flags);
+diff --git a/kernel/irq/internals.h b/kernel/irq/internals.h
+index 10eccbc84686..2fed5ab70ba2 100644
+--- a/kernel/irq/internals.h
++++ b/kernel/irq/internals.h
+@@ -108,7 +108,7 @@ irqreturn_t handle_irq_event_percpu(struct irq_desc *desc);
+ irqreturn_t handle_irq_event(struct irq_desc *desc);
+ 
+ /* Resending of interrupts :*/
+-void check_irq_resend(struct irq_desc *desc);
++int check_irq_resend(struct irq_desc *desc);
+ bool irq_wait_for_poll(struct irq_desc *desc);
+ void __irq_wake_thread(struct irq_desc *desc, struct irqaction *action);
+ 
+@@ -422,6 +422,10 @@ static inline struct cpumask *irq_desc_get_pending_mask(struct irq_desc *desc)
+ {
+ 	return desc->pending_mask;
+ }
++static inline bool handle_enforce_irqctx(struct irq_data *data)
++{
++	return irqd_is_handle_enforce_irqctx(data);
++}
+ bool irq_fixup_move_pending(struct irq_desc *desc, bool force_clear);
+ #else /* CONFIG_GENERIC_PENDING_IRQ */
+ static inline bool irq_can_move_pcntxt(struct irq_data *data)
+@@ -448,6 +452,10 @@ static inline bool irq_fixup_move_pending(struct irq_desc *desc, bool fclear)
+ {
+ 	return false;
+ }
++static inline bool handle_enforce_irqctx(struct irq_data *data)
++{
++	return false;
++}
+ #endif /* !CONFIG_GENERIC_PENDING_IRQ */
+ 
+ #if !defined(CONFIG_IRQ_DOMAIN) || !defined(CONFIG_IRQ_DOMAIN_HIERARCHY)
+diff --git a/kernel/irq/irqdesc.c b/kernel/irq/irqdesc.c
+index 3633540b0f16..e9049903ac11 100644
+--- a/kernel/irq/irqdesc.c
++++ b/kernel/irq/irqdesc.c
+@@ -635,9 +635,15 @@ void irq_init_desc(unsigned int irq)
+ int generic_handle_irq(unsigned int irq)
+ {
+ 	struct irq_desc *desc = irq_to_desc(irq);
++	struct irq_data *data;
+ 
+ 	if (!desc)
+ 		return -EINVAL;
++
++	data = irq_desc_get_irq_data(desc);
++	if (WARN_ON_ONCE(!in_irq() && handle_enforce_irqctx(data)))
++		return -EPERM;
++
+ 	generic_handle_irq_desc(desc);
+ 	return 0;
+ }
+diff --git a/kernel/irq/resend.c b/kernel/irq/resend.c
+index 98c04ca5fa43..7de48bc06c75 100644
+--- a/kernel/irq/resend.c
++++ b/kernel/irq/resend.c
+@@ -47,56 +47,88 @@ static void resend_irqs(unsigned long arg)
+ /* Tasklet to handle resend: */
+ static DECLARE_TASKLET(resend_tasklet, resend_irqs, 0);
+ 
++static int irq_sw_resend(struct irq_desc *desc)
++{
++	unsigned int irq = irq_desc_get_irq(desc);
++
++	/*
++	 * Validate whether this interrupt can be safely injected from
++	 * non interrupt context
++	 */
++	if (handle_enforce_irqctx(&desc->irq_data))
++		return -EINVAL;
++
++	/*
++	 * If the interrupt is running in the thread context of the parent
++	 * irq we need to be careful, because we cannot trigger it
++	 * directly.
++	 */
++	if (irq_settings_is_nested_thread(desc)) {
++		/*
++		 * If the parent_irq is valid, we retrigger the parent,
++		 * otherwise we do nothing.
++		 */
++		if (!desc->parent_irq)
++			return -EINVAL;
++		irq = desc->parent_irq;
++	}
++
++	/* Set it pending and activate the softirq: */
++	set_bit(irq, irqs_resend);
++	tasklet_schedule(&resend_tasklet);
++	return 0;
++}
++
++#else
++static int irq_sw_resend(struct irq_desc *desc)
++{
++	return -EINVAL;
++}
++#endif
++
++static int try_retrigger(struct irq_desc *desc)
++{
++	if (desc->irq_data.chip->irq_retrigger)
++		return desc->irq_data.chip->irq_retrigger(&desc->irq_data);
++
++#ifdef CONFIG_IRQ_DOMAIN_HIERARCHY
++	return irq_chip_retrigger_hierarchy(&desc->irq_data);
++#else
++	return 0;
+ #endif
++}
+ 
+ /*
+  * IRQ resend
+  *
+  * Is called with interrupts disabled and desc->lock held.
+  */
+-void check_irq_resend(struct irq_desc *desc)
++int check_irq_resend(struct irq_desc *desc)
+ {
++	int err = 0;
++
+ 	/*
+-	 * We do not resend level type interrupts. Level type
+-	 * interrupts are resent by hardware when they are still
+-	 * active. Clear the pending bit so suspend/resume does not
+-	 * get confused.
++	 * We do not resend level type interrupts. Level type interrupts
++	 * are resent by hardware when they are still active. Clear the
++	 * pending bit so suspend/resume does not get confused.
+ 	 */
+ 	if (irq_settings_is_level(desc)) {
+ 		desc->istate &= ~IRQS_PENDING;
+-		return;
++		return -EINVAL;
+ 	}
+ 	if (desc->istate & IRQS_REPLAY)
+-		return;
+-	if (desc->istate & IRQS_PENDING) {
+-		desc->istate &= ~IRQS_PENDING;
+-		desc->istate |= IRQS_REPLAY;
++		return -EBUSY;
+ 
+-		if (!desc->irq_data.chip->irq_retrigger ||
+-		    !desc->irq_data.chip->irq_retrigger(&desc->irq_data)) {
+-#ifdef CONFIG_HARDIRQS_SW_RESEND
+-			unsigned int irq = irq_desc_get_irq(desc);
+-
+-			/*
+-			 * If the interrupt is running in the thread
+-			 * context of the parent irq we need to be
+-			 * careful, because we cannot trigger it
+-			 * directly.
+-			 */
+-			if (irq_settings_is_nested_thread(desc)) {
+-				/*
+-				 * If the parent_irq is valid, we
+-				 * retrigger the parent, otherwise we
+-				 * do nothing.
+-				 */
+-				if (!desc->parent_irq)
+-					return;
+-				irq = desc->parent_irq;
+-			}
+-			/* Set it pending and activate the softirq: */
+-			set_bit(irq, irqs_resend);
+-			tasklet_schedule(&resend_tasklet);
+-#endif
+-		}
+-	}
++	if (!(desc->istate & IRQS_PENDING))
++		return 0;
++
++	desc->istate &= ~IRQS_PENDING;
++
++	if (!try_retrigger(desc))
++		err = irq_sw_resend(desc);
++
++	/* If the retrigger was successfull, mark it with the REPLAY bit */
++	if (!err)
++		desc->istate |= IRQS_REPLAY;
++	return err;
+ }
+-- 
+Armbian
+

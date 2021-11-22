@@ -1,0 +1,35 @@
+From 9400839c4c71bf740fb7d532e2248d740b9a3de7 Mon Sep 17 00:00:00 2001
+From: Jami Kettunen <jami.kettunen@protonmail.com>
+Date: Tue, 12 Jan 2021 19:50:09 +0200
+Subject: [PATCH 087/127] [HACK] ath10k: Fake MSA ready event after event
+ server arrival
+
+This finally allowed me to get past the 2 ath10k_info()'s in qmi.c!
+
+However, this doesn't fix everything; it seems you *have* to run
+diag-router from https://github.com/andersson/diag to calm the firmware
+down and stop constantly crashing; need to look into a way to get Wi-Fi
+working later without needing this debug crap to be running.
+
+This should possible be submitted as a quirk to the ath10k driver as
+modem on mainline 8998 should be running now as well...
+---
+ drivers/net/wireless/ath/ath10k/qmi.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/net/wireless/ath/ath10k/qmi.c b/drivers/net/wireless/ath/ath10k/qmi.c
+index 66cb7a1e628a..a0b1b556f251 100644
+--- a/drivers/net/wireless/ath/ath10k/qmi.c
++++ b/drivers/net/wireless/ath/ath10k/qmi.c
+@@ -1004,6 +1004,8 @@ static void ath10k_qmi_driver_event_work(struct work_struct *work)
+ 		switch (event->type) {
+ 		case ATH10K_QMI_EVENT_SERVER_ARRIVE:
+ 			ath10k_qmi_event_server_arrive(qmi);
++			// HACK: Fake MSA being ready
++			ath10k_qmi_event_msa_ready(qmi);
+ 			break;
+ 		case ATH10K_QMI_EVENT_SERVER_EXIT:
+ 			ath10k_qmi_event_server_exit(qmi);
+-- 
+2.38.1
+

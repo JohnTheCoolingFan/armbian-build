@@ -1,0 +1,36 @@
+From 2e9639992d22249d20639c8411ff047542e71aa1 Mon Sep 17 00:00:00 2001
+From: Jami Kettunen <jami.kettunen@protonmail.com>
+Date: Wed, 30 Mar 2022 03:19:32 +0300
+Subject: [PATCH 095/127] pinctrl: Fix compilation of Awinic AW9523/B I2C GPIO
+ Expander
+
+Fixes the following link-time error:
+
+    LD      .tmp_vmlinux.kallsyms1
+  aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
+  aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
+  aarch64-linux-gnu-ld: drivers/pinctrl/pinctrl-aw9523.o: in function `aw9523_probe':
+  .../drivers/pinctrl/pinctrl-aw9523.c:1004: undefined reference to `__devm_regmap_init_i2c'
+  make[1]: *** [.../Makefile:1155: vmlinux] Error 1
+
+Fixes: 96e86abbb4db ("pinctrl: Add driver for Awinic AW9523/B I2C GPIO Expander")
+---
+ drivers/pinctrl/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/pinctrl/Kconfig b/drivers/pinctrl/Kconfig
+index 4db0b6d3fd49..5c02ed55d6db 100644
+--- a/drivers/pinctrl/Kconfig
++++ b/drivers/pinctrl/Kconfig
+@@ -135,7 +135,7 @@ config PINCTRL_AW9523
+ 	select GENERIC_PINCONF
+ 	select GPIOLIB
+ 	select GPIOLIB_IRQCHIP
+-	select REGMAP
++	select REGMAP_I2C
+ 	help
+ 	  The Awinic AW9523/AW9523B is a multi-function I2C GPIO
+ 	  expander with PWM functionality. This driver bundles a
+-- 
+2.38.1
+

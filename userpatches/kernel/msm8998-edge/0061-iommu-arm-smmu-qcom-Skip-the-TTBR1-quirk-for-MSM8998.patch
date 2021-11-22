@@ -1,0 +1,33 @@
+From 49fc853d7d7187c12530d3e95ae8657f31fea9c7 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Tue, 10 Aug 2021 20:38:28 +0200
+Subject: [PATCH 061/127] iommu/arm-smmu-qcom: Skip the TTBR1 quirk for MSM8998
+ and SDM630
+
+Similarly to MSM8996 DragonBoard 820c, MSM8998 and SDM630 are equipped
+with Adreno 5xx series, which doesn't have separate pagetables support
+at the moment of writing.
+Skip the TTBR1 quirk for these two SoCs as to get Adreno in a usable
+state.
+---
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+index e71706e2964c..c743efb35372 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+@@ -199,7 +199,9 @@ static bool qcom_adreno_can_do_ttbr1(struct arm_smmu_device *smmu)
+ {
+ 	const struct device_node *np = smmu->dev->of_node;
+ 
+-	if (of_device_is_compatible(np, "qcom,msm8996-smmu-v2"))
++	if (of_device_is_compatible(np, "qcom,msm8996-smmu-v2") ||
++	    of_device_is_compatible(np, "qcom,msm8998-smmu-v2") ||
++	    of_device_is_compatible(np, "qcom,sdm630-smmu-v2"))
+ 		return false;
+ 
+ 	return true;
+-- 
+2.38.1
+

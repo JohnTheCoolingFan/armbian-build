@@ -1,0 +1,36 @@
+From 616d6611c5a52268caea95273a8f4a1780526db5 Mon Sep 17 00:00:00 2001
+From: Jami Kettunen <jami.kettunen@protonmail.com>
+Date: Wed, 30 Mar 2022 03:27:39 +0300
+Subject: [PATCH 094/127] [HACK] pinctrl: aw9523: Add workaround for F(x)tec
+ Pro1 keyboard
+
+This is a hack because the correct interrupt type(s) should should be
+defined in msm8998-fxtec-pro1.dts instead of the driver.
+
+(originally from Danct12)
+
+This is a workaround for keyboard not working on Fxtec Pro1.
+
+  genirq: Setting trigger mode 12 for irq 123 failed (aw9523_gpio_irq_type+0x0/0x20)
+  gpio-fastmatrix-keyboard gpio-keyboard: Cannot get IRQ for gpio302
+---
+ drivers/pinctrl/pinctrl-aw9523.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/pinctrl/pinctrl-aw9523.c b/drivers/pinctrl/pinctrl-aw9523.c
+index bc8e1e9d6876..b0e2a1498584 100644
+--- a/drivers/pinctrl/pinctrl-aw9523.c
++++ b/drivers/pinctrl/pinctrl-aw9523.c
+@@ -434,6 +434,9 @@ static int aw9523_gpio_irq_type(struct irq_data *d, unsigned int type)
+ 	switch (type) {
+ 	case IRQ_TYPE_NONE:
+ 	case IRQ_TYPE_EDGE_BOTH:
++	case IRQ_TYPE_LEVEL_MASK:
++	case IRQ_TYPE_LEVEL_HIGH:
++	case IRQ_TYPE_LEVEL_LOW:
+ 		return 0;
+ 	default:
+ 		return -EINVAL;
+-- 
+2.38.1
+

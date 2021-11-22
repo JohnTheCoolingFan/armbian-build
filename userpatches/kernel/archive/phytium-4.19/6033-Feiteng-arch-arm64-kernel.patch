@@ -1,0 +1,33 @@
+From c7de2de9b6c23638b48a3777b9abb606f7d0ce91 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng arch/arm64/kernel
+
+Feiteng arch/arm64/kernel
+---
+ arch/arm64/kernel/cpufeature.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index d7e73a7963d1..05703a5f9870 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -1361,6 +1361,15 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
+ 		.cpu_enable = cpu_enable_ssbs,
+ 	},
+ #endif
++	{
++		.desc = "CRC32 instructions",
++		.capability = ARM64_HAS_CRC32,
++		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
++		.matches = has_cpuid_feature,
++		.sys_reg = SYS_ID_AA64ISAR0_EL1,
++		.field_pos = ID_AA64ISAR0_CRC32_SHIFT,
++		.min_field_value = 1,
++	},
+ 	{},
+ };
+ 
+-- 
+Armbian
+

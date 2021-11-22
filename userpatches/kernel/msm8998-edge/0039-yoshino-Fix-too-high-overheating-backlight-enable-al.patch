@@ -1,0 +1,42 @@
+From b1d2f6a3dd94bae5d9228da4c234240d7bebce58 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Mon, 9 Aug 2021 15:57:17 +0200
+Subject: [PATCH 039/127] yoshino: Fix too high overheating backlight, enable
+ all wled strings maple
+
+---
+ .../boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts      | 5 +++--
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi    | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts
+index 4c2cbae89193..1db80a529527 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts
++++ b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts
+@@ -106,7 +106,8 @@ &vreg_l22a_2p85 {
+ &pmi8998_wled {
+ 	status = "okay";
+ 
+-	qcom,num-strings = <3>;
+-	qcom,enabled-strings = <0 1 2>;
++	//qcom,auto-string-detection;
++	qcom,num-strings = <4>;
++	qcom,enabled-strings = <0 1 2 3>;
+ };
+ 
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi
+index 65f007429d5e..efbcaf7827dc 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi
+@@ -491,7 +491,7 @@ resin {
+ &pmi8998_wled {
+ 	status = "okay";
+ 
+-	default-brightness = <3000>;
++	default-brightness = <800>;
+ 	qcom,switching-freq = <800>;
+ 	qcom,ovp-millivolt = <29600>;
+ 	qcom,current-boost-limit = <970>;
+-- 
+2.38.1
+

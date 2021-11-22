@@ -1,0 +1,37 @@
+From 7a52ccaaf5cf37a603e6bc691232dbe94fb473de Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng drivers/gpu/drm
+
+Feiteng drivers/gpu/drm
+---
+ drivers/gpu/drm/Kconfig  | 2 ++
+ drivers/gpu/drm/Makefile | 1 +
+ 2 files changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index a050a9aa9a5e..b26968858190 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -336,6 +336,8 @@ source "drivers/gpu/drm/tve200/Kconfig"
+ 
+ source "drivers/gpu/drm/xen/Kconfig"
+ 
++source "drivers/gpu/drm/phytium/Kconfig"
++
+ # Keep legacy drivers last
+ 
+ menuconfig DRM_LEGACY
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index a6771cef85e2..003ad8887229 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -106,4 +106,5 @@ obj-$(CONFIG_DRM_MXSFB)	+= mxsfb/
+ obj-$(CONFIG_DRM_TINYDRM) += tinydrm/
+ obj-$(CONFIG_DRM_PL111) += pl111/
+ obj-$(CONFIG_DRM_TVE200) += tve200/
++obj-$(CONFIG_DRM_PHYTIUM) += phytium/
+ obj-$(CONFIG_DRM_XEN) += xen/
+-- 
+Armbian
+

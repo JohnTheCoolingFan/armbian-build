@@ -1,0 +1,74 @@
+Module                  Size  Used by
+binfmt_misc            24576  1
+tls                   102400  0
+rfkill                 32768  1
+cpufreq_powersave      20480  0
+cpufreq_conservative    16384  0
+sunrpc                335872  1
+polyval_ce             16384  0
+snd_soc_meson_axg_sound_card    16384  0
+snd_soc_meson_card_utils    16384  1 snd_soc_meson_axg_sound_card
+polyval_generic        16384  1 polyval_ce
+ir_nec_decoder         20480  0
+snd_soc_meson_g12a_toacodec    20480  1
+snd_soc_meson_g12a_tohdmitx    20480  1
+snd_soc_meson_codec_glue    16384  2 snd_soc_meson_g12a_toacodec,snd_soc_meson_g12a_tohdmitx
+snd_soc_meson_axg_tdmin    24576  4
+snd_soc_meson_axg_tdm_interface    16384  3 snd_soc_meson_axg_sound_card
+snd_soc_meson_axg_tdmout    24576  2
+snd_soc_hdmi_codec     24576  1
+snd_soc_meson_axg_toddr    28672  3
+snd_soc_simple_amplifier    16384  1
+snd_soc_meson_axg_frddr    36864  3
+snd_soc_meson_t9015    24576  1
+snd_soc_meson_axg_tdm_formatter    16384  3 snd_soc_meson_axg_tdmin,snd_soc_meson_axg_tdm_interface,snd_soc_meson_axg_tdmout
+snd_soc_meson_axg_fifo    20480  2 snd_soc_meson_axg_toddr,snd_soc_meson_axg_frddr
+meson_gxbb_wdt         16384  0
+meson_vdec             81920  0
+snd_soc_core          245760  15 snd_soc_meson_axg_tdm_formatter,snd_soc_meson_t9015,snd_soc_meson_g12a_toacodec,snd_soc_meson_axg_sound_card,snd_soc_hdmi_codec,snd_soc_meson_g12a_tohdmitx,snd_soc_meson_axg_tdmin,snd_soc_simple_amplifier,snd_soc_meson_axg_tdm_interface,snd_soc_meson_axg_fifo,snd_soc_meson_axg_tdmout,snd_soc_meson_axg_toddr,snd_soc_meson_axg_frddr,snd_soc_meson_card_utils,snd_soc_meson_codec_glue
+videobuf2_dma_contig    24576  1 meson_vdec
+rc_odroid              16384  0
+v4l2_mem2mem           36864  1 meson_vdec
+snd_compress           24576  1 snd_soc_core
+videobuf2_memops       20480  1 videobuf2_dma_contig
+ac97_bus               16384  1 snd_soc_core
+meson_ir               16384  0
+snd_pcm_dmaengine      16384  1 snd_soc_core
+videobuf2_v4l2         32768  2 meson_vdec,v4l2_mem2mem
+snd_pcm               135168  8 snd_soc_hdmi_codec,snd_compress,snd_soc_meson_axg_tdm_interface,snd_soc_core,snd_soc_meson_axg_fifo,snd_soc_meson_axg_toddr,snd_soc_meson_codec_glue,snd_pcm_dmaengine
+rc_core                57344  4 ir_nec_decoder,meson_ir,rc_odroid
+videodev              237568  3 meson_vdec,videobuf2_v4l2,v4l2_mem2mem
+snd_timer              40960  1 snd_pcm
+videobuf2_common       57344  5 meson_vdec,videobuf2_dma_contig,videobuf2_v4l2,v4l2_mem2mem,videobuf2_memops
+mc                     65536  4 videodev,videobuf2_v4l2,videobuf2_common,v4l2_mem2mem
+meson_saradc           24576  0
+gpio_fan               16384  0
+lz4hc                  16384  0
+snd                   102400  5 snd_soc_hdmi_codec,snd_timer,snd_compress,snd_soc_core,snd_pcm
+soundcore              16384  1 snd
+nvmem_meson_efuse      16384  0
+lz4                    16384  0
+zram                   36864  3
+ramoops                32768  0
+reed_solomon           24576  1 ramoops
+pstore_blk             16384  0
+pstore_zone            28672  1 pstore_blk
+efi_pstore             16384  0
+ip_tables              32768  0
+x_tables               45056  1 ip_tables
+autofs4                45056  2
+meson_gxl              20480  0
+realtek                32768  1
+dwmac_generic          16384  0
+panfrost               69632  0
+gpu_sched              36864  1 panfrost
+drm_shmem_helper       28672  1 panfrost
+rtc_pcf8563            24576  0
+axg_audio              77824  49
+reset_meson_audio_arb    16384  6
+sclk_div               16384  1 axg_audio
+clk_phase              16384  1 axg_audio
+rtc_meson_vrtc         20480  1
+meson_rng              16384  0
+dw_hdmi_i2s_audio      16384  0
+dwmac_meson8b          16384  0

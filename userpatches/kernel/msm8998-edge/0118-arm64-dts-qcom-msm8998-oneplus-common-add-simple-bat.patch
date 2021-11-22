@@ -1,0 +1,46 @@
+From 70af7f1f18ac99016ea190274645f0c5da1a9a88 Mon Sep 17 00:00:00 2001
+From: Jami Kettunen <jami.kettunen@protonmail.com>
+Date: Sat, 2 Apr 2022 20:47:10 +0300
+Subject: [PATCH 118/127] arm64: dts: qcom: msm8998-oneplus-common: add
+ simple-battery
+
+---
+ .../boot/dts/qcom/msm8998-oneplus-common.dtsi     | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
+index 7964114f656e..4261cadfc16b 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
+@@ -82,6 +82,15 @@ zap_shader_region: gpu@f6900000 {
+ 			reg = <0x0 0xf6900000 0x0 0x2000>;
+ 			no-map;
+ 		};
++
++		blp637_bat: battery {
++			compatible = "simple-battery";
++			voltage-max-design-microvolt = <4370000>;
++			voltage-min-design-microvolt = <3700000>;
++			charge-full-design-microamp-hours = <3300000>;
++			energy-full-design-microwatt-hours = <12700000>;
++			operating-range-celsius = <0 45>;
++		};
+ 	};
+ 
+ 	gpio-keys {
+@@ -276,6 +285,12 @@ &blsp2_i2c1 {
+ 	fuel-gauge@55 {
+ 		compatible = "ti,bq27411";
+ 		reg = <0x55>;
++
++		/*
++		 * TODO: Adding this appears to not change any reported stats in:
++		 * $ cat /sys/class/power_supply/bq27411-0/uevent
++		 */
++		monitored-battery = <&blp637_bat>;
+ 	};
+ };
+ 
+-- 
+2.38.1
+

@@ -1,0 +1,113 @@
+From a93711ec0df1294528eeeea747aaf20dd517231e Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Fri, 6 Aug 2021 13:19:14 +0200
+Subject: [PATCH 004/127] iommu/arm-smmu-qcom: Avoid disabling secured context
+ banks
+
+Some Qualcomm SoCs' TZ/hypervisor configuration is disallowing the
+disablement of some context banks, being them used for tzapps and/or
+remote processors; any attempt to disable such CBs will result in
+triggering a fault and the system will freeze and/or reset.
+
+For this reason, get a list of context banks that should never get
+disabled during smmu initialization through a DT array property
+`qcom,reset-nodisable-cbs`.
+It was chosen to not hardcode the CBs as this is dependant on the
+SoC's firmware, which may vary on different boards.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+(JAMI: fixup for v6.0-rc1)
+---
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 30 ++++++++++++++++++++++
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.h |  1 +
+ 2 files changed, 31 insertions(+)
+
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+index fe7f7478aaa1..825d6f253ebb 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+@@ -387,11 +387,20 @@ static int qcom_smmu500_reset(struct arm_smmu_device *smmu)
+ 	return 0;
+ }
+ 
++static bool qcom_smmu500_reset_cb_nodisable(struct arm_smmu_device *smmu,
++					    int cbndx)
++{
++	struct qcom_smmu *qsmmu = to_qcom_smmu(smmu);
++
++	return test_bit(cbndx, qsmmu->reset_cb_nodisable_mask);
++}
++
+ static const struct arm_smmu_impl qcom_smmu_impl = {
+ 	.init_context = qcom_smmu_init_context,
+ 	.cfg_probe = qcom_smmu_cfg_probe,
+ 	.def_domain_type = qcom_smmu_def_domain_type,
+ 	.reset = qcom_smmu500_reset,
++	.reset_cb_nodisable = qcom_smmu500_reset_cb_nodisable,
+ 	.write_s2cr = qcom_smmu_write_s2cr,
+ 	.tlb_sync = qcom_smmu_tlb_sync,
+ };
+@@ -400,6 +409,7 @@ static const struct arm_smmu_impl qcom_adreno_smmu_impl = {
+ 	.init_context = qcom_adreno_smmu_init_context,
+ 	.def_domain_type = qcom_smmu_def_domain_type,
+ 	.reset = qcom_smmu500_reset,
++	.reset_cb_nodisable = qcom_smmu500_reset_cb_nodisable,
+ 	.alloc_context_bank = qcom_adreno_smmu_alloc_context_bank,
+ 	.write_sctlr = qcom_adreno_smmu_write_sctlr,
+ 	.tlb_sync = qcom_smmu_tlb_sync,
+@@ -410,6 +420,8 @@ static struct arm_smmu_device *qcom_smmu_create(struct arm_smmu_device *smmu,
+ {
+ 	const struct device_node *np = smmu->dev->of_node;
+ 	struct qcom_smmu *qsmmu;
++	u8 reset_nodisable_cbs[ARM_SMMU_MAX_CBS];
++	int i, sz;
+ 
+ 	/* Check to make sure qcom_scm has finished probing */
+ 	if (!qcom_scm_is_available())
+@@ -422,6 +434,7 @@ static struct arm_smmu_device *qcom_smmu_create(struct arm_smmu_device *smmu,
+ 	qsmmu->smmu.impl = impl;
+ 	qsmmu->cfg = qcom_smmu_impl_data(smmu);
+ 	qsmmu->bypass_cbndx = 0xff;
++	bitmap_zero(qsmmu->reset_cb_nodisable_mask, ARM_SMMU_MAX_CBS);
+ 
+ 	if (np != NULL) {
+ 		/*
+@@ -430,6 +443,23 @@ static struct arm_smmu_device *qcom_smmu_create(struct arm_smmu_device *smmu,
+ 		 * - We are booting on ACPI
+ 		 */
+ 		of_property_read_u8(np, "qcom,bypass-cbndx", &qsmmu->bypass_cbndx);
++
++		/*
++		 * Some context banks may not be disabled because they are
++		 * secured: read from DT a list of secured contexts that cannot
++		 * be disabled without crashing the system.
++		 * This list is optional, as not all firmware configurations do
++		 * require us skipping disablement of context banks.
++		 */
++		sz = of_property_read_variable_u8_array(np, "qcom,reset-nodisable-cbs",
++							reset_nodisable_cbs,
++							1, ARM_SMMU_MAX_CBS);
++		if (sz > 0) {
++			for (i = 0; i < sz; i++) {
++				__set_bit(reset_nodisable_cbs[i],
++					  qsmmu->reset_cb_nodisable_mask);
++			}
++		}
+ 	}
+ 
+ 	return &qsmmu->smmu;
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.h b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.h
+index 99ec8f8629a0..b22763b91775 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.h
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.h
+@@ -9,6 +9,7 @@
+ struct qcom_smmu {
+ 	struct arm_smmu_device smmu;
+ 	const struct qcom_smmu_config *cfg;
++	DECLARE_BITMAP(reset_cb_nodisable_mask, ARM_SMMU_MAX_CBS);
+ 	bool bypass_quirk;
+ 	u8 bypass_cbndx;
+ 	u32 stall_enabled;
+-- 
+2.38.1
+

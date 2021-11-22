@@ -1,0 +1,26 @@
+# Feiteng D2000 Phytium ARMv8 64bit board
+declare -g BOARD_NAME="Feiteng Phytium D2000"
+declare -g BOARDFAMILY="uefi-arm64"
+declare -g KERNEL_TARGET="legacy"
+
+# Vendor (4.9.x) kernel
+function post_family_config_branch_legacy__use_feiteng_legacy_kernel() {
+	display_alert "Using Feiteng legacy kernel" "4.9.x" "info"
+	declare -g DISTRO_GENERIC_KERNEL=no
+	declare -g LINUXCONFIG="linux-phytium-legacy"
+	declare -g KERNEL_MAJOR_MINOR="4.19"             # Major and minor versions of this kernel. For mainline caching.
+	declare -g KERNELBRANCH="branch:linux-4.19.y"    # Branch or tag to build from. It should match MAJOR_MINOR
+	declare -g KERNELPATCHDIR="archive/phytium-4.19" # few patches
+	declare -g LINUXFAMILY="phytium"                 # separate family, for separate kernel deb
+}
+
+# Stable (5.10.x) kernel (disabled above in KERNEL_TARGET)
+function post_family_config_branch_current__use_5_10_kernel() {
+	display_alert "Using Feiteng current kernel" "5.10.x" "info"
+	declare -g DISTRO_GENERIC_KERNEL=no
+	declare -g LINUXCONFIG="linux-phytium-current"
+	declare -g KERNEL_MAJOR_MINOR="5.10"             # Major and minor versions of this kernel. For mainline caching.
+	declare -g KERNELBRANCH="branch:linux-5.10.y"    # Branch or tag to build from. It should match MAJOR_MINOR
+	declare -g KERNELPATCHDIR="archive/phytium-5.10" # few patches
+	declare -g LINUXFAMILY="phytium"                 # separate family, for separate kernel deb
+}

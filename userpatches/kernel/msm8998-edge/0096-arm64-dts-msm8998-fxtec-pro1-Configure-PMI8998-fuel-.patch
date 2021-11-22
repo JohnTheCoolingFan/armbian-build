@@ -1,0 +1,33 @@
+From fe88f2ca91016a575b2dca99a8a404d3a3f06b92 Mon Sep 17 00:00:00 2001
+From: Danct12 <danct12@disroot.org>
+Date: Wed, 28 Apr 2021 02:23:45 +0700
+Subject: [PATCH 096/127] arm64: dts: msm8998-fxtec-pro1: Configure PMI8998
+ fuel gauge
+
+This will account for battery statistics reporting on the Fxtec Pro1 (QX1000)
+---
+ arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts b/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts
+index 76a44d9049c9..4c11d8af5ce2 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts
++++ b/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts
+@@ -594,6 +594,14 @@ &pm8005_s1 {
+ 	regulator-max-microvolt = <1100000>;
+ };
+ 
++&pmi8998_fg {
++	status = "okay";
++
++	qcom,max-voltage-uv = <4400000>;
++	qcom,min-voltage-uv = <3700000>;
++	qcom,battery-capacity-ua = <3150000>;
++};
++
+ &pm8998_gpio {
+ 	unknown_pin_a: unk-active-state {
+ 		pins = "gpio5";
+-- 
+2.38.1
+

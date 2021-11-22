@@ -1,0 +1,53 @@
+From 11e251aeb68cbf51113ed5e6eb3f72f7dff9572b Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Tue, 10 Aug 2021 13:34:05 +0200
+Subject: [PATCH 059/127] ASoC: codecs: wcd9335: Fix headphone jack commit for
+ new upstream kernel
+
+---
+ sound/soc/codecs/wcd9335.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/sound/soc/codecs/wcd9335.c b/sound/soc/codecs/wcd9335.c
+index f8e3873008c1..835e14abdc77 100644
+--- a/sound/soc/codecs/wcd9335.c
++++ b/sound/soc/codecs/wcd9335.c
+@@ -3975,7 +3975,7 @@ static irqreturn_t wcd9335_mbhc_sw_irq(int irq, void *data)
+ 	struct snd_soc_component *component = wcd->component;
+ 	bool ins = false;
+ 
+-	if (snd_soc_component_read32(component, WCD9335_ANA_MBHC_MECH) &
++	if (snd_soc_component_read(component, WCD9335_ANA_MBHC_MECH) &
+ 			WCD9335_MBHC_MECH_DETECT_TYPE_MASK)
+ 		ins = true;
+ 
+@@ -3991,7 +3991,7 @@ static irqreturn_t wcd9335_mbhc_sw_irq(int irq, void *data)
+ 		 * If no micbias is enabled, then enable 100uA internal
+ 		 * current source for Button detection
+ 		 */
+-		if (snd_soc_component_read32(component, WCD9335_ANA_MICB2) &
++		if (snd_soc_component_read(component, WCD9335_ANA_MICB2) &
+ 						WCD9335_ANA_MICB2_ENABLE)
+ 			btndet_curr_src = WCD9335_ANA_MBHC_BD_ISRC_OFF;
+ 		else
+@@ -4039,7 +4039,7 @@ static irqreturn_t wcd9335_mbhc_btn_press_irq(int irq, void *data)
+ 	if (wcd->accessory_type == SND_JACK_HEADPHONE)
+ 		return IRQ_HANDLED;
+ 
+-	result = snd_soc_component_read32(comp, WCD9335_ANA_MBHC_RESULT_3);
++	result = snd_soc_component_read(comp, WCD9335_ANA_MBHC_RESULT_3);
+ 	btn_result = result & WCD9335_MBHC_BTN_RESULT_MASK;
+ 
+ 	switch (btn_result) {
+@@ -4079,7 +4079,7 @@ static irqreturn_t wcd9335_mbhc_bt_rel_irq(int irq, void *data)
+ 
+ 
+ 	if (wcd->detect_accessory_type) {
+-		u32 result = snd_soc_component_read32(wcd->component,
++		u32 result = snd_soc_component_read(wcd->component,
+ 						WCD9335_ANA_MBHC_RESULT_3);
+ 
+ 		/* check if its BTN0 thats released */
+-- 
+2.38.1
+

@@ -1,0 +1,78 @@
+From d563a8b45b95ce14667a46cd95f5db39761ee9a7 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Mon, 9 Aug 2021 16:58:20 +0200
+Subject: [PATCH 044/127] clk: qcom: gcc-msm8998: Add q6 bimc and lpass core,
+ adsp SMMU clocks
+
+Add the Q6 BIMC, LPASS core/adsp SMMU clocks to support audio related
+functionality on MSM8998 and APQ variants. Please note that the Q6 and
+the lpass iommu also need GDSCs to be enabled in order to initialize,
+which are going to be added in a later commit.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+(JAMI: fixup for 6.0-rc2)
+---
+ drivers/clk/qcom/gcc-msm8998.c | 40 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+
+diff --git a/drivers/clk/qcom/gcc-msm8998.c b/drivers/clk/qcom/gcc-msm8998.c
+index 42df6099699c..8c86de5c347e 100644
+--- a/drivers/clk/qcom/gcc-msm8998.c
++++ b/drivers/clk/qcom/gcc-msm8998.c
+@@ -2887,6 +2887,43 @@ static struct clk_branch ssc_cnoc_ahbs_clk = {
+ 	},
+ };
+ 
++static struct clk_branch hlos1_vote_lpass_core_smmu_clk = {
++	.halt_reg = 0x7D010,
++	.clkr = {
++		.enable_reg = 0x7D010,
++		.enable_mask = BIT(0),
++		.hw.init = &(struct clk_init_data) {
++			.name = "hlos1_vote_lpass_core_smmu_clk",
++			.ops = &clk_branch2_ops,
++		},
++	},
++};
++
++static struct clk_branch hlos1_vote_lpass_adsp_smmu_clk = {
++	.halt_reg = 0x7D014,
++	.clkr = {
++		.enable_reg = 0x7D014,
++		.enable_mask = BIT(0),
++		.hw.init = &(struct clk_init_data) {
++			.name = "hlos1_vote_lpass_adsp_smmu_clk",
++			.ops = &clk_branch2_ops,
++		},
++	},
++};
++
++static struct clk_branch gcc_mss_q6_bimc_axi_clk = {
++	.halt_reg = 0x8A040,
++	.clkr = {
++		.enable_reg = 0x8A040,
++		.enable_mask = BIT(0),
++		.hw.init = &(struct clk_init_data) {
++			.name = "gcc_mss_q6_bimc_axi_clk",
++			.flags = CLK_IS_CRITICAL,
++			.ops = &clk_branch2_ops,
++		},
++	},
++};
++
+ static struct gdsc pcie_0_gdsc = {
+ 	.gdscr = 0x6b004,
+ 	.gds_hw_ctrl = 0x0,
+@@ -3094,6 +3131,9 @@ static struct clk_regmap *gcc_msm8998_clocks[] = {
+ 	[AGGRE2_SNOC_NORTH_AXI] = &aggre2_snoc_north_axi_clk.clkr,
+ 	[SSC_XO] = &ssc_xo_clk.clkr,
+ 	[SSC_CNOC_AHBS_CLK] = &ssc_cnoc_ahbs_clk.clkr,
++	[GCC_MSS_Q6_BIMC_AXI_CLK] = &gcc_mss_q6_bimc_axi_clk.clkr,
++	[HLOS1_VOTE_LPASS_CORE_SMMU_CLK] = &hlos1_vote_lpass_core_smmu_clk.clkr,
++	[HLOS1_VOTE_LPASS_ADSP_SMMU_CLK] = &hlos1_vote_lpass_adsp_smmu_clk.clkr,
+ };
+ 
+ static struct gdsc *gcc_msm8998_gdscs[] = {
+-- 
+2.38.1
+

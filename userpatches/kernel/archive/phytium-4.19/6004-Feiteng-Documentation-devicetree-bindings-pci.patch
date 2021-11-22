@@ -1,0 +1,40 @@
+From d403edee269038247b08f50ee7b249f68b945843 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng Documentation/devicetree/bindings/pci
+
+Feiteng Documentation/devicetree/bindings/pci
+---
+ Documentation/devicetree/bindings/pci/phytium,phytium-pcie-ep.txt | 21 ++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/pci/phytium,phytium-pcie-ep.txt b/Documentation/devicetree/bindings/pci/phytium,phytium-pcie-ep.txt
+new file mode 100644
+index 000000000000..2e40d1e6ee98
+--- /dev/null
++++ b/Documentation/devicetree/bindings/pci/phytium,phytium-pcie-ep.txt
+@@ -0,0 +1,21 @@
++* Phytium PCIe endpoint controller
++
++Required properties:
++- compatible: Should contain "phytium,phytium-pcie-ep" to identify the IP used.
++- reg: Should contain the controller register base address, AXI interface
++  region base address and hpb register base address respectively.
++- reg-names: Must be "reg", "mem" and "hpb" respectively.
++- max-outbound-regions: Set to maximum number of outbound regions.
++- max-functions: Maximum number of functions that can be configured (default 1).
++
++Example:
++
++ep0: ep@0x29030000 {
++	compatible = "phytium,d2000-pcie-ep";
++	reg = <0x0 0x29030000 0x0 0x10000>,
++	      <0x11 0x00000000 0x1 0x00000000>,
++	      <0x0 0x29101000 0x0 0x1000>;
++	reg-names = "reg", "mem", "hpb";
++	max-outbound-regions = <3>;
++	max-functions = /bits/ 8 <1>;
++};
+-- 
+Armbian
+

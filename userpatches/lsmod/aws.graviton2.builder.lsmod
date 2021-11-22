@@ -1,0 +1,28 @@
+Module                  Size  Used by
+binfmt_misc            24576  1
+dm_thin_pool           81920  4
+dm_persistent_data     86016  1 dm_thin_pool
+dm_bio_prison          28672  1 dm_thin_pool
+dm_bufio               40960  1 dm_persistent_data
+libcrc32c              16384  1 dm_persistent_data
+nls_iso8859_1          16384  1
+dm_multipath           45056  0
+scsi_dh_rdac           24576  0
+scsi_dh_emc            16384  0
+scsi_dh_alua           28672  0
+ena                   110592  0
+aes_ce_blk             36864  0
+crypto_simd            24576  1 aes_ce_blk
+cryptd                 28672  1 crypto_simd
+aes_ce_cipher          20480  1 aes_ce_blk
+crct10dif_ce           20480  1
+ghash_ce               24576  0
+sha2_ce                20480  0
+sha256_arm64           32768  1 sha2_ce
+sha1_ce                20480  0
+efi_pstore             16384  0
+sch_fq_codel           28672  5
+drm                   614400  0
+ip_tables              36864  0
+x_tables               53248  1 ip_tables
+autofs4                53248  2

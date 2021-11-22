@@ -1,0 +1,20 @@
+Module                  Size  Used by
+dm_mod                102400  0
+nls_iso8859_1          16384  1
+nls_cp437              20480  1
+vfat                   20480  1
+fat                    65536  1 vfat
+kvm_intel             208896  0
+fuse                  118784  1
+configfs               36864  1
+sunrpc                393216  1
+efivarfs               16384  1
+ip_tables              24576  0
+x_tables               28672  1 ip_tables
+btrfs                1171456  0
+blake2b_generic        20480  0
+xor                    24576  1 btrfs
+raid6_pq              110592  1 btrfs
+libcrc32c              16384  1 btrfs
+ahci                   40960  0
+libahci                28672  1 ahci

@@ -1,0 +1,55 @@
+From d277747d1b60593b3105f4ef980870746bd4ce80 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng arch/arm64/include/asm
+
+Feiteng arch/arm64/include/asm
+---
+ arch/arm64/include/asm/cpucaps.h | 1 +
+ arch/arm64/include/asm/cputype.h | 4 ++++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/arch/arm64/include/asm/cpucaps.h b/arch/arm64/include/asm/cpucaps.h
+index 61fd28522d74..3cd04f86bb63 100644
+--- a/arch/arm64/include/asm/cpucaps.h
++++ b/arch/arm64/include/asm/cpucaps.h
+@@ -56,6 +56,7 @@
+ #define ARM64_WORKAROUND_1542419		35
+ #define ARM64_SPECTRE_BHB			36
+ #define ARM64_WORKAROUND_1742098		37
++#define ARM64_HAS_CRC32				37
+ 
+ #define ARM64_NCAPS				38
+ 
+diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
+index 50368f962213..d7e3d6a129fd 100644
+--- a/arch/arm64/include/asm/cputype.h
++++ b/arch/arm64/include/asm/cputype.h
+@@ -69,6 +69,7 @@
+ #define ARM_CPU_IMP_QCOM		0x51
+ #define ARM_CPU_IMP_NVIDIA		0x4E
+ #define ARM_CPU_IMP_HISI		0x48
++#define ARM_CPU_IMP_PHYTIUM		0x70
+ 
+ #define ARM_CPU_PART_AEM_V8		0xD0F
+ #define ARM_CPU_PART_FOUNDATION		0xD00
+@@ -108,6 +109,8 @@
+ 
+ #define HISI_CPU_PART_TSV110		0xD01
+ 
++#define PHYTIUM_CPU_PART_FTC662		0x662
++
+ #define MIDR_CORTEX_A53 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A53)
+ #define MIDR_CORTEX_A57 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A57)
+ #define MIDR_CORTEX_A72 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A72)
+@@ -135,6 +138,7 @@
+ #define MIDR_QCOM_KRYO MIDR_CPU_MODEL(ARM_CPU_IMP_QCOM, QCOM_CPU_PART_KRYO)
+ #define MIDR_NVIDIA_DENVER MIDR_CPU_MODEL(ARM_CPU_IMP_NVIDIA, NVIDIA_CPU_PART_DENVER)
+ #define MIDR_NVIDIA_CARMEL MIDR_CPU_MODEL(ARM_CPU_IMP_NVIDIA, NVIDIA_CPU_PART_CARMEL)
++#define MIDR_PHYTIUM_FT2000PLUS MIDR_CPU_MODEL(ARM_CPU_IMP_PHYTIUM, PHYTIUM_CPU_PART_FTC662)
+ #define MIDR_HISI_TSV110 MIDR_CPU_MODEL(ARM_CPU_IMP_HISI, HISI_CPU_PART_TSV110)
+ 
+ #ifndef __ASSEMBLY__
+-- 
+Armbian
+

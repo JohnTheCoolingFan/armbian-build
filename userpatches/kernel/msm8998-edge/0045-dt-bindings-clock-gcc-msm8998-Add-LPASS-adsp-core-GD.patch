@@ -1,0 +1,31 @@
+From f80c1addaafabafa16acee5cf20d1fb387f4dd89 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Mon, 9 Aug 2021 17:01:49 +0200
+Subject: [PATCH 045/127] dt-bindings: clock: gcc-msm8998: Add LPASS adsp/core
+ GDSCs definitions
+
+Add the GDSC definitions for the LPASS_ADSP_GDSC and LPASS_CORE_GDSC
+as a final step to enable the required clock tree for the lpass iommu
+and for the audio dsp itself.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ include/dt-bindings/clock/qcom,gcc-msm8998.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/include/dt-bindings/clock/qcom,gcc-msm8998.h b/include/dt-bindings/clock/qcom,gcc-msm8998.h
+index 9b124ee63be9..f4cba2343abe 100644
+--- a/include/dt-bindings/clock/qcom,gcc-msm8998.h
++++ b/include/dt-bindings/clock/qcom,gcc-msm8998.h
+@@ -196,6 +196,8 @@
+ #define PCIE_0_GDSC						0
+ #define UFS_GDSC						1
+ #define USB_30_GDSC						2
++#define LPASS_ADSP_GDSC						3
++#define LPASS_CORE_GDSC						4
+ 
+ #define GCC_BLSP1_QUP1_BCR					0
+ #define GCC_BLSP1_QUP2_BCR					1
+-- 
+2.38.1
+

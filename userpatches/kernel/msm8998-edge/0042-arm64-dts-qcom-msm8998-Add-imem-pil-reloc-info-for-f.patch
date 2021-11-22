@@ -1,0 +1,44 @@
+From 555d2f71037571df1e2a1602b9e4841aa358c184 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Mon, 9 Aug 2021 16:48:22 +0200
+Subject: [PATCH 042/127] arm64: dts: qcom: msm8998: Add imem pil-reloc-info
+ for firmware loading
+
+Firmware loading (mainly the modem) may require IMEM PIL relocation
+informations: specify this imem region in dt for qcom_pil_info to
+use it.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+index 2b000c531585..2d0d27de82ec 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+@@ -3401,6 +3401,21 @@ mmss_smmu: iommu@cd00000 {
+ 				<GIC_SPI 272 IRQ_TYPE_LEVEL_HIGH>;
+ 		};
+ 
++		imem@146bf000 {
++			compatible = "simple-mfd";
++			reg = <0x146bf000 0x1000>;
++
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			ranges = <0 0x146bf000 0x1000>;
++
++			pil-reloc@94c {
++				compatible = "qcom,pil-reloc-info";
++				reg = <0x94c 0xc8>;
++			};
++		};
++
+ 		remoteproc_adsp: remoteproc@17300000 {
+ 			compatible = "qcom,msm8998-adsp-pas";
+ 			reg = <0x17300000 0x4040>;
+-- 
+2.38.1
+

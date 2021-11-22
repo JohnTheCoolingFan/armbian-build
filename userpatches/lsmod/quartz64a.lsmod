@@ -1,0 +1,64 @@
+Module                  Size  Used by
+tls                   122880  0
+sunrpc                585728  1
+hci_uart              151552  0
+btqca                  24576  1 hci_uart
+btrtl                  28672  1 hci_uart
+btbcm                  24576  1 hci_uart
+btintel                45056  1 hci_uart
+snd_soc_rockchip_spdif    16384  2
+snd_soc_hdmi_codec     24576  1
+snd_soc_simple_card    24576  0
+snd_soc_rk817          45056  1
+snd_soc_rockchip_i2s_tdm    32768  4
+snd_soc_spdif_tx       16384  1
+snd_soc_simple_card_utils    28672  1 snd_soc_simple_card
+crct10dif_ce           16384  1
+bluetooth             786432  6 btrtl,btqca,btintel,hci_uart,btbcm
+hantro_vpu            139264  0
+v4l2_vp9               24576  1 hantro_vpu
+v4l2_h264              20480  1 hantro_vpu
+snd_soc_core          278528  7 snd_soc_spdif_tx,snd_soc_rockchip_i2s_tdm,snd_soc_hdmi_codec,snd_soc_rockchip_spdif,snd_soc_rk817,snd_soc_simple_card_utils,snd_soc_simple_card
+ecdh_generic           16384  1 bluetooth
+v4l2_mem2mem           36864  1 hantro_vpu
+snd_compress           28672  1 snd_soc_core
+videobuf2_dma_contig    24576  1 hantro_vpu
+ac97_bus               16384  1 snd_soc_core
+rfkill                 32768  2 bluetooth
+snd_pcm_dmaengine      16384  1 snd_soc_core
+ecc                    36864  1 ecdh_generic
+gpio_fan               16384  0
+videobuf2_memops       20480  1 videobuf2_dma_contig
+videobuf2_v4l2         32768  2 hantro_vpu,v4l2_mem2mem
+lz4hc                  16384  0
+snd_pcm               135168  5 snd_soc_hdmi_codec,snd_compress,snd_soc_simple_card_utils,snd_soc_core,snd_pcm_dmaengine
+snd_timer              40960  1 snd_pcm
+snd                   102400  5 snd_soc_hdmi_codec,snd_timer,snd_compress,snd_soc_core,snd_pcm
+videobuf2_common       61440  5 videobuf2_dma_contig,videobuf2_v4l2,hantro_vpu,v4l2_mem2mem,videobuf2_memops
+lz4                    16384  0
+videodev              258048  4 videobuf2_v4l2,hantro_vpu,videobuf2_common,v4l2_mem2mem
+soundcore              16384  1 snd
+mc                     69632  5 videodev,videobuf2_v4l2,hantro_vpu,videobuf2_common,v4l2_mem2mem
+zram                   40960  3
+ramoops                32768  0
+reed_solomon           24576  1 ramoops
+pstore_blk             16384  0
+pstore_zone            28672  1 pstore_blk
+ip_tables              32768  0
+x_tables               49152  1 ip_tables
+autofs4                49152  2
+dw_hdmi_i2s_audio      16384  0
+dw_hdmi_cec            20480  0
+display_connector      20480  0
+panfrost               73728  0
+rockchipdrm           188416  0
+dw_mipi_dsi            24576  1 rockchipdrm
+gpu_sched              49152  1 panfrost
+dw_hdmi                57344  2 dw_hdmi_i2s_audio,rockchipdrm
+drm_shmem_helper       28672  1 panfrost
+analogix_dp            49152  1 rockchipdrm
+drm_display_helper    184320  3 rockchipdrm,dw_hdmi,analogix_dp
+cec                    77824  3 dw_hdmi_cec,drm_display_helper,dw_hdmi
+drm_dma_helper         24576  1 rockchipdrm
+drm_kms_helper        200704  8 dw_mipi_dsi,drm_dma_helper,display_connector,drm_display_helper,rockchipdrm,dw_hdmi,analogix_dp
+drm                   643072  12 gpu_sched,drm_kms_helper,dw_mipi_dsi,drm_dma_helper,display_connector,drm_shmem_helper,drm_display_helper,rockchipdrm,dw_hdmi,panfrost,analogix_dp

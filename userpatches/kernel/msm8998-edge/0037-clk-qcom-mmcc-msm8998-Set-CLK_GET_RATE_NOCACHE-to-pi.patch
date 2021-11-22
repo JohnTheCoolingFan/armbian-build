@@ -1,0 +1,60 @@
+From c2aa30ebf87313abec2ca5929a7610181bf54e6b Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Wed, 23 Dec 2020 12:35:07 +0100
+Subject: [PATCH 037/127] clk: qcom: mmcc-msm8998: Set CLK_GET_RATE_NOCACHE to
+ pixel/byte clks
+
+The pixel and byte clocks rate should not be cached, as a VCO shutdown
+may clear the frequency setup and this may not be set again due to the
+cached rate being present.
+This will also be useful when shadow clocks will be implemented in
+the DSI PLL for seamless timing/resolution switch.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ drivers/clk/qcom/mmcc-msm8998.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/clk/qcom/mmcc-msm8998.c b/drivers/clk/qcom/mmcc-msm8998.c
+index c421b1291651..07dfdb9e280d 100644
+--- a/drivers/clk/qcom/mmcc-msm8998.c
++++ b/drivers/clk/qcom/mmcc-msm8998.c
+@@ -511,7 +511,7 @@ static struct clk_rcg2 byte0_clk_src = {
+ 		.parent_data = mmss_xo_dsibyte,
+ 		.num_parents = ARRAY_SIZE(mmss_xo_dsibyte),
+ 		.ops = &clk_byte2_ops,
+-		.flags = CLK_SET_RATE_PARENT,
++		.flags = CLK_SET_RATE_PARENT | CLK_GET_RATE_NOCACHE,
+ 	},
+ };
+ 
+@@ -524,7 +524,7 @@ static struct clk_rcg2 byte1_clk_src = {
+ 		.parent_data = mmss_xo_dsibyte,
+ 		.num_parents = ARRAY_SIZE(mmss_xo_dsibyte),
+ 		.ops = &clk_byte2_ops,
+-		.flags = CLK_SET_RATE_PARENT,
++		.flags = CLK_SET_RATE_PARENT | CLK_GET_RATE_NOCACHE,
+ 	},
+ };
+ 
+@@ -1075,7 +1075,7 @@ static struct clk_rcg2 pclk0_clk_src = {
+ 		.parent_data = mmss_xo_dsi0pll_dsi1pll,
+ 		.num_parents = ARRAY_SIZE(mmss_xo_dsi0pll_dsi1pll),
+ 		.ops = &clk_pixel_ops,
+-		.flags = CLK_SET_RATE_PARENT,
++		.flags = CLK_SET_RATE_PARENT | CLK_GET_RATE_NOCACHE,
+ 	},
+ };
+ 
+@@ -1089,7 +1089,7 @@ static struct clk_rcg2 pclk1_clk_src = {
+ 		.parent_data = mmss_xo_dsi0pll_dsi1pll,
+ 		.num_parents = ARRAY_SIZE(mmss_xo_dsi0pll_dsi1pll),
+ 		.ops = &clk_pixel_ops,
+-		.flags = CLK_SET_RATE_PARENT,
++		.flags = CLK_SET_RATE_PARENT | CLK_GET_RATE_NOCACHE,
+ 	},
+ };
+ 
+-- 
+2.38.1
+

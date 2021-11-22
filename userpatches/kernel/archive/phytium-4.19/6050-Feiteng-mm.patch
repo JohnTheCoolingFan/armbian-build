@@ -1,0 +1,129 @@
+From ecf8fdae0a14136043d3f4f826b03fe818324c88 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng mm
+
+Feiteng mm
+---
+ mm/memblock.c | 47 +++++++++-
+ mm/sparse.c   |  4 +-
+ 2 files changed, 45 insertions(+), 6 deletions(-)
+
+diff --git a/mm/memblock.c b/mm/memblock.c
+index 4d471da3cc47..6e568b32638f 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -1318,7 +1318,7 @@ phys_addr_t __init memblock_alloc_try_nid(phys_addr_t size, phys_addr_t align, i
+ static void * __init memblock_virt_alloc_internal(
+ 				phys_addr_t size, phys_addr_t align,
+ 				phys_addr_t min_addr, phys_addr_t max_addr,
+-				int nid)
++				int nid, bool exact_nid)
+ {
+ 	phys_addr_t alloc;
+ 	void *ptr;
+@@ -1346,7 +1346,7 @@ static void * __init memblock_virt_alloc_internal(
+ 	if (alloc && !memblock_reserve(alloc, size))
+ 		goto done;
+ 
+-	if (nid != NUMA_NO_NODE) {
++	if (nid != NUMA_NO_NODE && !exact_nid) {
+ 		alloc = memblock_find_in_range_node(size, align, min_addr,
+ 						    max_addr, NUMA_NO_NODE,
+ 						    flags);
+@@ -1412,7 +1412,7 @@ void * __init memblock_virt_alloc_try_nid_raw(
+ 		     &max_addr, (void *)_RET_IP_);
+ 
+ 	ptr = memblock_virt_alloc_internal(size, align,
+-					   min_addr, max_addr, nid);
++					   min_addr, max_addr, nid, false);
+ #ifdef CONFIG_DEBUG_VM
+ 	if (ptr && size > 0)
+ 		memset(ptr, PAGE_POISON_PATTERN, size);
+@@ -1420,6 +1420,43 @@ void * __init memblock_virt_alloc_try_nid_raw(
+ 	return ptr;
+ }
+ 
++/**
++ * memblock_alloc_exact_nid_raw - allocate boot memory block on the exact node
++ * without zeroing memory
++ * @size: size of memory block to be allocated in bytes
++ * @align: alignment of the region and block's size
++ * @min_addr: the lower bound of the memory region from where the allocation
++ *       is preferred (phys address)
++ * @max_addr: the upper bound of the memory region from where the allocation
++ *           is preferred (phys address), or %MEMBLOCK_ALLOC_ACCESSIBLE to
++ *           allocate only from memory limited by memblock.current_limit value
++ * @nid: nid of the free area to find, %NUMA_NO_NODE for any node
++ *
++ * Public function, provides additional debug information (including caller
++ * info), if enabled. Does not zero allocated memory.
++ *
++ * Return:
++ * Virtual address of allocated memory block on success, NULL on failure.
++ */
++void * __init memblock_alloc_exact_nid_raw(
++                       phys_addr_t size, phys_addr_t align,
++                       phys_addr_t min_addr, phys_addr_t max_addr,
++                       int nid)
++{
++	void *ptr;
++
++	memblock_dbg("%s: %llu bytes align=0x%llx nid=%d from=%pa max_addr=%pa %pS\n",
++		     __func__, (u64)size, (u64)align, nid, &min_addr,
++		     &max_addr, (void *)_RET_IP_);
++
++	ptr = memblock_virt_alloc_internal(size, align,
++                                          min_addr, max_addr, nid, true);
++	if (ptr && size > 0)
++		memset(ptr, PAGE_POISON_PATTERN, size);
++
++       return ptr;
++}
++
+ /**
+  * memblock_virt_alloc_try_nid_nopanic - allocate boot memory block
+  * @size: size of memory block to be allocated in bytes
+@@ -1449,7 +1486,7 @@ void * __init memblock_virt_alloc_try_nid_nopanic(
+ 		     &max_addr, (void *)_RET_IP_);
+ 
+ 	ptr = memblock_virt_alloc_internal(size, align,
+-					   min_addr, max_addr, nid);
++					   min_addr, max_addr, nid, false);
+ 	if (ptr)
+ 		memset(ptr, 0, size);
+ 	return ptr;
+@@ -1484,7 +1521,7 @@ void * __init memblock_virt_alloc_try_nid(
+ 		     __func__, (u64)size, (u64)align, nid, &min_addr,
+ 		     &max_addr, (void *)_RET_IP_);
+ 	ptr = memblock_virt_alloc_internal(size, align,
+-					   min_addr, max_addr, nid);
++					   min_addr, max_addr, nid, false);
+ 	if (ptr) {
+ 		memset(ptr, 0, size);
+ 		return ptr;
+diff --git a/mm/sparse.c b/mm/sparse.c
+index ed60f0a375fe..a0e950e1d584 100644
+--- a/mm/sparse.c
++++ b/mm/sparse.c
+@@ -17,6 +17,8 @@
+ #include <asm/pgalloc.h>
+ #include <asm/pgtable.h>
+ 
++#include <linux/memblock.h>
++
+ /*
+  * Permanent SPARSEMEM data:
+  *
+@@ -405,7 +407,7 @@ static void __init sparse_buffer_init(unsigned long size, int nid)
+ {
+ 	WARN_ON(sparsemap_buf);	/* forgot to call sparse_buffer_fini()? */
+ 	sparsemap_buf =
+-		memblock_virt_alloc_try_nid_raw(size, PAGE_SIZE,
++		memblock_alloc_exact_nid_raw(size, section_map_size(),
+ 						__pa(MAX_DMA_ADDRESS),
+ 						BOOTMEM_ALLOC_ACCESSIBLE, nid);
+ 	sparsemap_buf_end = sparsemap_buf + size;
+-- 
+Armbian
+

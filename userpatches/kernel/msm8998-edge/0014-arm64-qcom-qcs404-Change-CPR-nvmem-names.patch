@@ -1,0 +1,62 @@
+From af3366f2046a9e96161cc08d24e65c9a13a6fce6 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Wed, 25 Nov 2020 11:23:17 +0100
+Subject: [PATCH 014/127] arm64: qcom: qcs404: Change CPR nvmem-names
+
+The CPR driver's common functions were split and put in another
+file in order to support newer CPR revisions: to simplify the
+commonization, the expected names of the fuses had to be changed
+in order for both new and old support to use the same fuse name
+retrieval function and keeping the naming consistent.
+
+The thread id was added to the fuse name and, since CPRv1 does
+not support threads, it is expected to always read ID 0, which
+means that the expected name here is now "cpr0_(fuse_name)"
+instead of "cpr_(fuse_name)": luckily, QCS404 is the only user
+so change it accordingly.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ arch/arm64/boot/dts/qcom/qcs404.dtsi | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/qcs404.dtsi b/arch/arm64/boot/dts/qcom/qcs404.dtsi
+index 80f2d05595fa..0b793c984fba 100644
+--- a/arch/arm64/boot/dts/qcom/qcs404.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcs404.dtsi
+@@ -1185,19 +1185,19 @@ cpr: power-controller@b018000 {
+ 				<&cpr_efuse_ring2>,
+ 				<&cpr_efuse_ring3>,
+ 				<&cpr_efuse_revision>;
+-			nvmem-cell-names = "cpr_quotient_offset1",
+-				"cpr_quotient_offset2",
+-				"cpr_quotient_offset3",
+-				"cpr_init_voltage1",
+-				"cpr_init_voltage2",
+-				"cpr_init_voltage3",
+-				"cpr_quotient1",
+-				"cpr_quotient2",
+-				"cpr_quotient3",
+-				"cpr_ring_osc1",
+-				"cpr_ring_osc2",
+-				"cpr_ring_osc3",
+-				"cpr_fuse_revision";
++			nvmem-cell-names = "cpr0_quotient_offset1",
++				"cpr0_quotient_offset2",
++				"cpr0_quotient_offset3",
++				"cpr0_init_voltage1",
++				"cpr0_init_voltage2",
++				"cpr0_init_voltage3",
++				"cpr0_quotient1",
++				"cpr0_quotient2",
++				"cpr0_quotient3",
++				"cpr0_ring_osc1",
++				"cpr0_ring_osc2",
++				"cpr0_ring_osc3",
++				"cpr0_fuse_revision";
+ 		};
+ 
+ 		timer@b120000 {
+-- 
+2.38.1
+

@@ -1,0 +1,41 @@
+From 0395a76b390b555fd9cd05ba8997f322d05eafcf Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng include/acpi
+
+Feiteng include/acpi
+---
+ include/acpi/acpi_drivers.h | 2 +-
+ include/acpi/actbl2.h       | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/include/acpi/acpi_drivers.h b/include/acpi/acpi_drivers.h
+index 14499757338f..c524216e0363 100644
+--- a/include/acpi/acpi_drivers.h
++++ b/include/acpi/acpi_drivers.h
+@@ -81,7 +81,7 @@
+ 
+ int acpi_irq_penalty_init(void);
+ int acpi_pci_link_allocate_irq(acpi_handle handle, int index, int *triggering,
+-			       int *polarity, char **name);
++			       int *polarity, char **name, struct fwnode_handle **rs_fwnode);
+ int acpi_pci_link_free_irq(acpi_handle handle);
+ 
+ /* ACPI PCI Device Binding (pci_bind.c) */
+diff --git a/include/acpi/actbl2.h b/include/acpi/actbl2.h
+index 1d4ef0621174..1ab59ac16176 100644
+--- a/include/acpi/actbl2.h
++++ b/include/acpi/actbl2.h
+@@ -502,7 +502,8 @@ enum acpi_madt_type {
+ 	ACPI_MADT_TYPE_GENERIC_MSI_FRAME = 13,
+ 	ACPI_MADT_TYPE_GENERIC_REDISTRIBUTOR = 14,
+ 	ACPI_MADT_TYPE_GENERIC_TRANSLATOR = 15,
+-	ACPI_MADT_TYPE_RESERVED = 16	/* 16 and greater are reserved */
++	ACPI_MADT_TYPE_RESERVED = 16,
++	ACPI_MADT_TYPE_PHYTIUM_2500 = 128
+ };
+ 
+ /*
+-- 
+Armbian
+

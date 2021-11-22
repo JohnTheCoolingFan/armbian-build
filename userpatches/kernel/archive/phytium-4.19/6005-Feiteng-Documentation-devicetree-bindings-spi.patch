@@ -1,0 +1,43 @@
+From 777239b1b17304ef0875890f25487f85700a73c3 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng Documentation/devicetree/bindings/spi
+
+Feiteng Documentation/devicetree/bindings/spi
+---
+ Documentation/devicetree/bindings/spi/spi-phytium.txt | 24 ++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/spi/spi-phytium.txt b/Documentation/devicetree/bindings/spi/spi-phytium.txt
+new file mode 100644
+index 000000000000..a674d192132c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/spi/spi-phytium.txt
+@@ -0,0 +1,24 @@
++Phytium SPI controller
++
++Required properties:
++- compatible: should be "phytium,spi"
++- #address-cells: see spi-bus.txt
++- #size-cells: see spi-bus.txt
++- reg: address and length of the spi master registers
++- interrupts: should contain one interrupt
++- clocks: spi clock phandle
++- num-cs: see spi-bus.txt
++
++Optional properties:
++- cs-gpios: see spi-bus.txt
++
++Example:
++
++
++spi0: spi@2800c000 {
++	compatible = "phytium,spi";
++	interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
++	reg = <0x0 0x2800c000 0x0 0x1000>;
++	clocks = <&sysclk_48mhz>;
++	num-cs = <4>;
++};
+-- 
+Armbian
+

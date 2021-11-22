@@ -1,0 +1,13 @@
+org: "armsurvivors" # can't be an expression, only string.
+
+# armbian/build coordinates
+org_and_build_repo: "${{ github.repository_owner }}/armbian-build"
+build_ref: "extensions"
+
+# armbian/os coordinates. set all to empty to not use userpatches.
+org_and_userpatches_repo: ""
+userpatches_ref: ""
+userpatches_dir: "" # folder inside the userpatches repo; use "." if stuff is in the root of the repo
+
+ghcr_user: "${{ github.repository_owner }}"
+userpatches_config_for_prepare_job: "rpardini-generic" # use "" for no config file

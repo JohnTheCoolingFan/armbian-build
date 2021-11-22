@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Fri, 29 Dec 2023 11:37:13 +0100
+Subject: shutup rockchip_canfd_get_berr_counter RX_ERR_CNT=0x00000000
+ TX_ERR_CNT=0x00000000
+
+---
+ drivers/net/can/rockchip/rockchip_canfd.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/net/can/rockchip/rockchip_canfd.c b/drivers/net/can/rockchip/rockchip_canfd.c
+index abdcdb580eff..5b01849a645c 100644
+--- a/drivers/net/can/rockchip/rockchip_canfd.c
++++ b/drivers/net/can/rockchip/rockchip_canfd.c
+@@ -383,9 +383,9 @@ static int rockchip_canfd_get_berr_counter(const struct net_device *ndev,
+ 
+ 	pm_runtime_put(rcan->dev);
+ 
+-	netdev_dbg(ndev, "%s RX_ERR_CNT=0x%08x, TX_ERR_CNT=0x%08x\n", __func__,
+-		   rockchip_canfd_read(rcan, CAN_RX_ERR_CNT),
+-		   rockchip_canfd_read(rcan, CAN_TX_ERR_CNT));
++	//netdev_dbg(ndev, "%s RX_ERR_CNT=0x%08x, TX_ERR_CNT=0x%08x\n", __func__,
++	//	   rockchip_canfd_read(rcan, CAN_RX_ERR_CNT),
++	//	   rockchip_canfd_read(rcan, CAN_TX_ERR_CNT));
+ 
+ 	return 0;
+ }
+-- 
+Armbian
+

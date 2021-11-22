@@ -1,0 +1,377 @@
+From 2e891ea8f6bb35d70200d8cec473d7822156c6c4 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Sat, 5 Dec 2020 17:53:51 +0100
+Subject: [PATCH 018/127] arm64: dts: qcom: Enable panel etc. on MSM8998 Sony
+ Yoshino platform
+
+(JAMI: fixup for 5.16 & 6.0-rc2)
+---
+ .../msm8998-sony-xperia-yoshino-maple.dts     |  57 ++++++
+ .../msm8998-sony-xperia-yoshino-poplar.dts    |  12 ++
+ .../dts/qcom/msm8998-sony-xperia-yoshino.dtsi | 176 +++++++++++++++++-
+ 3 files changed, 244 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts
+index 20fe0394a3c1..4c2cbae89193 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts
++++ b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts
+@@ -26,6 +26,28 @@ disp_dvdd_vreg: disp-dvdd-vreg {
+ 	};
+ };
+ 
++&dsi0 {
++	qcom,dual-dsi-mode;
++	qcom,master-dsi;
++};
++
++&dsi1 {
++	vdd-supply = <&vreg_l1a_0p875>;
++	vdda-supply = <&vreg_l2a_1p2>;
++	qcom,dual-dsi-mode;
++	status = "ok";
++};
++
++&dsi1_out {
++	remote-endpoint = <&panel_in1>;
++	data-lanes = <0 1 2 3>;
++};
++
++&dsi1_phy {
++	vdds-supply = <&vreg_l1a_0p875>;
++	status = "ok";
++};
++
+ &ibb {
+ 	regulator-min-microvolt = <5600000>;
+ 	regulator-max-microvolt = <5600000>;
+@@ -37,6 +59,32 @@ &lab {
+ 	qcom,soft-start-us = <200>;
+ };
+ 
++&panel {
++	compatible = "sharp,ls055d1sx04";
++
++	dvdd-supply = <&disp_dvdd_vreg>;
++	ports {
++		port@1 {
++			reg = <1>;
++			panel_in1: endpoint {
++				remote-endpoint = <&dsi1_out>;
++			};
++		};
++	};
++};
++
++&pm8005_gpio {
++	ear_en_default: ear-en-active {
++		pins = "gpio1";
++		function = PMIC_GPIO_FUNC_NORMAL;
++		output-low;
++		drive-push-pull;
++		bias-disable;
++		qcom,drive-strength = <PMIC_GPIO_STRENGTH_HIGH>;
++		power-source = <1>;
++	};
++};
++
+ &pmi8998_gpio {
+ 	disp_dvdd_en: disp-dvdd-en-active-state {
+ 		pins = "gpio10";
+@@ -53,3 +101,12 @@ &vreg_l22a_2p85 {
+ 	regulator-min-microvolt = <2704000>;
+ 	regulator-max-microvolt = <2704000>;
+ };
++
++
++&pmi8998_wled {
++	status = "okay";
++
++	qcom,num-strings = <3>;
++	qcom,enabled-strings = <0 1 2>;
++};
++
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dts b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dts
+index c21333aa73c2..055018b4eacc 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dts
++++ b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dts
+@@ -25,6 +25,18 @@ &lab {
+ 	qcom,soft-start-us = <800>;
+ };
+ 
++&pm8005_gpio {
++	ear_en_default: ear-en-active {
++		pins = "gpio1";
++		function = PMIC_GPIO_FUNC_NORMAL;
++		output-low;
++		drive-push-pull;
++		bias-disable;
++		qcom,drive-strength = <PMIC_GPIO_STRENGTH_HIGH>;
++		power-source = <1>;
++	};
++};
++
+ &vreg_l18a_2p85 {
+ 	/* Note: Round-down from 2850000 to be a multiple of PLDO step-size 8000 */
+ 	regulator-min-microvolt = <2848000>;
+diff --git a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi
+index d08639082247..65f007429d5e 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi
+@@ -18,6 +18,10 @@ / {
+ 	qcom,msm-id = <0x124 0x20000>, <0x124 0x20001>; /* 8998v2, v2.1 */
+ 	qcom,board-id = <8 0>;
+ 
++	chosen {
++		bootargs = "clk_ignore_unused root=/dev/mmcblk0p1";
++	};
++
+ 	clocks {
+ 		div1_mclk: divclk1 {
+ 			compatible = "gpio-gate-clock";
+@@ -80,6 +84,15 @@ touch_vddio_vreg: touch-vddio-vreg {
+ 		pinctrl-0 = <&ts_vddio_en>;
+ 	};
+ 
++	/* The gpio-vibrator driver enforces requiring a regulator */
++	vib_vreg: vib-regulator {
++		compatible = "regulator-fixed";
++		regulator-name = "vib";
++
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++	};
++
+ 	vph_pwr: vph-pwr-regulator {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "vph_pwr";
+@@ -188,11 +201,28 @@ ramoops@ffc00000 {
+ 	vibrator {
+ 		compatible = "gpio-vibrator";
+ 		enable-gpios = <&pmi8998_gpio 5 GPIO_ACTIVE_HIGH>;
++		vcc-supply = <&vib_vreg>;
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&vib_default>;
+ 	};
+ };
+ 
++&adreno_gpu {
++	status = "ok";
++
++	zap-shader {
++		memory-region = <&zap_shader_region>;
++	};
++};
++
++&adreno_smmu {
++	status = "ok";
++};
++
++&apc_cprh {
++	status = "ok";
++};
++
+ &blsp1_i2c5 {
+ 	status = "okay";
+ 	clock-frequency = <355000>;
+@@ -257,7 +287,10 @@ proximity@29 {
+ 		reg = <0x29>;
+ 
+ 		interrupt-parent = <&tlmm>;
++		/* Angelo: not 23? */
+ 		interrupts = <22 IRQ_TYPE_EDGE_FALLING>;
++		//#io-channel-cells = <1>;
++		//label = "back_camera_tof";
+ 
+ 		reset-gpios = <&tlmm 27 GPIO_ACTIVE_LOW>;
+ 		vdd-supply = <&cam_vio_vreg>;
+@@ -267,6 +300,62 @@ proximity@29 {
+ 	};
+ };
+ 
++&cpufreq_hw {
++	status = "ok";
++};
++
++&dsi0 {
++	status = "okay";
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	vdd-supply = <&vreg_l1a_0p875>;
++	vdda-supply = <&vreg_l2a_1p2>;
++
++	panel: panel@0 {
++		reg = <0>;
++
++		backlight = <&pmi8998_wled>;
++		disp-te-gpios = <&tlmm 10 GPIO_ACTIVE_HIGH>;
++		reset-gpios = <&tlmm 94 GPIO_ACTIVE_HIGH>;
++
++		avdd-supply = <&lab>;
++		avee-supply = <&ibb>;
++		vddio-supply = <&vreg_l14a_1p85>;
++		tavdd-supply = <&vreg_l28_3p0>;
++		tvddio-supply = <&touch_vddio_vreg>;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&panel_reset_n &mdp_vsync_n>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++				panel_in0: endpoint {
++					remote-endpoint = <&dsi0_out>;
++				};
++			};
++		};
++	};
++};
++
++&dsi0_out {
++	remote-endpoint = <&panel_in0>;
++	data-lanes = <0 1 2 3>;
++};
++
++&dsi0_phy {
++	status = "okay";
++	vdds-supply = <&vreg_l1a_0p875>;
++};
++
++&gpucc {
++	status = "ok";
++};
++
+ &ibb {
+ 	regulator-min-microamp = <800000>;
+ 	regulator-max-microamp = <800000>;
+@@ -292,10 +381,35 @@ &lab {
+ 	regulator-soft-start;
+ };
+ 
++&mmcc {
++	status = "ok";
++};
++
++&mmss_smmu {
++	status = "ok";
++};
++
++&mdss {
++	status = "okay";
++};
++
++&mmcc {
++	status = "ok";
++};
++
++&mmss_smmu {
++	status = "ok";
++};
++
+ &pm8005_regulators {
+ 	/* VDD_GFX supply */
+ 	pm8005_s1: s1 {
+-		regulator-min-microvolt = <524000>;
++		/*
++		 * HACK: Set enough voltage for max GPU frequency
++		 * and set the regulator always on until the
++		 * GPU Core Power Reduction gets available
++		 */
++		regulator-min-microvolt = <988000>;
+ 		regulator-max-microvolt = <1088000>;
+ 		regulator-enable-ramp-delay = <500>;
+ 		/* Hack until we rig up the gpu consumer */
+@@ -333,6 +447,13 @@ audio_mclk_pin: audio-mclk-pin-active-state {
+ 		function = "func2";
+ 		power-source = <0>;
+ 	};
++
++	nfc_clk_req_pin: nfc-clk-req-active {
++		pins = "gpio21";
++		function = PMIC_GPIO_FUNC_NORMAL;
++		input-enable;
++		power-source = <1>;
++	};
+ };
+ 
+ &pmi8998_gpio {
+@@ -367,6 +488,18 @@ resin {
+ 	};
+ };
+ 
++&pmi8998_wled {
++	status = "okay";
++
++	default-brightness = <3000>;
++	qcom,switching-freq = <800>;
++	qcom,ovp-millivolt = <29600>;
++	qcom,current-boost-limit = <970>;
++	qcom,current-limit-microamp = <25000>;
++	qcom,num-strings = <2>;
++	qcom,enabled-strings = <0 1>;
++};
++
+ &qusb2phy {
+ 	status = "okay";
+ 
+@@ -374,6 +507,18 @@ &qusb2phy {
+ 	vdda-phy-dpdm-supply = <&vreg_l24a_3p075>;
+ };
+ 
++&remoteproc_adsp {
++	firmware-name = "adsp.mdt";
++};
++
++&remoteproc_mss {
++	status = "disabled";
++};
++
++&remoteproc_slpi {
++	firmware-name = "slpi.mdt";
++};
++
+ &rpm_requests {
+ 	pm8998-regulators {
+ 		compatible = "qcom,rpm-pm8998-regulators";
+@@ -642,6 +787,35 @@ tof_reset: tof-reset {
+ 		function = "gpio";
+ 		bias-disable;
+ 		drive-strength = <2>;
++		//output-low;
++	};
++
++	cam1_rst_default: cam1-rst-n {
++		pins = "gpio28";
++		function = "gpio";
++		bias-disable;
++		drive-strength = <2>;
++	};
++
++	cam0_rst_default: cam0-rst-n {
++		pins = "gpio30";
++		function = "gpio";
++		bias-disable;
++		drive-strength = <2>;
++	};
++
++	ts_reset_n: ts-reset-n {
++		pins = "gpio89";
++		function = "gpio";
++		bias-pull-up;
++		drive-strength = <8>;
++	};
++
++	panel_reset_n: panel-rst-n {
++		pins = "gpio94";
++		function = "gpio";
++		bias-disable;
++		drive-strength = <2>;
+ 	};
+ 
+ 	hall_sensor0_default: acc-cover-open {
+-- 
+2.38.1
+

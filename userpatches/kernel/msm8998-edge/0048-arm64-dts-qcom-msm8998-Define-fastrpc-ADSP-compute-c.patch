@@ -1,0 +1,56 @@
+From f4857b19b534a88017186d14486390e60a596cbc Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Mon, 9 Aug 2021 17:14:35 +0200
+Subject: [PATCH 048/127] arm64: dts: qcom: msm8998: Define fastrpc ADSP
+ compute context banks
+
+If the target board supports ADSP, it is essential to have fastrpc
+compute context banks defined. This commit adds the always usable
+unsecured context banks only.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+index 6abb33bcb17a..2d04062bcb93 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+@@ -3473,6 +3473,33 @@ glink-edge {
+ 				label = "lpass";
+ 				qcom,remote-pid = <2>;
+ 				mboxes = <&apcs_glb 9>;
++
++				fastrpc {
++					compatible = "qcom,fastrpc";
++					qcom,glink-channels = "fastrpcglink-apps-dsp";
++					label = "adsp";
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					cb@2 {
++						compatible = "qcom,fastrpc-compute-cb";
++						dma-ranges = <0 0x60000000 0 0x18000000>;
++						reg = <2>;
++						iommus = <&lpass_q6_smmu 2>;
++					};
++
++					cb@5 {
++						compatible = "qcom,fastrpc-compute-cb";
++						reg = <5>;
++						iommus = <&lpass_q6_smmu 5>;
++					};
++
++					cb@6 {
++						compatible = "qcom,fastrpc-compute-cb";
++						reg = <6>;
++						iommus = <&lpass_q6_smmu 6>;
++					};
++				};
+ 			};
+ 		};
+ 
+-- 
+2.38.1
+

@@ -1,0 +1,388 @@
+From c01146fa4ff8e3a28970a8501fe010080adf3506 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng drivers/mfd
+
+Feiteng drivers/mfd
+---
+ drivers/mfd/Kconfig                |  13 +
+ drivers/mfd/Makefile               |   2 +
+ drivers/mfd/phytium_x100_i2s_lsd.c | 136 +++++++
+ drivers/mfd/phytium_x100_i2s_mmd.c | 190 ++++++++++
+ 4 files changed, 341 insertions(+)
+
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index dd938a5d0409..75b4e0eda51f 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -915,6 +915,19 @@ config UCB1400_CORE
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called ucb1400_core.
+ 
++config MFD_PHYTIUM_I2S_LSD
++	bool "PHYTIUM X100 I2S LSD MFD driver"
++	depends on (PCI && ARCH_PHYTIUM)
++	help
++	  This enables support for the Phytium X100 LSD I2S controller.
++
++config MFD_PHYTIUM_I2S_MMD
++	bool "PHYTIUM X100 I2S MMD MFD driver"
++	depends on (PCI && ARCH_PHYTIUM)
++	help
++	  This enables support for the Phytium X100 MMD I2S controllers
++	  for Display Port.
++
+ config MFD_PM8XXX
+ 	tristate "Qualcomm PM8xxx PMIC chips driver"
+ 	depends on (ARM || HEXAGON || COMPILE_TEST)
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index 5856a9489cbd..65a8aa1d1abf 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -241,3 +241,5 @@ obj-$(CONFIG_MFD_SC27XX_PMIC)	+= sprd-sc27xx-spi.o
+ obj-$(CONFIG_RAVE_SP_CORE)	+= rave-sp.o
+ obj-$(CONFIG_MFD_ROHM_BD718XX)	+= rohm-bd718x7.o
+ 
++obj-$(CONFIG_MFD_PHYTIUM_I2S_LSD)	+= phytium_x100_i2s_lsd.o
++obj-$(CONFIG_MFD_PHYTIUM_I2S_MMD)	+= phytium_x100_i2s_mmd.o
+diff --git a/drivers/mfd/phytium_x100_i2s_lsd.c b/drivers/mfd/phytium_x100_i2s_lsd.c
+new file mode 100644
+index 000000000000..720501f35c52
+--- /dev/null
++++ b/drivers/mfd/phytium_x100_i2s_lsd.c
+@@ -0,0 +1,136 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Phytium I2S LSD MFD driver over PCI bus
++ *
++ * Copyright (C) 2020-2021, Phytium Technology Co.,Ltd.
++ *
++ * This file is licensed under the terms of the GNU General Public
++ * License version 2. This program is licensed "as is" without any
++ * warranty of any kind, whether express or implied.
++ *
++ */
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/pci.h>
++#include <linux/mfd/core.h>
++
++struct phytium_x100_mfd {
++	struct device		*dev;
++};
++
++struct pdata_x100_mfd {
++	struct device		*dev;
++	char			*name;
++	int			clk_base;
++};
++
++static struct resource phytium_x100_i2s_res0[] = {
++	[0] = {
++		.flags = IORESOURCE_MEM,
++	},
++	[1] = {
++		.flags = IORESOURCE_MEM,
++	},
++	[2] = {
++		.flags = IORESOURCE_IRQ,
++	},
++};
++
++static struct mfd_cell phytium_x100_mfd_cells[] = {
++	{
++		.id = 0,
++		.name = "phytium-i2s",
++		.of_compatible = "phytium,i2s",
++		.resources = phytium_x100_i2s_res0,
++		.num_resources = ARRAY_SIZE(phytium_x100_i2s_res0),
++		.ignore_resource_conflicts = true,
++	},
++};
++
++static void phytium_x100_i2s_setup(struct pci_dev *pdev)
++{
++	struct mfd_cell *cell = &phytium_x100_mfd_cells[0];
++	struct resource *res = (struct resource *)cell->resources;
++	struct pdata_x100_mfd *pdata;
++
++	res[0].start = pci_resource_start(pdev, 0);
++	res[0].end = pci_resource_start(pdev, 0) + 0x0fff;
++
++	res[1].start = pci_resource_start(pdev, 0) + 0x1000;
++	res[1].end = pci_resource_start(pdev, 0) + 0x1fff;
++
++	res[2].start = pdev->irq;
++	res[2].end = pdev->irq;
++
++	pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
++
++	pdata->dev = &pdev->dev;
++	pdata->name = "phytium-i2s-lsd";
++	pdata->clk_base = 480000000;
++
++	cell->platform_data = pdata;
++	cell->pdata_size = sizeof(*pdata);
++}
++
++static int phytium_x100_mfd_probe(struct pci_dev *pdev,
++				 const struct pci_device_id *id)
++{
++	struct phytium_x100_mfd *phytium_mfd;
++	int ret;
++
++	ret = pcim_enable_device(pdev);
++	if (ret)
++		return ret;
++
++	pci_set_master(pdev);
++
++	phytium_mfd = devm_kzalloc(&pdev->dev, sizeof(*phytium_mfd), GFP_KERNEL);
++	if (!phytium_mfd)
++		return -ENOMEM;
++
++	phytium_mfd->dev = &pdev->dev;
++	dev_set_drvdata(&pdev->dev, phytium_mfd);
++
++	phytium_x100_i2s_setup(pdev);
++
++	ret = mfd_add_devices(&pdev->dev, 0, phytium_x100_mfd_cells,
++			      ARRAY_SIZE(phytium_x100_mfd_cells), NULL, 0,
++			      NULL);
++	if (ret)
++		return 0;
++
++	return 0;
++}
++
++
++static void phytium_x100_mfd_remove(struct pci_dev *pdev)
++{
++	mfd_remove_devices(&pdev->dev);
++}
++
++static const struct pci_device_id phytium_x100_mfd_ids[] = {
++	{
++		.vendor		= 0x1DB7,
++		.device		= 0xDC2B,
++		.subvendor	= PCI_ANY_ID,
++		.subdevice	= PCI_ANY_ID,
++		.class		= 0x3,
++		.class_mask	= 0,
++	},
++	{},
++};
++MODULE_DEVICE_TABLE(pci, phytium_x100_mfd_ids);
++
++static struct pci_driver phytium_i2s_lsd_mfd_driver = {
++	.name		= "phytium_x100_mfd_i2s",
++	.id_table	= phytium_x100_mfd_ids,
++	.probe		= phytium_x100_mfd_probe,
++	.remove		= phytium_x100_mfd_remove,
++};
++
++module_pci_driver(phytium_i2s_lsd_mfd_driver);
++
++MODULE_AUTHOR("Yiqun Zhang <zhangyiqun@phytium.com.cn>");
++MODULE_DESCRIPTION("Phytium X100 MFD PCI driver for I2S-LSD");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/mfd/phytium_x100_i2s_mmd.c b/drivers/mfd/phytium_x100_i2s_mmd.c
+new file mode 100644
+index 000000000000..e327e5c6288c
+--- /dev/null
++++ b/drivers/mfd/phytium_x100_i2s_mmd.c
+@@ -0,0 +1,190 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Phytium I2S MMD MFD driver over PCI bus
++ *
++ * Copyright (C) 2020-2021, Phytium Technology Co.,Ltd.
++ *
++ * This file is licensed under the terms of the GNU General Public
++ * License version 2. This program is licensed "as is" without any
++ * warranty of any kind, whether express or implied.
++ *
++ */
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/pci.h>
++#include <linux/mfd/core.h>
++
++struct phytium_x100_mfd {
++	struct device		*dev;
++};
++
++struct pdata_x100_mfd {
++	struct device		*dev;
++	char			*name;
++	int			clk_base;
++};
++
++static struct resource phytium_x100_i2s_res0[] = {
++	[0] = {
++		.flags = IORESOURCE_MEM,
++	},
++	[1] = {
++		.flags = IORESOURCE_MEM,
++	},
++	[2] = {
++		.flags = IORESOURCE_IRQ,
++	},
++};
++
++static struct resource phytium_x100_i2s_res1[] = {
++	[0] = {
++		.flags = IORESOURCE_MEM,
++	},
++	[1] = {
++		.flags = IORESOURCE_MEM,
++	},
++	[2] = {
++		.flags = IORESOURCE_IRQ,
++	},
++};
++
++static struct resource phytium_x100_i2s_res2[] = {
++	[0] = {
++		.flags = IORESOURCE_MEM,
++	},
++	[1] = {
++		.flags = IORESOURCE_MEM,
++	},
++	[2] = {
++		.flags = IORESOURCE_IRQ,
++	},
++};
++
++static struct mfd_cell phytium_x100_mfd_cells[] = {
++	{
++		.id = 1,
++		.name = "phytium-i2s",
++		.of_compatible = "phytium,i2s",
++		.resources = phytium_x100_i2s_res0,
++		.num_resources = ARRAY_SIZE(phytium_x100_i2s_res0),
++		.ignore_resource_conflicts = true,
++	},
++	{
++		.id = 2,
++		.name = "phytium-i2s",
++		.of_compatible = "phytium,i2s",
++		.resources = phytium_x100_i2s_res1,
++		.num_resources = ARRAY_SIZE(phytium_x100_i2s_res1),
++		.ignore_resource_conflicts = true,
++	},
++	{
++		.id = 3,
++		.name = "phytium-i2s",
++		.of_compatible = "phytium,i2s",
++		.resources = phytium_x100_i2s_res2,
++		.num_resources = ARRAY_SIZE(phytium_x100_i2s_res2),
++		.ignore_resource_conflicts = true,
++	},
++};
++
++static void phytium_x100_i2s_setup(struct pci_dev *pdev, int i)
++{
++	struct mfd_cell *cell = &phytium_x100_mfd_cells[i];
++	struct resource *res = (struct resource *)cell->resources;
++	struct pdata_x100_mfd *pdata;
++
++	res[0].start = pci_resource_start(pdev, 0) + 0x2000 * i + 0x1000;
++	res[0].end = pci_resource_start(pdev, 0) + 0x2000 * i + 0x1fff;
++
++	res[1].start = pci_resource_start(pdev, 0) + 0x2000 * i;
++	res[1].end = pci_resource_start(pdev, 0) + 0x2000 * i + 0x0fff;
++
++	res[2].start = pdev->irq;
++	res[2].end = pdev->irq;
++
++	pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
++
++	pdata->dev = &pdev->dev;
++	pdata->clk_base = 600000000;
++	switch (i) {
++	case 0:
++		pdata->name = "phytium-i2s-dp0";
++		break;
++	case 1:
++		pdata->name = "phytium-i2s-dp1";
++		break;
++	case 2:
++		pdata->name = "phytium-i2s-dp2";
++		break;
++	default:
++		break;
++	}
++
++	cell->platform_data = pdata;
++	cell->pdata_size = sizeof(*pdata);
++}
++
++static int phytium_x100_mfd_probe(struct pci_dev *pdev,
++				 const struct pci_device_id *id)
++{
++	struct phytium_x100_mfd *phytium_mfd;
++	int i;
++	int ret;
++
++	ret = pcim_enable_device(pdev);
++	if (ret)
++		return ret;
++
++	pci_set_master(pdev);
++
++	phytium_mfd = devm_kzalloc(&pdev->dev, sizeof(*phytium_mfd), GFP_KERNEL);
++	if (!phytium_mfd)
++		return -ENOMEM;
++
++	phytium_mfd->dev = &pdev->dev;
++	dev_set_drvdata(&pdev->dev, phytium_mfd);
++
++	for (i = 0; i < 3; i++)
++		phytium_x100_i2s_setup(pdev, i);
++
++	ret = mfd_add_devices(&pdev->dev, 0, phytium_x100_mfd_cells,
++			      ARRAY_SIZE(phytium_x100_mfd_cells), NULL, 0,
++			      NULL);
++	if (ret)
++		return 0;
++
++	return 0;
++}
++
++
++static void phytium_x100_mfd_remove(struct pci_dev *pdev)
++{
++	mfd_remove_devices(&pdev->dev);
++}
++
++static const struct pci_device_id phytium_x100_mfd_ids[] = {
++	{
++		.vendor		= 0x1DB7,
++		.device		= 0xDC23,
++		.subvendor	= PCI_ANY_ID,
++		.subdevice	= PCI_ANY_ID,
++		.class		= 0x3,
++		.class_mask	= 0,
++	},
++	{},
++};
++MODULE_DEVICE_TABLE(pci, phytium_x100_mfd_ids);
++
++static struct pci_driver phytium_i2s_mmd_mfd_driver = {
++	.name		= "phytium_x100_mfd_mmd",
++	.id_table	= phytium_x100_mfd_ids,
++	.probe		= phytium_x100_mfd_probe,
++	.remove		= phytium_x100_mfd_remove,
++};
++
++module_pci_driver(phytium_i2s_mmd_mfd_driver);
++
++MODULE_AUTHOR("Yiqun Zhang <zhangyiqun@phytium.com.cn>");
++MODULE_DESCRIPTION("Phytium X100 MFD PCI driver for I2S-DP");
++MODULE_LICENSE("GPL v2");
+-- 
+Armbian
+

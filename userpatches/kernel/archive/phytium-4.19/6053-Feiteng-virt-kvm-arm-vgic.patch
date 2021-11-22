@@ -1,0 +1,26 @@
+From db6d00c15d5099ebb5054c9bf7f32a0c5bc3f345 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng virt/kvm/arm/vgic
+
+Feiteng virt/kvm/arm/vgic
+---
+ virt/kvm/arm/vgic/vgic-mmio-v3.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/virt/kvm/arm/vgic/vgic-mmio-v3.c b/virt/kvm/arm/vgic/vgic-mmio-v3.c
+index cbb38a0d1b25..9ce91ed65400 100644
+--- a/virt/kvm/arm/vgic/vgic-mmio-v3.c
++++ b/virt/kvm/arm/vgic/vgic-mmio-v3.c
+@@ -349,7 +349,7 @@ u64 vgic_sanitise_outer_cacheability(u64 field)
+ 	case GIC_BASER_CACHE_nC:
+ 		return field;
+ 	default:
+-		return GIC_BASER_CACHE_nC;
++		return GIC_BASER_CACHE_SameAsInner;
+ 	}
+ }
+ 
+-- 
+Armbian
+

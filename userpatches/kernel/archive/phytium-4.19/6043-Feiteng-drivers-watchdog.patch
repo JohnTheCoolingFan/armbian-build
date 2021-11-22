@@ -1,0 +1,98 @@
+From 4f11c34066fa3535242dd3b36bb76adaa88bc053 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng drivers/watchdog
+
+Feiteng drivers/watchdog
+---
+ drivers/watchdog/dw_wdt.c | 44 +++++++---
+ 1 file changed, 33 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/watchdog/dw_wdt.c b/drivers/watchdog/dw_wdt.c
+index 501aebb5b81f..472e8bd2536d 100644
+--- a/drivers/watchdog/dw_wdt.c
++++ b/drivers/watchdog/dw_wdt.c
+@@ -18,6 +18,7 @@
+ 
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
++#include <linux/acpi.h>
+ #include <linux/bitops.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+@@ -54,7 +55,7 @@ MODULE_PARM_DESC(nowayout, "Watchdog cannot be stopped once started "
+ struct dw_wdt {
+ 	void __iomem		*regs;
+ 	struct clk		*clk;
+-	unsigned long		rate;
++	u64			rate;
+ 	struct watchdog_device	wdd;
+ 	struct reset_control	*rst;
+ 	/* Save/restore */
+@@ -252,18 +253,32 @@ static int dw_wdt_drv_probe(struct platform_device *pdev)
+ 	if (IS_ERR(dw_wdt->regs))
+ 		return PTR_ERR(dw_wdt->regs);
+ 
+-	dw_wdt->clk = devm_clk_get(dev, NULL);
+-	if (IS_ERR(dw_wdt->clk))
+-		return PTR_ERR(dw_wdt->clk);
++	if (dev->of_node) {
++		dw_wdt->clk = devm_clk_get(dev, NULL);
++		if (IS_ERR(dw_wdt->clk))
++			return PTR_ERR(dw_wdt->clk);
+ 
+-	ret = clk_prepare_enable(dw_wdt->clk);
+-	if (ret)
+-		return ret;
++		ret = clk_prepare_enable(dw_wdt->clk);
++		if (ret)
++			return ret;
+ 
+-	dw_wdt->rate = clk_get_rate(dw_wdt->clk);
+-	if (dw_wdt->rate == 0) {
+-		ret = -EINVAL;
+-		goto out_disable_clk;
++		dw_wdt->rate = clk_get_rate(dw_wdt->clk);
++		if (dw_wdt->rate == 0) {
++			ret = -EINVAL;
++			goto out_disable_clk;
++		}
++	} else if (has_acpi_companion(&pdev->dev)) {
++		/*
++		 * When Driver probe with ACPI device, clock devices
++		 * are not available, so watchdog rate get from
++		 * clock-frequency property given in _DSD object.
++		 */
++		device_property_read_u64(dev, "clock-frequency",
++					 &dw_wdt->rate);
++		if (dw_wdt->rate == 0) {
++			ret = -EINVAL;
++			goto out_disable_clk;
++		}
+ 	}
+ 
+ 	dw_wdt->rst = devm_reset_control_get_optional_shared(&pdev->dev, NULL);
+@@ -325,6 +340,12 @@ static int dw_wdt_drv_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static const struct acpi_device_id dw_wdt_acpi_match[] = {
++	{ "PHYT0014", 0 },
++	{ }
++};
++MODULE_DEVICE_TABLE(acpi, dw_wdt_acpi_match);
++
+ #ifdef CONFIG_OF
+ static const struct of_device_id dw_wdt_of_match[] = {
+ 	{ .compatible = "snps,dw-wdt", },
+@@ -339,6 +360,7 @@ static struct platform_driver dw_wdt_driver = {
+ 	.driver		= {
+ 		.name	= "dw_wdt",
+ 		.of_match_table = of_match_ptr(dw_wdt_of_match),
++		.acpi_match_table = ACPI_PTR(dw_wdt_acpi_match),
+ 		.pm	= &dw_wdt_pm_ops,
+ 	},
+ };
+-- 
+Armbian
+

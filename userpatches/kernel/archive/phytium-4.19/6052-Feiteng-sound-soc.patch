@@ -1,0 +1,38 @@
+From fb1b01c5bdd9fd7be0a856a6102c687699cd5593 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 4 Aug 2022 21:49:10 +0200
+Subject: Feiteng sound/soc
+
+Feiteng sound/soc
+---
+ sound/soc/Kconfig  | 1 +
+ sound/soc/Makefile | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/sound/soc/Kconfig b/sound/soc/Kconfig
+index 1cf11cf51e1d..32296faf39c5 100644
+--- a/sound/soc/Kconfig
++++ b/sound/soc/Kconfig
+@@ -59,6 +59,7 @@ source "sound/soc/intel/Kconfig"
+ source "sound/soc/mediatek/Kconfig"
+ source "sound/soc/meson/Kconfig"
+ source "sound/soc/mxs/Kconfig"
++source "sound/soc/phytium/Kconfig"
+ source "sound/soc/pxa/Kconfig"
+ source "sound/soc/qcom/Kconfig"
+ source "sound/soc/rockchip/Kconfig"
+diff --git a/sound/soc/Makefile b/sound/soc/Makefile
+index 62a5f87c3cfc..2cdfbe1db8c2 100644
+--- a/sound/soc/Makefile
++++ b/sound/soc/Makefile
+@@ -43,6 +43,7 @@ obj-$(CONFIG_SND_SOC)	+= mxs/
+ obj-$(CONFIG_SND_SOC)	+= nuc900/
+ obj-$(CONFIG_SND_SOC)	+= omap/
+ obj-$(CONFIG_SND_SOC)	+= kirkwood/
++obj-$(CONFIG_SND_SOC)	+= phytium/
+ obj-$(CONFIG_SND_SOC)	+= pxa/
+ obj-$(CONFIG_SND_SOC)	+= qcom/
+ obj-$(CONFIG_SND_SOC)	+= rockchip/
+-- 
+Armbian
+

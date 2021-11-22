@@ -1,0 +1,33 @@
+Module                  Size  Used by
+sunrpc                856064  1
+hid_logitech_hidpp     69632  0
+joydev                 36864  0
+brcmfmac              499712  0
+brcmutil               24576  1 brcmfmac
+hid_logitech_dj        45056  0
+cfg80211             1314816  1 brcmfmac
+zstd                   16384  2
+cdns3                  20480  0
+lz4hc                  16384  0
+lz4hc_compress         32768  1 lz4hc
+rfkill                 36864  4 cfg80211
+cdns_usb_common        36864  1 cdns3
+lz4                    16384  0
+lz4_compress           49152  1 lz4
+snd_soc_simple_card    24576  0
+snd_soc_simple_card_utils    36864  1 snd_soc_simple_card
+snd_soc_dmic           16384  0
+snd_soc_spdif_tx       16384  0
+sfctemp                16384  0
+starfive_wdt           24576  0
+snd_soc_spdif_rx       16384  0
+leds_gpio              16384  0
+zram                   40960  3
+binfmt_misc            32768  1
+fuse                  225280  1
+ip_tables              40960  0
+dwmac_generic          16384  0
+micrel                 57344  1
+pwrseq_simple          16384  1
+gpio_tps65086          16384  0
+dwmac_starfive         16384  0

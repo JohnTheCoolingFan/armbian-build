@@ -1,0 +1,97 @@
+From e71a1a1b69f7b2a26ac5a54361c51632f299eb99 Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Tue, 19 Jan 2021 13:03:11 +0100
+Subject: [PATCH 010/127] cpufreq: qcom-hw: Allow getting the maximum
+ transition latency for OPPs
+
+In order to fine-tune the frequency scaling from various governors,
+allow to set a maximum transition latency from OPPs, which may be
+different depending on the SoC.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+[Fixup for 5.18 by Jami]
+---
+ drivers/cpufreq/qcom-cpufreq-hw.c | 35 +++++++++++++++++++++++--------
+ 1 file changed, 26 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/cpufreq/qcom-cpufreq-hw.c b/drivers/cpufreq/qcom-cpufreq-hw.c
+index feb6c64e3293..879822c6cf95 100644
+--- a/drivers/cpufreq/qcom-cpufreq-hw.c
++++ b/drivers/cpufreq/qcom-cpufreq-hw.c
+@@ -1553,6 +1553,7 @@ static int qcom_cpufreq_hw_cpu_init(struct cpufreq_policy *policy)
+ 	void __iomem *base;
+ 	struct qcom_cpufreq_data *data;
+ 	char fdom_resname[] = "freq-domainX";
++	unsigned int transition_latency;
+ 	int cpu_count, index, ret;
+ 
+ 	cpu_dev = get_cpu_device(policy->cpu);
+@@ -1603,26 +1604,35 @@ static int qcom_cpufreq_hw_cpu_init(struct cpufreq_policy *policy)
+ 	data->soc_data = of_device_get_match_data(&pdev->dev);
+ 	data->base = base;
+ 	data->res = res;
+-
+-	/* HW should be in enabled state to proceed */
+-	if (!(readl_relaxed(base + data->soc_data->reg_enable) & 0x1)) {
+-		dev_err(dev, "Domain-%d cpufreq hardware not enabled\n", index);
+-		ret = -ENODEV;
+-		goto error;
+-	}
++	policy->driver_data = data;
+ 
+ 	if (readl_relaxed(base + data->soc_data->reg_dcvs_ctrl) & 0x1)
+ 		data->per_core_dcvs = true;
+ 
+-	qcom_get_related_cpus(index, policy->cpus);
++	cpu_count = qcom_get_related_cpus(index, policy->cpus);
+ 	if (cpumask_empty(policy->cpus)) {
+ 		dev_err(dev, "Domain-%d failed to get related CPUs\n", index);
+ 		ret = -ENOENT;
+ 		goto error;
+ 	}
+ 
+-	policy->driver_data = data;
+ 	policy->dvfs_possible_from_any_cpu = true;
++	if (!data->soc_data->uses_tz) {
++		ret = qcom_cpufreq_hw_osm_setup(cpu_dev, policy,
++						cpu_count, index);
++		if (ret) {
++			dev_err(dev, "Cannot setup the OSM for CPU%d: %d\n",
++				policy->cpu, ret);
++			goto error;
++		}
++	}
++
++	/* HW should be in enabled state to proceed */
++	if (!(readl_relaxed(base + data->soc_data->reg_enable) & 0x1)) {
++		dev_err(dev, "Domain-%d cpufreq hardware not enabled\n", index);
++		ret = -ENODEV;
++		goto error;
++	}
+ 
+ 	ret = qcom_cpufreq_hw_read_lut(cpu_dev, policy);
+ 	if (ret) {
+@@ -1637,6 +1647,12 @@ static int qcom_cpufreq_hw_cpu_init(struct cpufreq_policy *policy)
+ 		goto error;
+ 	}
+ 
++	transition_latency = dev_pm_opp_get_max_transition_latency(cpu_dev);
++	if (!transition_latency)
++		transition_latency = CPUFREQ_ETERNAL;
++
++	policy->cpuinfo.transition_latency = transition_latency;
++
+ 	if (policy_has_boost_freq(policy)) {
+ 		ret = cpufreq_enable_boost_support();
+ 		if (ret)
+@@ -1649,6 +1665,7 @@ static int qcom_cpufreq_hw_cpu_init(struct cpufreq_policy *policy)
+ 
+ 	return 0;
+ error:
++	policy->driver_data = NULL;
+ 	kfree(data);
+ unmap_base:
+ 	iounmap(base);
+-- 
+2.38.1
+

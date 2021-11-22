@@ -1,0 +1,101 @@
+Module                  Size  Used by
+snd_seq_dummy          16384  0
+snd_hrtimer            16384  1
+bnep                   24576  2
+vsock_loopback         16384  0
+vmw_vsock_virtio_transport_common    40960  1 vsock_loopback
+vmw_vsock_vmci_transport    32768  2
+vsock                  45056  7 vmw_vsock_virtio_transport_common,vsock_loopback,vmw_vsock_vmci_transport
+binfmt_misc            24576  1
+zstd                   16384  4
+lz4hc                  16384  0
+lz4hc_compress         24576  1 lz4hc
+lz4                    16384  0
+lz4_compress           36864  1 lz4
+zram                   36864  3
+nls_iso8859_1          16384  1
+intel_rapl_msr         20480  0
+intel_rapl_common      32768  1 intel_rapl_msr
+kvm_intel             360448  0
+kvm                   999424  1 kvm_intel
+snd_ens1371            28672  1
+snd_ac97_codec        155648  1 snd_ens1371
+crct10dif_pclmul       16384  1
+gameport               24576  1 snd_ens1371
+polyval_clmulni        16384  0
+ac97_bus               16384  1 snd_ac97_codec
+polyval_generic        16384  1 polyval_clmulni
+ghash_clmulni_intel    16384  0
+sha512_ssse3           45056  0
+snd_pcm               135168  2 snd_ac97_codec,snd_ens1371
+aesni_intel           389120  0
+snd_seq_midi           20480  0
+crypto_simd            16384  1 aesni_intel
+snd_seq_midi_event     16384  1 snd_seq_midi
+cryptd                 24576  2 crypto_simd,ghash_clmulni_intel
+uvcvideo              110592  0
+rapl                   20480  0
+videobuf2_vmalloc      20480  1 uvcvideo
+snd_rawmidi            40960  2 snd_seq_midi,snd_ens1371
+videobuf2_memops       20480  1 videobuf2_vmalloc
+btusb                  61440  0
+vmw_balloon            24576  0
+btrtl                  24576  1 btusb
+btbcm                  24576  1 btusb
+btintel                40960  1 btusb
+btmtk                  16384  1 btusb
+snd_seq                73728  9 snd_seq_midi,snd_seq_midi_event,snd_seq_dummy
+videobuf2_v4l2         32768  1 uvcvideo
+joydev                 28672  0
+videobuf2_common       65536  4 videobuf2_vmalloc,videobuf2_v4l2,uvcvideo,videobuf2_memops
+input_leds             16384  0
+serio_raw              20480  0
+bluetooth             806912  15 btrtl,btmtk,btintel,btbcm,bnep,btusb
+ecdh_generic           16384  1 bluetooth
+snd_seq_device         16384  3 snd_seq,snd_seq_midi,snd_rawmidi
+videodev              266240  3 videobuf2_v4l2,uvcvideo,videobuf2_common
+snd_timer              40960  3 snd_seq,snd_hrtimer,snd_pcm
+mc                     69632  4 videodev,videobuf2_v4l2,uvcvideo,videobuf2_common
+snd                   106496  11 snd_seq,snd_seq_device,snd_timer,snd_ac97_codec,snd_pcm,snd_rawmidi,snd_ens1371
+ecc                    36864  1 ecdh_generic
+soundcore              16384  1 snd
+mac_hid                16384  0
+vmw_vmci               77824  2 vmw_balloon,vmw_vsock_vmci_transport
+ramoops                28672  0
+reed_solomon           24576  1 ramoops
+pstore_blk             16384  0
+pstore_zone            32768  1 pstore_blk
+efi_pstore             16384  0
+ip_tables              32768  0
+x_tables               53248  1 ip_tables
+autofs4                45056  2
+btrfs                1503232  0
+blake2b_generic        20480  0
+xor                    24576  1 btrfs
+raid6_pq              114688  1 btrfs
+zstd_compress         270336  2 btrfs,zstd
+libcrc32c              16384  1 btrfs
+hid_generic            16384  0
+usbhid                 57344  0
+hid                   147456  2 usbhid,hid_generic
+vmwgfx                344064  6
+drm_ttm_helper         16384  1 vmwgfx
+ttm                    77824  2 vmwgfx,drm_ttm_helper
+drm_kms_helper        200704  1 vmwgfx
+syscopyarea            16384  1 drm_kms_helper
+sysfillrect            16384  1 drm_kms_helper
+sysimgblt              16384  1 drm_kms_helper
+fb_sys_fops            16384  1 drm_kms_helper
+nvme                   49152  2
+xhci_pci               24576  0
+psmouse               159744  0
+nvme_core             135168  3 nvme
+xhci_pci_renesas       20480  1 xhci_pci
+vmxnet3                65536  0
+vmw_pvscsi             28672  0
+drm                   585728  10 vmwgfx,drm_kms_helper,drm_ttm_helper,ttm
+crc32_pclmul           16384  0
+ahci                   49152  0
+libahci                45056  1 ahci
+i2c_piix4              28672  0
+pata_acpi              16384  0

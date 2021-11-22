@@ -1,0 +1,90 @@
+From 45d9294e8dc1afb8fe1f9631c1a92ef3ba54b77b Mon Sep 17 00:00:00 2001
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Date: Mon, 9 Aug 2021 17:18:05 +0200
+Subject: [PATCH 049/127] arm64: dts: qcom: msm8998: Add APR services
+ configuration
+
+Add the standard APR Q6 services configuration for MSM8998, used by
+boards supporting the audio dsp.
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 55 +++++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+index 2d04062bcb93..48fe76bc8c45 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+@@ -8,6 +8,7 @@
+ #include <dt-bindings/clock/qcom,rpmcc.h>
+ #include <dt-bindings/interconnect/qcom,msm8998.h>
+ #include <dt-bindings/power/qcom-rpmpd.h>
++#include <dt-bindings/soc/qcom,apr.h>
+ #include <dt-bindings/gpio/gpio.h>
+ 
+ /* Macro for CPR-Hardened OPP entries - Example phandle: cprh_opp0 */
+@@ -3474,6 +3475,60 @@ glink-edge {
+ 				qcom,remote-pid = <2>;
+ 				mboxes = <&apcs_glb 9>;
+ 
++				apr {
++					compatible = "qcom,apr-v2";
++					power-domains = <&gcc LPASS_ADSP_GDSC>;
++					qcom,glink-channels = "apr_audio_svc";
++					qcom,apr-domain = <APR_DOMAIN_ADSP>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++					qcom,intents = <512 20>;
++
++					apr-service@3 {
++						reg = <APR_SVC_ADSP_CORE>;
++						compatible = "qcom,q6core";
++						qcom,protection-domain = "avs/audio", "msm/adsp/audio_pd";
++					};
++
++					q6afe: apr-service@4 {
++						compatible = "qcom,q6afe";
++						reg = <APR_SVC_AFE>;
++						qcom,protection-domain = "avs/audio", "msm/adsp/audio_pd";
++						q6afedai: dais {
++							compatible = "qcom,q6afe-dais";
++							#address-cells = <1>;
++							#size-cells = <0>;
++							#sound-dai-cells = <1>;
++							hdmi@1 {
++								reg = <1>;
++							};
++						};
++					};
++
++					q6asm: apr-service@7 {
++						compatible = "qcom,q6asm";
++						reg = <APR_SVC_ASM>;
++						qcom,protection-domain = "avs/audio", "msm/adsp/audio_pd";
++						q6asmdai: dais {
++							compatible = "qcom,q6asm-dais";
++							#address-cells = <1>;
++							#size-cells = <0>;
++							#sound-dai-cells = <1>;
++							iommus = <&lpass_q6_smmu 1>;
++						};
++					};
++
++					q6adm: apr-service@8 {
++						compatible = "qcom,q6adm";
++						reg = <APR_SVC_ADM>;
++						qcom,protection-domain = "avs/audio", "msm/adsp/audio_pd";
++						q6routing: routing {
++							compatible = "qcom,q6adm-routing";
++							#sound-dai-cells = <0>;
++						};
++					};
++				};
++
+ 				fastrpc {
+ 					compatible = "qcom,fastrpc";
+ 					qcom,glink-channels = "fastrpcglink-apps-dsp";
+-- 
+2.38.1
+
