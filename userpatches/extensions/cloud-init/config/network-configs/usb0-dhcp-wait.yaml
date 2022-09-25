@@ -1,0 +1,9 @@
+version: 2
+ethernets:
+  usb0:
+    dhcp4: true
+    dhcp6: true
+    set-name: usb0
+    match:
+      name: usb*
+    optional: false

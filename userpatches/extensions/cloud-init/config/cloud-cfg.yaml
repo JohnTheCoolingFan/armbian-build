@@ -1,0 +1,6 @@
+# configure cloud-init for non cloud. /var/lib/cloud/seed/nocloud is seeded with symlinks to /boot
+datasource_list: [ NoCloud, None ]
+datasource:
+  NoCloud:
+    dsmode: net
+

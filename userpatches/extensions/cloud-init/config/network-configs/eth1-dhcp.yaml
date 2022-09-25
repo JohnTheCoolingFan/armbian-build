@@ -1,0 +1,8 @@
+version: 2
+ethernets:
+  eth1:
+    dhcp4: true
+    dhcp6: true
+    match:
+      name: eth1
+    optional: false

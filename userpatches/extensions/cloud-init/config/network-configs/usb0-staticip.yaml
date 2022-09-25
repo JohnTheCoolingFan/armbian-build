@@ -1,0 +1,16 @@
+version: 2
+ethernets:
+  usb0:
+    dhcp4: false
+    dhcp6: false
+    addresses:
+      - 172.16.42.1/24
+    gateway4: 172.16.42.2
+    nameservers:
+      addresses:
+        - 172.16.42.2
+        - 1.1.1.1
+    set-name: usb0
+    match:
+      name: usb*
+    optional: true
