@@ -54,7 +54,29 @@ function call_extension_method() {
 	for hook_name in "$@"; do
 		display_alert "Extension Method being called: ${hook_name}" "hook: ${hook_name}" "extensions"
 		if [[ $(type -t ${hook_name} || true) == function ]]; then
-			${hook_name}
+			if [[ "${DEBUG_HOOK:-"${DEBUG_HOOKS:-""}"}" == *"${hook_name}"* ]]; then
+				# Enter a loop.
+				declare -i loop_counter=0 satisfied=0
+				# while satisfied equals 0, keep looping.
+				while [[ ${satisfied} -eq 0 ]]; do
+					# Increment the loop counter.
+					loop_counter+=1
+
+					display_alert "Debugging hook" "${hook_name} :: loop ${loop_counter}" "warn"
+
+					# Call the hook.
+					"${hook_name}"
+
+					# Ask the user if they are satisfied, by reading from /dev/tty
+					read -r -p "Are you satisfied with the result? (10s for auto-y)... [y/N] " -n 1 -t 10 -u 0 REPLY < /dev/tty || REPLY="y"
+					if [[ $REPLY =~ ^[Yy]$ ]]; then
+						# If they are, set the satisfied flag to 1.
+						satisfied=1
+					fi
+				done
+			else
+				"${hook_name}"
+			fi
 		fi
 	done
 }
