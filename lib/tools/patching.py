@@ -18,6 +18,7 @@ from git import InvalidGitRepositoryError
 from git import Repo
 
 import common.armbian_utils as armbian_utils
+import common.b4_caller as b4_caller
 import common.dt_makefile_patcher as dt_makefile_patcher
 import common.patching_utils as patching_utils
 from common.md_asset_log import SummarizedMarkdownWriter
@@ -120,6 +121,14 @@ for root_type in CONST_ROOT_TYPES_CONFIG_ORDER:
 
 # load the configs and merge them.
 pconfig: PatchingConfig = PatchingConfig(all_yaml_config_files)
+
+# First of all, process the b4 configuration, which might produce new files on disk.
+if pconfig.has_b4_am_configs:
+	log.info("Processing b4 configuration...")
+	for b4_config in pconfig.b4_am_configs:
+		log.info(f"Processing b4 configuration: {b4_config}")
+		b4_caller.get_patch_via_b4(b4_config.lore)
+	log.info("Processing b4 configuration... Done.")
 
 PATCH_FILES_FIRST: list[patching_utils.PatchFileInDir] = []
 EXTRA_PATCH_FILES_FIRST: list[str] = armbian_utils.parse_env_for_tokens("EXTRA_PATCH_FILES_FIRST")
