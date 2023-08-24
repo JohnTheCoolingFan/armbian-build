@@ -7,6 +7,29 @@
 # This file is a part of the Armbian Build Framework
 # https://github.com/armbian/build/
 
+# A hack, try do determine an ID from appgroups combo
+# Outer scope: declare desktop_appgroups_id="undetermined"
+function get_desktop_appgroups_id() {
+	if [[ "${DESKTOP_APPGROUPS_SELECTED}" == "" ]]; then
+		# No appgroups selected, so no id at all
+		desktop_appgroups_id=""
+	elif [[ "${DESKTOP_APPGROUPS_SELECTED}" == "3dsupport,browsers,chat,desktop_tools,editors,email,internet,languages,multimedia,office,programming,remote_desktop" ]]; then
+		desktop_appgroups_id="-appgroups-all"
+	elif [[ "${DESKTOP_APPGROUPS_SELECTED}" == "browsers,chat,desktop_tools,editors,email,internet,languages,multimedia,office,programming,remote_desktop" ]]; then
+		desktop_appgroups_id="-appgroups-all-no3d"
+	# if there are no commas in the appgroups...
+	elif [[ "${DESKTOP_APPGROUPS_SELECTED}" != *","* ]]; then
+		# use the appgroup name, simple
+		desktop_appgroups_id="-appgroups-${DESKTOP_APPGROUPS_SELECTED}"
+	else
+		# use a hash of the selected appgroups
+		declare appgroups_hash
+		appgroups_hash="$(echo "${DESKTOP_APPGROUPS_SELECTED}" | sha256sum | cut -d' ' -f1)"
+		declare appgroups_hash_short="${appgroups_hash:0:4}"
+		desktop_appgroups_id="-appgroups-${appgroups_hash_short}"
+	fi
+}
+
 function desktop_element_available_for_arch() {
 	local desktop_element_path="${1}"
 	local targeted_arch="${2}"

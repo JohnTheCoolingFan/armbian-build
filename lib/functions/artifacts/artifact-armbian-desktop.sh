@@ -51,6 +51,9 @@ function artifact_armbian-desktop_prepare_version() {
 	# outer scope
 	artifact_version="${fake_unchanging_base_version}-V${var_config_hash_short}-B${bash_hash_short}"
 
+	declare desktop_appgroups_id="undetermined"
+	get_desktop_appgroups_id # in config-desktop.sh
+
 	declare -a reasons=(
 		"Armbian armbian-desktop"
 		"vars hash \"${vars_config_hash}\""
@@ -59,11 +62,12 @@ function artifact_armbian-desktop_prepare_version() {
 		"distro release \"${RELEASE}\""
 		"desktop config_name \"${DESKTOP_ENVIRONMENT_CONFIG_NAME:-"no_DESKTOP_ENVIRONMENT_CONFIG_NAME_set"}\""
 		"desktop appgroups \"${DESKTOP_APPGROUPS_SELECTED:-"no_DESKTOP_APPGROUPS_SELECTED_set"}\""
+		"desktop appgroups id \"${desktop_appgroups_id}\""
 	)
 
 	artifact_version_reason="${reasons[*]}" # outer scope
 
-	artifact_name="armbian-${RELEASE}-desktop-${DESKTOP_ENVIRONMENT}"
+	artifact_name="armbian-${RELEASE}-desktop-${DESKTOP_ENVIRONMENT}${desktop_appgroups_id}"
 	artifact_type="deb"
 	artifact_deb_repo="${RELEASE}"
 	artifact_deb_arch="all"

@@ -39,6 +39,13 @@ function calculate_rootfs_cache_id() {
 	[[ -n ${DESKTOP_ENVIRONMENT} ]] && cache_type="${DESKTOP_ENVIRONMENT}-desktop"
 	[[ ${BUILD_MINIMAL} == yes ]] && cache_type="minimal"
 
+	# If it's a desktop, include the appgroups id in the cache_type
+	if [[ ${BUILD_DESKTOP} == yes ]]; then
+		declare desktop_appgroups_id="undetermined"
+		get_desktop_appgroups_id # in config-desktop.sh
+		cache_type="${cache_type}${desktop_appgroups_id}"
+	fi
+
 	# allow extensions to modify cache_type, since they may have used add_packages_to_rootfs() or remove_packages()
 	cache_type="${cache_type}${EXTRA_ROOTFS_NAME:-""}"
 
