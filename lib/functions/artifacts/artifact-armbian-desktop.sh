@@ -10,11 +10,13 @@
 function artifact_armbian-desktop_config_dump() {
 	artifact_input_variables[RELEASE]="${RELEASE}"
 	artifact_input_variables[DESKTOP_ENVIRONMENT]="${DESKTOP_ENVIRONMENT}"
-
-	# Include a hash of the results of aggregation.
-	declare aggregation_hash="undetermined"
-	aggregation_hash="$(echo "${AGGREGATED_DESKTOP_POSTINST} ${AGGREGATED_DESKTOP_CREATE_DESKTOP_PACKAGE} ${AGGREGATED_PACKAGES_DESKTOP_COMMA}" | sha256sum | cut -d' ' -f1)"
-	artifact_input_variables[DESKTOP_AGGREGATION_RESULTS]="${aggregation_hash}"
+	# These two below ideally shouldn't be included, but in practice, they are, otherwise...
+	# ... we'll reduce the number of artifacts to 1, and it's not true; we have one per appgroup variant.
+	# See https://github.com/armbian/build/issues/5439
+	# Having this in the reducer (config_dump()) allows OCI to be populated correctly, but the apt repo will still have trouble
+	# until #5439 is somehow addressed.
+	artifact_input_variables[DESKTOP_ENVIRONMENT_CONFIG_NAME]="${DESKTOP_ENVIRONMENT_CONFIG_NAME:-"no_DESKTOP_ENVIRONMENT_CONFIG_NAME_set"}"
+	artifact_input_variables[DESKTOP_APPGROUPS_SELECTED]="${DESKTOP_APPGROUPS_SELECTED:-"no_DESKTOP_APPGROUPS_SELECTED_set"}"
 }
 
 function artifact_armbian-desktop_prepare_version() {
@@ -53,6 +55,10 @@ function artifact_armbian-desktop_prepare_version() {
 		"Armbian armbian-desktop"
 		"vars hash \"${vars_config_hash}\""
 		"framework bash hash \"${bash_hash}\""
+		"desktop environment \"${DESKTOP_ENVIRONMENT}\""
+		"distro release \"${RELEASE}\""
+		"desktop config_name \"${DESKTOP_ENVIRONMENT_CONFIG_NAME:-"no_DESKTOP_ENVIRONMENT_CONFIG_NAME_set"}\""
+		"desktop appgroups \"${DESKTOP_APPGROUPS_SELECTED:-"no_DESKTOP_APPGROUPS_SELECTED_set"}\""
 	)
 
 	artifact_version_reason="${reasons[*]}" # outer scope
