@@ -76,6 +76,7 @@ function cli_json_info_run() {
 			declare DEBS_OUTPUT_DIR="${DEB_STORAGE}" # this is different depending if BETA=yes (output/debs-beta) or not (output/debs)
 			display_alert "Downloading debs to" "${DEBS_OUTPUT_DIR}" "info"
 			export PARALLEL_DOWNLOADS_WORKERS="${PARALLEL_DOWNLOADS_WORKERS}"
+			export ARMBIAN_RUNNING_IN_CONTAINER="${ARMBIAN_RUNNING_IN_CONTAINER:-"no"}"
 			run_host_command_logged mkdir -pv "${DEBS_OUTPUT_DIR}"
 			run_host_command_logged "${PYTHON3_VARS[@]}" "${PYTHON3_INFO[BIN]}" "${INFO_TOOLS_DIR}"/download-debs.py "${DEBS_TO_REPO_INFO_FILE}" "${DEBS_OUTPUT_DIR}"
 
@@ -102,6 +103,43 @@ function cli_json_info_run() {
 			display_alert "Done with" "debs-to-repo-reprepro" "ext"
 
 			return 0 # stop here.
+		fi
+
+		# debs-to-repo-rolling-reprepro - a combined version of download-debs + reprepro-script, but comparing with existing repo.
+		if [[ "${ARMBIAN_COMMAND}" == "debs-to-repo-rolling-reprepro" ]]; then
+			declare DEBS_TO_REPO_INFO_FILE="${BASE_INFO_OUTPUT_DIR}/debs-to-repo-info.json"
+			if [[ ! -f "${DEBS_TO_REPO_INFO_FILE}" ]]; then
+				exit_with_error "debs-to-repo-download :: no ${DEBS_TO_REPO_INFO_FILE} file found; did you restore the pipeline artifacts correctly?"
+			fi
+
+			declare REPREPRO_CURRENT_INFO_FILE="${BASE_INFO_OUTPUT_DIR}/reprepro-current.json"
+			export REPREPRO_CURRENT_INFO_FILE="${REPREPRO_CURRENT_INFO_FILE}" # download-debs will check for this file, and skip downloading existing debs if it exists.
+
+			display_alert "Reading current reprepro contents" "debs-to-repo-rolling-reprepro" "info"
+			run_host_command_logged "${PYTHON3_VARS[@]}" "${PYTHON3_INFO[BIN]}" "${INFO_TOOLS_DIR}"/repo-dump-reprepro-json.py "${REPO_REPREPRO_PATH}/db" ">" "${REPREPRO_CURRENT_INFO_FILE}"
+			display_alert "Done with" "repo-dump-preprepro-json" "ext"
+
+			display_alert "Downloading debs" "debs-to-repo-download" "info"
+			declare DEBS_OUTPUT_DIR="${DEB_STORAGE}" # this is different depending if BETA=yes (output/debs-beta) or not (output/debs)
+			display_alert "Downloading debs to" "${DEBS_OUTPUT_DIR}" "info"
+			export PARALLEL_DOWNLOADS_WORKERS="${PARALLEL_DOWNLOADS_WORKERS}"
+			export ARMBIAN_RUNNING_IN_CONTAINER="${ARMBIAN_RUNNING_IN_CONTAINER:-"no"}"
+			run_host_command_logged mkdir -pv "${DEBS_OUTPUT_DIR}"
+			run_host_command_logged "${PYTHON3_VARS[@]}" "${PYTHON3_INFO[BIN]}" "${INFO_TOOLS_DIR}"/download-debs.py "${DEBS_TO_REPO_INFO_FILE}" "${DEBS_OUTPUT_DIR}"
+
+			display_alert "Done with" "debs-to-repo-download" "ext"
+
+			display_alert "Generating rerepro publishing script" "debs-to-repo-reprepro" "info"
+			declare OUTPUT_INFO_REPREPRO_DIR="${BASE_INFO_OUTPUT_DIR}/reprepro"
+			declare OUTPUT_INFO_REPREPRO_CONF_DIR="${OUTPUT_INFO_REPREPRO_DIR}/conf"
+			run_host_command_logged mkdir -pv "${OUTPUT_INFO_REPREPRO_DIR}" "${OUTPUT_INFO_REPREPRO_CONF_DIR}"
+
+			# Export params so Python can see them
+			export REPO_GPG_KEYID="${REPO_GPG_KEYID}"
+			run_host_command_logged "${PYTHON3_VARS[@]}" "${PYTHON3_INFO[BIN]}" "${INFO_TOOLS_DIR}"/repo-reprepro.py "${DEBS_TO_REPO_INFO_FILE}" "${OUTPUT_INFO_REPREPRO_DIR}" "${OUTPUT_INFO_REPREPRO_CONF_DIR}"
+
+			display_alert "Done with" "debs-to-repo-reprepro" "ext"
+
 		fi
 
 		### --- inventory --- ###

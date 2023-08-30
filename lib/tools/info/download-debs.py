@@ -72,6 +72,9 @@ debs_output_dir = sys.argv[2]
 with open(debs_info_json_path) as f:
 	artifact_debs = json.load(f)
 
+# if REPREPRO_CURRENT_INFO_FILE is in the environment, read it
+reprepro_current = armbian_utils.try_get_reprepro_current_json()
+
 if armbian_utils.get_from_env("ARMBIAN_RUNNING_IN_CONTAINER") == "yes":
 	log.warning("Not running in a container. download-debs might fail. Run this in a Docker-capable machine.")
 
@@ -92,6 +95,11 @@ for artifact in artifact_debs:
 		deb = artifact["debs"][key]
 		relative_deb_path = deb["relative_deb_path"]
 		deb_path = os.path.join(debs_output_dir, relative_deb_path)
+		if armbian_utils.is_deb_in_reprepro_current(reprepro_current, artifact["repo_target"], artifact["artifact_deb_arch"], deb["package_name"],
+													artifact["artifact_version"]):
+			log.info(f"Skipping deb {deb_path} because it's already in the repo.")
+			continue
+
 		if not os.path.isfile(deb_path):
 			log.info(f"Missing deb: {deb_path}")
 			missing_debs.append(deb_path)

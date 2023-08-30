@@ -37,7 +37,9 @@ def generate_deb_summary(info):
 		artifact_type = out["artifact_type"]
 		artifact_version = out["artifact_version"]
 		artifact_final_version_reversioned = out["artifact_final_version_reversioned"]
+		artifact_full_oci_target = out["artifact_full_oci_target"]
 		artifact_deb_repo = out["artifact_deb_repo"]
+		artifact_deb_arch = out["artifact_deb_arch"]
 
 		if not (artifact_type == "deb" or artifact_type == "deb-tar"):
 			continue
@@ -100,7 +102,9 @@ def generate_deb_summary(info):
 			"artifact_type": artifact_type,
 			"artifact_version": artifact_version,
 			"artifact_final_version_reversioned": artifact_final_version_reversioned,
+			"artifact_full_oci_target": artifact_full_oci_target,
 			"artifact_deb_repo": artifact_deb_repo,
+			"artifact_deb_arch": artifact_deb_arch,
 			"repo_target": repo_target,
 			"download_invocation": invocation,
 			"debs": all_debs

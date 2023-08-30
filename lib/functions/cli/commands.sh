@@ -38,8 +38,9 @@ function armbian_register_commands() {
 		["gha-template"]="json_info"      # implemented in cli_json_info_pre_run and cli_json_info_run
 
 		# These probably should be in their own separate CLI commands file, but for now they're together in jsoninfo.
-		["debs-to-repo-download"]="json_info" # implemented in cli_json_info_pre_run and cli_json_info_run
-		["debs-to-repo-reprepro"]="json_info" # implemented in cli_json_info_pre_run and cli_json_info_run
+		["debs-to-repo-download"]="json_info"         # implemented in cli_json_info_pre_run and cli_json_info_run
+		["debs-to-repo-reprepro"]="json_info"         # implemented in cli_json_info_pre_run and cli_json_info_run
+		["debs-to-repo-rolling-reprepro"]="json_info" # implemented in cli_json_info_pre_run and cli_json_info_run
 
 		# Patch to git & patch rewrite, for kernel
 		["kernel-patches-to-git"]="patch_kernel"                 # implemented in cli_patch_kernel_pre_run and cli_patch_kernel_run
@@ -116,6 +117,7 @@ function armbian_register_commands() {
 		# repo pipeline stuff is usually run on saved/restored artifacts for output/info, so don't clean them by default
 		["debs-to-repo-download"]="CLEAN_MATRIX='no' CLEAN_INFO='no'"
 		["debs-to-repo-reprepro"]="CLEAN_MATRIX='no' CLEAN_INFO='no'"
+		["debs-to-repo-rolling-reprepro"]="CLEAN_MATRIX='no' CLEAN_INFO='no'"
 
 		# inventory
 		["inventory-boards"]="TARGETS_FILE='something_that_does_not_exist_so_defaults_are_used'"

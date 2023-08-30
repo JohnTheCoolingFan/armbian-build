@@ -16,9 +16,8 @@ import multiprocessing
 import os
 import re
 import subprocess
-from pathlib import Path
-
 import sys
+from pathlib import Path
 
 from common.term_colors import background_dark_or_light
 
@@ -477,3 +476,40 @@ def get_info_for_one_build(armbian_paths: dict[str, str], command: str, params: 
 	finally:
 		if counter % 10 == 0:
 			log.info(f"Processed {counter} / {total} targets.")
+
+
+def try_get_reprepro_current_json():
+	reprepro_current = None
+	if "REPREPRO_CURRENT_INFO_FILE" in os.environ and os.environ["REPREPRO_CURRENT_INFO_FILE"]:
+		reprepro_current_file = os.environ["REPREPRO_CURRENT_INFO_FILE"]
+		log.info(f"Reading reprepro current info from {reprepro_current_file}...")
+		with open(reprepro_current_file) as f:
+			reprepro_current = json.load(f)
+			log.info(f"Read {len(reprepro_current)} entries from reprepro current info file.")
+	else:
+		log.warning(f"REPREPRO_CURRENT_INFO_FILE not set, skipping reading reprepro current info.")
+	return reprepro_current
+
+
+# a function to check for a deb in the reprepro_current dict
+def is_deb_in_reprepro_current(reprepro_current, repo_target, arch, pkg_name, armbian_hash) -> bool:
+	# hack for base-files; since bsp-cli depends on its specific version, it always has to be included
+	if pkg_name == "base-files":
+		return False
+
+	# Normal logic for all other packages
+	if reprepro_current is None:
+		return False
+	if not repo_target in reprepro_current:
+		return False
+	repo_target_dict = reprepro_current[repo_target]
+	if not arch in repo_target_dict:
+		return False
+	arch_dict = repo_target_dict[arch]
+	if not pkg_name in arch_dict:
+		return False
+	pkg_dict = arch_dict[pkg_name]
+	if not armbian_hash in pkg_dict:
+		return False
+	log.info(f"Found deb in reprepro current: {repo_target} {arch} {pkg_name} {armbian_hash}: existing version '{pkg_dict[armbian_hash]}'")
+	return True

@@ -119,6 +119,8 @@ function prepare_python_and_pip() {
 		"PYTHONUNBUFFERED=yes"
 		"PYTHONPYCACHEPREFIX=${PYTHON3_INFO[PYCACHEPREFIX]}"
 		"PATH=\"${toolchain}:${PYTHON3_INFO[USERBASE]}/bin:${PATH}\"" # add toolchain to PATH to make building wheels work
+		"BERKELEYDB_DIR=/usr/lib/$(arch)-linux-gnu"                   # arch-dependent
+		"BERKELEYDB_INCDIR=/usr/include"                              # Always
 	)
 
 	# If the hash file exists, we're done.
@@ -152,4 +154,7 @@ function host_deps_add_extra_python() {
 	else
 		display_alert "Using Python3 for" "hostdeps: '${host_release}' has python3 >= 3.9" "debug"
 	fi
+
+	host_dependencies+=("libdb-dev") # For Python's berkeleydb package to build correctly
+	return 0
 }

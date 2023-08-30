@@ -18,3 +18,4 @@ rich == 13.7.1         # for rich text formatting
 dtschema == 2024.5     # for checking dts files and dt bindings
 yamllint == 1.35.1     # for checking dts files and dt bindings
 b4==0.12.3             # b4: patch/mailing list workhorse from kernel.org
+berkeleydb==18.1.6     # berkeleydb: for reading reprepro's 'db' files directly

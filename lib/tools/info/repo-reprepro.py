@@ -29,6 +29,7 @@ reprepro_conf_output_dir = sys.argv[3]
 reprepro_conf_distributions_fn = os.path.join(reprepro_conf_output_dir, f"distributions")
 reprepro_conf_options_fn = os.path.join(reprepro_conf_output_dir, f"options")
 reprepro_output_script_fn = os.path.join(reprepro_script_output_dir, f"reprepro.sh")
+oci_tag_output_script_fn = os.path.join(reprepro_script_output_dir, f"oci_tag_versions.sh")
 
 # From the environment...
 gpg_keyid = armbian_utils.get_from_env("REPO_GPG_KEYID")
@@ -36,6 +37,10 @@ gpg_keyid = armbian_utils.get_from_env("REPO_GPG_KEYID")
 # read the json file
 with open(debs_info_json_path) as f:
 	artifact_debs = json.load(f)
+
+# if REPREPRO_CURRENT_INFO_FILE is in the environment, read it
+reprepro_current = armbian_utils.try_get_reprepro_current_json()
+oci_tag_script = ["echo 'retagging OCI images...'"]
 
 # Now aggregate all repo_targets and their artifacts.
 # This will be used to generate the reprepro config file.
@@ -108,16 +113,29 @@ for one_repo_target in repo_targets:
 	all_debs_to_include: list[str] = []
 	# for each artifact
 	for artifact in artifacts:
+		artifact_has_debs_to_include = False
 		# for each deb
 		for key in artifact["debs"]:
 			deb = artifact["debs"][key]
 			relative_deb_path = deb["relative_deb_path"]
+			if armbian_utils.is_deb_in_reprepro_current(reprepro_current, artifact["repo_target"], artifact["artifact_deb_arch"], deb["package_name"],
+														artifact["artifact_version"]):
+				log.info(f"Skipping deb '{relative_deb_path}' because it's already in the repo.")
+				continue
 			all_debs_to_include.append(relative_deb_path)
+			artifact_has_debs_to_include = True
+
+		# If any debs will be included, mark the whole artifact to be tagged in OCI as well.
+		if artifact_has_debs_to_include:
+			# replace all instances of "+" and "~" with "--" for the new tag
+			new_tag_value = artifact['artifact_final_version_reversioned'].replace("+", "--").replace("~", "--")
+			oci_tag_cmds = ["oras", "tag", f"'{artifact['artifact_full_oci_target']}'", f"'{new_tag_value}'"]
+			oci_tag_script.append(" ".join(oci_tag_cmds))
 
 	all_debs_to_include_quoted = ['"${INCOMING_DEBS_DIR}/' + x + '"' for x in all_debs_to_include]
 
 	if len(all_debs_to_include) > 0:
-		# add all debs to the repop
+		# add all debs to the repo
 		cmds = ["reprepro", "-b", '"${REPO_LOCATION}"', "--component", "main", "includedeb", one_repo_target] + all_debs_to_include_quoted
 		bash_lines.append(f"echo 'reprepro importing {len(all_debs_to_include_quoted)} debs for target {one_repo_target}...' ")
 		bash_lines.append(" ".join(cmds))
@@ -132,3 +150,9 @@ with open(reprepro_output_script_fn, "w") as f:
 		f.write(f"{line}\n")
 
 log.info(f"Wrote {reprepro_output_script_fn}")
+
+with open(oci_tag_output_script_fn, "w") as f:
+	for line in oci_tag_script:
+		f.write(f"{line}\n")
+
+log.info(f"Wrote {oci_tag_output_script_fn}")
