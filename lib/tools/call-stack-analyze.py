@@ -12,7 +12,7 @@ import sys
 
 import graphviz
 
-# define an array with some functions which do callbacks; those complicate the 
+# define an array with some functions which do callbacks; those complicate the
 # graph too much, and you don't need them in to understand the flow.
 skip_functions = [
 	"call_extension_method", "do_with_logging", "do_with_hooks", "do_with_ccache_statistics",
@@ -278,6 +278,10 @@ for node in nodes:
 
 # use the graphviz package to generate a call graph
 dot = graphviz.Digraph(comment='Armbian build system call graph')
+# dot.attr(nodesep='0.5')
+dot.attr('node', fontname='Helvetica')
+dot.attr('edge', fontname='Helvetica')
+dot.attr(fontname='Helvetica')
 
 # An array of colors which we'll use as background colors for the nodes.
 colors = [
