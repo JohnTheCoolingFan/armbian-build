@@ -1,0 +1,81 @@
+cli:
+  commands:
+    # @TODO: describe all commands here, and _generate_ lib/functions/cli/commands.sh
+    "build":
+      preferred: build
+      aliases: [ "image" ]
+      description: "Build a complete Armbian image"
+      default: true # this is the default CLI command run when no command is specified
+      bash-handler: "standard_build"
+    "kernel":
+      description: "Build a kernel into .deb packages"
+      bash-handler: "artifact"
+      bash-handler-envs:
+        envs: { "WHAT": "kernel" }
+    "kernel-config":
+      description: "Interactively modify kernel configuration via menuconfig; does *not* build the kernel"
+      bash-handler-envs:
+        envs: { "WHAT": "kernel" }
+        common: [ *artifact-cli-interactive-common-envs ]
+    "kernel-patch":
+      description: "Interactively patch kernel sources; does *not* build the kernel"
+      bash-handler-envs:
+        envs: { "WHAT": "kernel", "CREATE_PATCHES": "yes" }
+        common: [ *artifact-cli-interactive-common-envs ]
+    "uboot":
+      description: "Build u-boot"
+      aliases: [ "u-boot" ]
+      bash-handler: "artifact"
+      bash-handler-envs:
+        envs: { "WHAT": "uboot" }
+    "uboot-config":
+      description: "Interactively modify u-boot configuration via menuconfig; does *not* build u-boot. Output is the defconfig, but that is not automatically used and requires manual patching in the end."
+      bash-handler: "artifact"
+      bash-handler-envs:
+        envs: { "WHAT": "uboot", "UBOOT_CONFIGURE": "yes" }
+        common: [ *artifact-cli-interactive-common-envs ]
+    "uboot-patch":
+      description: "Interactively modify u-boot configuration via menuconfig; does *not* build u-boot"
+      bash-handler: "artifact"
+      bash-handler-envs:
+        envs: { "WHAT": "uboot", "CREATE_PATCHES": "yes" }
+        common: [ *artifact-cli-interactive-common-envs ]
+  parameters:
+    "WHAT":
+      description: "What artifact to build"
+      default: null # there is no default
+      required: { handlers: [ "artifact" ] }
+      hidden: true # this parameter is not shown in the help, or even mentioned in docs. cli aliases set it.
+    "BOARD":
+      description: "Board to build, must be one of the files in config/boards directory, without the extension"
+      required: { handlers: [ "standard_build" ], commands: [ "kernel" ] } # it is required for a non-interactive build, but would trigger an interactive menu if not specified and user is on terminal
+      possible-values:
+        dynamic-python-method: "get_possible_boards" # Reference to a Python function that will provide all possible values for autocompletion
+    "BRANCH":
+      description: "Branch to build; each BOARD might have different branches available"
+      default: null # there is no default
+      required: { handlers: [ "standard_build" ], commands: [ "kernel" ] }
+      possible-values:
+        dependent-on: [ "BOARD" ] # we can only determine the possible values of BRANCH if BOARD is already specified
+        dynamic-python-method: "get_possible_branches"
+    "RELEASE":
+      description: "Userspace release to build"
+      default: null # there is no default
+      required: { handlers: [ "standard_build" ], commands: [ "rootfs" ] }
+      possible-values:
+        dynamic-python-method: "get_possible_releases" # TA-DA remember rpi4b?
+    "DESKTOP_ENVIRONMENT":
+      description: "Desktop environment to build"
+      default: null # there is no default
+      required: { param-values: { all: [ { "BUILD_DESKTOP": "yes" } ] } } # this parameter is required if BUILD_DESKTOP is set to yes
+      implies: [ { BUILD_DESKTOP: "yes" } ] # using this param actually implies that it is a desktop build
+      possible-values:
+        dependent-on: [ "RELEASE" ] # available desktops depend on the release
+        dynamic-python-method: "get_possible_desktop_environments"
+
+  # Simple way to reuse groups of parameters across many cli aliases
+  common-envs:
+    artifact-cli-interactive-common-envs: &artifact-cli-interactive-common-envs
+      ARTIFACT_WILL_NOT_BUILD: 'yes'
+      ARTIFACT_BUILD_INTERACTIVE: 'yes'
+      ARTIFACT_IGNORE_CACHE: 'yes'
