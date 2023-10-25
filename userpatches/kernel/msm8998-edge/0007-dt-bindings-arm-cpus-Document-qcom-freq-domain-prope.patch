@@ -1,8 +1,7 @@
-From c5eae990c46be19782e8ec9b1080bdb522b70aeb Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Date: Tue, 20 Oct 2020 21:09:43 +0530
-Subject: [PATCH 007/127] dt-bindings: arm: cpus: Document 'qcom,freq-domain'
- property
+Date: Tue, 20 Oct 2020 21:29:43 +0550
+Subject: dt-bindings: arm: cpus: Document 'qcom,freq-domain' property
 
 Add devicetree documentation for 'qcom,freq-domain' property specific
 to Qualcomm CPUs. This property is used to reference the CPUFREQ node
@@ -32,5 +31,5 @@ index 5c13b73e4d57..326d60bbc537 100644
      $ref: '/schemas/types.yaml#/definitions/phandle'
      description: |
 -- 
-2.38.1
+Armbian
 

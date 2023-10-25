@@ -1,8 +1,8 @@
-From f530abd105b40d76c974965c19bb1b17d8936b81 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Mon, 9 Aug 2021 17:11:02 +0200
-Subject: [PATCH 047/127] arm64: dts: qcom: msm8998: Add disabled support for
- lpass iommu for q6
+Subject: arm64: dts: qcom: msm8998: Add disabled support for lpass iommu for
+ q6
 
 Add support for the LPASS (Q6) SMMU and keep it disabled as this is
 used only when the audio DSP is present and used, which is not
@@ -12,7 +12,7 @@ if supported.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- arch/arm64/boot/dts/qcom/msm8998.dtsi | 27 +++++++++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 27 ++++++++++
  1 file changed, 27 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
@@ -54,5 +54,5 @@ index 2d0d27de82ec..6abb33bcb17a 100644
  			compatible = "qcom,msm8998-slpi-pas";
  			reg = <0x05800000 0x4040>;
 -- 
-2.38.1
+Armbian
 

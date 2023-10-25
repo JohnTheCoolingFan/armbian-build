@@ -1,17 +1,15 @@
-From 38a17fab8ec8218e4569efa7308e038e144efd1e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 25 Nov 2020 20:31:49 +0100
-Subject: [PATCH 017/127] dt-bindings: soc: qcom: cpr3: Add bindings for CPR3
- driver
+Subject: dt-bindings: soc: qcom: cpr3: Add bindings for CPR3 driver
 
 Add the bindings for the CPR3 driver to the documentation.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- .../bindings/soc/qcom/qcom,cpr3.yaml          | 241 ++++++++++++++++++
+ Documentation/devicetree/bindings/soc/qcom/qcom,cpr3.yaml | 241 ++++++++++
  1 file changed, 241 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/soc/qcom/qcom,cpr3.yaml
 
 diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,cpr3.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,cpr3.yaml
 new file mode 100644
@@ -261,5 +259,5 @@ index 000000000000..e2753740c86b
 +    };
 +...
 -- 
-2.38.1
+Armbian
 

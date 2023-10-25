@@ -1,14 +1,13 @@
-From ce24d9c99f0cba2e4db6370f99ffd6fdae2448e4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Konrad Dybcio <konrad.dybcio@somainline.org>
 Date: Fri, 22 Apr 2022 21:37:34 +0200
-Subject: [PATCH 121/127] arm64: dts: qcom: msm8998-yoshino: Fix up SMD
- regulators formatting
+Subject: arm64: dts: qcom: msm8998-yoshino: Fix up SMD regulators formatting
 
 Add a new line between each subnode and make the { } consistent.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
 ---
- .../dts/qcom/msm8998-sony-xperia-yoshino.dtsi | 33 ++++++++++++++++++-
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi | 33 +++++++++-
  1 file changed, 32 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi
@@ -180,5 +179,5 @@ index 58b2f154e84e..462d20a9c591 100644
  	};
  
 -- 
-2.38.1
+Armbian
 

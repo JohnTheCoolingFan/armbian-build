@@ -1,8 +1,7 @@
-From da02367ee86b5318fd9345d4da6ff50173dd8c46 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@somainline.org>
 Date: Fri, 10 Dec 2021 02:27:20 +0000
-Subject: [PATCH 100/127] arm64: dts: qcom: msm8998-oneplus-common: Enable
- PMI8998 haptics
+Subject: arm64: dts: qcom: msm8998-oneplus-common: Enable PMI8998 haptics
 
 The OnePlus 5 and 5T both have a haptics engine connected to PMI8998.
 
@@ -30,5 +29,5 @@ index 62bda23791bb..f7896b337927 100644
  	status = "okay";
  
 -- 
-2.38.1
+Armbian
 

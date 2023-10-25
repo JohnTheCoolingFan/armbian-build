@@ -1,7 +1,7 @@
-From 360183889679e952f51f9095c80e05eabc64b216 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Mon, 9 Aug 2021 19:09:29 +0200
-Subject: [PATCH 050/127] arm64: dts: qcom: msm8998-xperia: Enable lpass smmu
+Subject: arm64: dts: qcom: msm8998-xperia: Enable lpass smmu
 
 To support audio dsp functionality, enable the lpass smmu.
 The firmware distributed with the MSM8998 Sony Xperia smartphones
@@ -33,5 +33,5 @@ index efbcaf7827dc..6043b720106c 100644
  	status = "ok";
  };
 -- 
-2.38.1
+Armbian
 

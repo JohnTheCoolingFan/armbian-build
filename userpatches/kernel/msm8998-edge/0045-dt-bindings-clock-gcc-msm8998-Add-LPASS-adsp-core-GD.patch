@@ -1,8 +1,8 @@
-From f80c1addaafabafa16acee5cf20d1fb387f4dd89 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Mon, 9 Aug 2021 17:01:49 +0200
-Subject: [PATCH 045/127] dt-bindings: clock: gcc-msm8998: Add LPASS adsp/core
- GDSCs definitions
+Subject: dt-bindings: clock: gcc-msm8998: Add LPASS adsp/core GDSCs
+ definitions
 
 Add the GDSC definitions for the LPASS_ADSP_GDSC and LPASS_CORE_GDSC
 as a final step to enable the required clock tree for the lpass iommu
@@ -27,5 +27,5 @@ index 9b124ee63be9..f4cba2343abe 100644
  #define GCC_BLSP1_QUP1_BCR					0
  #define GCC_BLSP1_QUP2_BCR					1
 -- 
-2.38.1
+Armbian
 

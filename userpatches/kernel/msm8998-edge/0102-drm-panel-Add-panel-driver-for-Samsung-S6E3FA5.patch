@@ -1,7 +1,7 @@
-From 980f30985ecea563415ddf96ecf71669647e0b28 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Sun, 21 Jun 2020 21:52:02 +0300
-Subject: [PATCH 102/127] drm/panel: Add panel driver for Samsung S6E3FA5
+Subject: drm/panel: Add panel driver for Samsung S6E3FA5
 
 The S6E3FA5 is 5.5" 1080x1920 MIPI DSI command mode AMOLED LCD display
 found on OnePlus 5 (2017) smartphones.
@@ -17,9 +17,8 @@ Signed-off-by: Jami Kettunen <jami.kettunen@protonmail.com>
 ---
  drivers/gpu/drm/panel/Kconfig                 |  15 +
  drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c | 338 ++++++++++++++++++
+ drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c | 338 ++++++++++
  3 files changed, 354 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c
 
 diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
 index a582ddd583c2..7818b4e9b9c9 100644
@@ -404,5 +403,5 @@ index 000000000000..90faee3f5a50
 +MODULE_DESCRIPTION("DRM driver for Samsung S6E3FA5 AMOLED DSI cmd mode panel found on OnePlus 5 phones");
 +MODULE_LICENSE("GPL v2");
 -- 
-2.38.1
+Armbian
 

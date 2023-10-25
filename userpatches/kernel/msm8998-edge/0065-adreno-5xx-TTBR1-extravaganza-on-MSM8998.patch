@@ -1,14 +1,14 @@
-From bc7d9575a0c10077397e69fe37587930abf471e9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 11 Aug 2021 21:28:34 +0200
-Subject: [PATCH 065/127] adreno 5xx: TTBR1 extravaganza on MSM8998
+Subject: adreno 5xx: TTBR1 extravaganza on MSM8998
 
 (JAMI: fixup for 5.16)
 ---
- .../msm8998-sony-xperia-yoshino-maple.dts     |  4 +-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c         | 66 ++++++++++++++++++-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.h         |  1 +
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c    |  4 +-
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts |  4 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c                          | 66 +++++++++-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.h                          |  1 +
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c                     |  4 +-
  4 files changed, 69 insertions(+), 6 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts
@@ -169,5 +169,5 @@ index 03e016058ee5..e9e69672d189 100644
  }
  
 -- 
-2.38.1
+Armbian
 

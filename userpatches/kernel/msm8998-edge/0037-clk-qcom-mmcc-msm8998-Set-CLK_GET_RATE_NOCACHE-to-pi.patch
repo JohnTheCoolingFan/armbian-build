@@ -1,8 +1,7 @@
-From c2aa30ebf87313abec2ca5929a7610181bf54e6b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 23 Dec 2020 12:35:07 +0100
-Subject: [PATCH 037/127] clk: qcom: mmcc-msm8998: Set CLK_GET_RATE_NOCACHE to
- pixel/byte clks
+Subject: clk: qcom: mmcc-msm8998: Set CLK_GET_RATE_NOCACHE to pixel/byte clks
 
 The pixel and byte clocks rate should not be cached, as a VCO shutdown
 may clear the frequency setup and this may not be set again due to the
@@ -56,5 +55,5 @@ index c421b1291651..07dfdb9e280d 100644
  };
  
 -- 
-2.38.1
+Armbian
 

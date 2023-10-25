@@ -92,3 +92,38 @@
 
 - https://en.wikipedia.org/wiki/Kryo#Kryo_280
 
+
+# 2023-10-27, this is still going
+
+## Mainline kernel vs patched 6.1 msm8998 kernel from Jami etc
+
+Stuff that is missing
+
+```shell
+CONFIG_BATTERY_QCOM_FG=m           #  power: pmi8998_fg: Rename to qcom_fg and add support for PMI8994/6
+CONFIG_DRM_PANEL_SAMSUNG_S6E3FA5=y # drm/panel: Add panel driver for Samsung S6E3FA5 (OP5)
+CONFIG_DRM_PANEL_SAMSUNG_S6E3FC1=y # drm/panel: Add panel driver for Samsung S6E3FC1 (OP5T)
+CONFIG_INTERCONNECT_QCOM_MSM8998=y # interconnect: qcom: Add MSM8998 interconnect provider driver
+CONFIG_QCOM_CPR3=y                 # soc: qcom: Add support for Core Power Reduction v3, v4 and Hardened
+CONFIG_RMI4_F1A=y                  # Input: synaptics-rmi4 - add support for F1A
+CONFIG_SND_SOC_MSM8998=m           # ASoC: qcom: Add MSM8998 sound card support
+# Others
+
+# Builtins turned to modules
+# traced to RPMSG_QCOM_SMD=m, maybe =y?
+CONFIG_QCOM_CLK_SMD_RPM=y
+CONFIG_QCOM_RPMPD=y
+CONFIG_QCOM_SMD_RPM=y
+CONFIG_REGULATOR_QCOM_SMD_RPM=y
+
+# Stuff that's _gone_
+CONFIG_SCSI_UFS_HPB=y      # # This is strange, UFS disappeared?
+CONFIG_ARM64_MODULE_PLTS=y # Gone
+CONFIG_FORCE_NR_CPUS=y     # Can't enable anymore...
+CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON=y
+CONFIG_LEDS_TRIGGER_GPIO=y
+CONFIG_SECURITY_SELINUX_DISABLE=y
+CONFIG_SQUASHFS_DECOMP_MULTI_PERCPU=y
+
+```
+

@@ -1,7 +1,7 @@
-From 7db4c34f2592604bf5170e821b1b055562b70f3c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Wed, 7 Oct 2020 23:06:21 +0300
-Subject: [PATCH 084/127] [HACK] scripts: Stop appending "+" to localversion
+Subject: [HACK] scripts: Stop appending "+" to localversion
 
 This always gets added and doesn't look nice in the version string, so
 it's purely for aesthetic reasons :p
@@ -23,5 +23,5 @@ index af4754a35e66..a42f4008a9dc 100755
  
  echo "$res"
 -- 
-2.38.1
+Armbian
 

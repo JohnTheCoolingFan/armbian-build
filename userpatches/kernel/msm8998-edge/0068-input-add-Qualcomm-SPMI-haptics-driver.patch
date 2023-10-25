@@ -1,7 +1,7 @@
-From fd2dd15fd5ab80d85a440f181e43d3b1c00534c8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Caleb Connolly <caleb@connolly.tech>
 Date: Sat, 15 Oct 2022 17:30:56 +0000
-Subject: [PATCH 068/127] input: add Qualcomm SPMI haptics driver
+Subject: input: add Qualcomm SPMI haptics driver
 
 Add support for the haptics found in pmi8998 and related PMICs.
 Based on the ff-memless interface. Currently this driver provides
@@ -14,9 +14,8 @@ Signed-off-by: Caleb Connolly <caleb@connolly.tech>
 ---
  drivers/input/misc/Kconfig                |  15 +
  drivers/input/misc/Makefile               |   1 +
- drivers/input/misc/qcom-pmi8998-haptics.c | 690 ++++++++++++++++++++++
+ drivers/input/misc/qcom-pmi8998-haptics.c | 690 ++++++++++
  3 files changed, 706 insertions(+)
- create mode 100644 drivers/input/misc/qcom-pmi8998-haptics.c
 
 diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
 index 9f088900f863..37a9005706a6 100644
@@ -753,5 +752,5 @@ index 000000000000..e9eec2d9de2d
 +MODULE_LICENSE("GPL");
 +MODULE_AUTHOR("Caleb Connolly <caleb@connolly.tech>");
 -- 
-2.38.1
+Armbian
 

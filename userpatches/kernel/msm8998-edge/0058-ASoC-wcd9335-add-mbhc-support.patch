@@ -1,11 +1,11 @@
-From f38c5614b82d00173b4a1726d74e0b1f73d90161 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Date: Fri, 31 Aug 2018 15:46:15 +0100
-Subject: [PATCH 058/127] ASoC: wcd9335: add mbhc support
+Subject: ASoC: wcd9335: add mbhc support
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
- sound/soc/codecs/wcd9335.c | 296 ++++++++++++++++++++++++++++++++++++-
+ sound/soc/codecs/wcd9335.c | 296 +++++++++-
  1 file changed, 294 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/codecs/wcd9335.c b/sound/soc/codecs/wcd9335.c
@@ -405,5 +405,5 @@ index d2548fdf9ae5..f8e3873008c1 100644
  
  static const unsigned int wcd9335_config_regs[] = {
 -- 
-2.38.1
+Armbian
 

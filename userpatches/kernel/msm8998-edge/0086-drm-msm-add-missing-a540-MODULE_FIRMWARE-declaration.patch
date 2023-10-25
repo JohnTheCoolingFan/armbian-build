@@ -1,8 +1,7 @@
-From c78c5f9d42398b18e3150d0b3293ce08ec7aa8eb Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Fri, 28 Jan 2022 18:39:57 +0200
-Subject: [PATCH 086/127] drm/msm: add missing a540 MODULE_FIRMWARE
- declarations
+Subject: drm/msm: add missing a540 MODULE_FIRMWARE declarations
 
 ---
  drivers/gpu/drm/msm/adreno/adreno_device.c | 5 +++++
@@ -25,5 +24,5 @@ index 628806423f7d..883f03995697 100644
  MODULE_FIRMWARE("qcom/a630_sqe.fw");
  MODULE_FIRMWARE("qcom/a630_gmu.bin");
 -- 
-2.38.1
+Armbian
 

@@ -1,13 +1,12 @@
-From 3932b2d6d347db60a5c86a181f63a3d8a32465d8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Thu, 13 Oct 2022 04:03:43 +0300
-Subject: [PATCH 105/127] drm/panel: samsung-s6e3fa5: Implement
- .get_orientation callback
+Subject: drm/panel: samsung-s6e3fa5: Implement .get_orientation callback
 
 Other drivers supporting this were already changed as a part of the
 following series: https://patchwork.freedesktop.org/series/104807/
 ---
- drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c | 12 ++++++++++++
+ drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c | 12 ++++++++++
  1 file changed, 12 insertions(+)
 
 diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c b/drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c
@@ -44,5 +43,5 @@ index 061424496a61..4832afd419cc 100644
  
  static int s6e3fa5_bl_update_status(struct backlight_device *bl)
 -- 
-2.38.1
+Armbian
 

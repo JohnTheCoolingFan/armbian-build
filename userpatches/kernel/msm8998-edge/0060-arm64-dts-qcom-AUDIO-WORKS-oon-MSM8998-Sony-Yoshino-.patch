@@ -1,12 +1,11 @@
-From f1c6188dcdd3e8bac3ac9a0eb7ebfad97fc2ae7b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Tue, 10 Aug 2021 16:40:05 +0200
-Subject: [PATCH 060/127] arm64: dts: qcom: AUDIO WORKS oon MSM8998 Sony
- Yoshino platform!!!
+Subject: arm64: dts: qcom: AUDIO WORKS oon MSM8998 Sony Yoshino platform!!!
 
 ---
- .../msm8998-sony-xperia-yoshino-maple.dts     |   2 +-
- .../dts/qcom/msm8998-sony-xperia-yoshino.dtsi | 215 ++++++++++++++++--
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts |   2 +-
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi      | 215 +++++++++-
  2 files changed, 202 insertions(+), 15 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts
@@ -314,5 +313,5 @@ index 3e152318e012..3c4362555fcc 100644
  	};
  
 -- 
-2.38.1
+Armbian
 

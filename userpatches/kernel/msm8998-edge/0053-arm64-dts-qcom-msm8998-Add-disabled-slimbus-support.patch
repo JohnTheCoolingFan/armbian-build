@@ -1,8 +1,7 @@
-From 53bf9bb21ada19a0bc8d3e03807fdcdf80f2ba9a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Mon, 9 Aug 2021 19:47:04 +0200
-Subject: [PATCH 053/127] arm64: dts: qcom: msm8998: Add disabled slimbus
- support
+Subject: arm64: dts: qcom: msm8998: Add disabled slimbus support
 
 Add generic slimbus configuration to MSM8998 and keep it disabled.
 It is expected that this will be enabled in board-specific device
@@ -10,7 +9,7 @@ trees when supported, along with the right audio codec.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- arch/arm64/boot/dts/qcom/msm8998.dtsi | 34 +++++++++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 34 ++++++++++
  1 file changed, 34 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
@@ -59,5 +58,5 @@ index 48fe76bc8c45..932cf884aa0d 100644
  			compatible = "qcom,msm8998-adsp-pas";
  			reg = <0x17300000 0x4040>;
 -- 
-2.38.1
+Armbian
 

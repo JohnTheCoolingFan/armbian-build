@@ -1,8 +1,7 @@
-From d563a8b45b95ce14667a46cd95f5db39761ee9a7 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Mon, 9 Aug 2021 16:58:20 +0200
-Subject: [PATCH 044/127] clk: qcom: gcc-msm8998: Add q6 bimc and lpass core,
- adsp SMMU clocks
+Subject: clk: qcom: gcc-msm8998: Add q6 bimc and lpass core, adsp SMMU clocks
 
 Add the Q6 BIMC, LPASS core/adsp SMMU clocks to support audio related
 functionality on MSM8998 and APQ variants. Please note that the Q6 and
@@ -12,7 +11,7 @@ which are going to be added in a later commit.
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 (JAMI: fixup for 6.0-rc2)
 ---
- drivers/clk/qcom/gcc-msm8998.c | 40 ++++++++++++++++++++++++++++++++++
+ drivers/clk/qcom/gcc-msm8998.c | 40 ++++++++++
  1 file changed, 40 insertions(+)
 
 diff --git a/drivers/clk/qcom/gcc-msm8998.c b/drivers/clk/qcom/gcc-msm8998.c
@@ -74,5 +73,5 @@ index 42df6099699c..8c86de5c347e 100644
  
  static struct gdsc *gcc_msm8998_gdscs[] = {
 -- 
-2.38.1
+Armbian
 

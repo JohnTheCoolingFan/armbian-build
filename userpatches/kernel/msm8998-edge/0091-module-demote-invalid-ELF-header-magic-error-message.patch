@@ -1,8 +1,7 @@
-From 4740cabbd88f1e978980ed8e5f337fc008fcfa5e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@hotmail.com>
 Date: Sat, 20 Nov 2021 22:14:36 +0200
-Subject: [PATCH 091/127] module: demote invalid ELF header magic error message
- to pr_debug
+Subject: module: demote invalid ELF header magic error message to pr_debug
 
 This happens anytime busybox modprobe loads a compressed module and
 looks especially ugly on postmarketOS for example (or basically any
@@ -30,5 +29,5 @@ index d02d39c7174e..f99e0e50a6af 100644
  	}
  	if (info->hdr->e_type != ET_REL) {
 -- 
-2.38.1
+Armbian
 

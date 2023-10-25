@@ -1,11 +1,10 @@
-From 31506e536c7a8d1e93ebd1593dc023d4c440c59e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Danct12 <danct12@disroot.org>
 Date: Sun, 2 May 2021 06:51:56 +0700
-Subject: [PATCH 098/127] arm64: dts: msm8998-fxtec-pro1: Add remoteproc
- configuration
+Subject: arm64: dts: msm8998-fxtec-pro1: Add remoteproc configuration
 
 ---
- arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts | 17 +++++++++++++++++
+ arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts | 17 ++++++++++
  1 file changed, 17 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts b/arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts
@@ -44,5 +43,5 @@ index 718bf8505f8a..439b6dbc2dcb 100644
  	status = "okay";
  };
 -- 
-2.38.1
+Armbian
 

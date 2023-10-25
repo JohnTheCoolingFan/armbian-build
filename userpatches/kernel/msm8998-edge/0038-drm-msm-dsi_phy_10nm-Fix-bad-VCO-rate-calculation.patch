@@ -1,7 +1,7 @@
-From f8ba194877aa3b484ec21cf5805d061302ff9da3 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Tue, 27 Jul 2021 12:35:49 +0300
-Subject: [PATCH 038/127] drm/msm/dsi_phy_10nm: Fix bad VCO rate calculation
+Subject: drm/msm/dsi_phy_10nm: Fix bad VCO rate calculation
 
 ---
  drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c | 7 +++----
@@ -36,5 +36,5 @@ index 27b592c776a3..9340bbf9d03c 100644
  	DBG("DSI PLL%d returning vco rate = %lu, dec = %x, frac = %x",
  	    pll_10nm->phy->id, (unsigned long)vco_rate, dec, frac);
 -- 
-2.38.1
+Armbian
 

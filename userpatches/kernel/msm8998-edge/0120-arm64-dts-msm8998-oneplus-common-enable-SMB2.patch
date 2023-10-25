@@ -1,7 +1,7 @@
-From 26b69a0780802852357c04d20dd71cfed7f77297 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Sun, 3 Apr 2022 00:36:39 +0300
-Subject: [PATCH 120/127] arm64: dts: msm8998-oneplus-common: enable SMB2
+Subject: arm64: dts: msm8998-oneplus-common: enable SMB2
 
 ---
  arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi | 7 +++++++
@@ -26,5 +26,5 @@ index 72260b554deb..f6ff2714fb78 100644
  	status = "okay";
  };
 -- 
-2.38.1
+Armbian
 

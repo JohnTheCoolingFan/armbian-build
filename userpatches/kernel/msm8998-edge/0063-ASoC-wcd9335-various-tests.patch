@@ -1,12 +1,12 @@
-From e50c13d7bc3ba88095e08c57fa57fc1bcdd018ac Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Fri, 28 Jan 2022 15:58:16 +0200
-Subject: [PATCH 063/127] ASoC: wcd9335: various tests
+Subject: ASoC: wcd9335: various tests
 
 Originally from: c215a022
 ---
- sound/soc/codecs/wcd9335.c | 15 ++++++++++++---
- sound/soc/codecs/wcd9335.h |  6 ++++++
+ sound/soc/codecs/wcd9335.c | 15 ++++++++--
+ sound/soc/codecs/wcd9335.h |  6 ++++
  2 files changed, 18 insertions(+), 3 deletions(-)
 
 diff --git a/sound/soc/codecs/wcd9335.c b/sound/soc/codecs/wcd9335.c
@@ -115,5 +115,5 @@ index 490fc44144a2..d54d6b1aedea 100644
  #define WCD9335_CDC_RX7_RX_PATH_CFG0		WCD9335_REG(0x0b, 0x0ce)
  #define WCD9335_CDC_RX7_RX_PATH_CFG1		WCD9335_REG(0x0b, 0x0cf)
 -- 
-2.38.1
+Armbian
 

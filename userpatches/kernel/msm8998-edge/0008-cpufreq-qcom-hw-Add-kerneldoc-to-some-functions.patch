@@ -1,14 +1,14 @@
-From 94a4aafee16fd319a7a3b6121b782579d60a05bc Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Thu, 17 Jun 2021 22:35:49 +0200
-Subject: [PATCH 008/127] cpufreq: qcom-hw: Add kerneldoc to some functions
+Subject: cpufreq: qcom-hw: Add kerneldoc to some functions
 
 Some functions may not be very straightforward to understand:
 add kerneldoc to some ones in order to improve readability.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- drivers/cpufreq/qcom-cpufreq-hw.c | 54 +++++++++++++++++++++++++++++++
+ drivers/cpufreq/qcom-cpufreq-hw.c | 54 ++++++++++
  1 file changed, 54 insertions(+)
 
 diff --git a/drivers/cpufreq/qcom-cpufreq-hw.c b/drivers/cpufreq/qcom-cpufreq-hw.c
@@ -112,5 +112,5 @@ index 833589bc95e4..693957cc1934 100644
  {
  	struct device_node *cpu_np;
 -- 
-2.38.1
+Armbian
 

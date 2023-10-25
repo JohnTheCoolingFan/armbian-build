@@ -1,7 +1,7 @@
-From 1292643eda86c47a950eef236e1b01273f0ccec8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Mon, 9 Aug 2021 17:03:36 +0200
-Subject: [PATCH 046/127] clk: qcom: gcc-msm8998: Add LPASS adsp and core GDSCs
+Subject: clk: qcom: gcc-msm8998: Add LPASS adsp and core GDSCs
 
 As a final step to entirely enable the required clock tree for the
 lpass iommu and audio dsp, add the lpass core/adsp GDSCs.
@@ -22,7 +22,7 @@ wasn't simply omitted.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- drivers/clk/qcom/gcc-msm8998.c | 22 ++++++++++++++++++++++
+ drivers/clk/qcom/gcc-msm8998.c | 22 ++++++++++
  1 file changed, 22 insertions(+)
 
 diff --git a/drivers/clk/qcom/gcc-msm8998.c b/drivers/clk/qcom/gcc-msm8998.c
@@ -66,5 +66,5 @@ index 8c86de5c347e..dc2fd84e23f3 100644
  
  static const struct qcom_reset_map gcc_msm8998_resets[] = {
 -- 
-2.38.1
+Armbian
 

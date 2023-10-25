@@ -1,8 +1,7 @@
-From f3053de0ff48b6d6e83089918dd0ec61eb46eb5a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 20 Jan 2021 22:33:36 +0100
-Subject: [PATCH 036/127] clk: qcom: gcc-msm8998: Set MISC flags, mark
- hmss/gpu-ahb critical
+Subject: clk: qcom: gcc-msm8998: Set MISC flags, mark hmss/gpu-ahb critical
 
 It is being evaluated whether this commit is really needed.
 DONOTUPSTREAM.
@@ -48,5 +47,5 @@ index 33473c52eb90..42df6099699c 100644
  }
  
 -- 
-2.38.1
+Armbian
 

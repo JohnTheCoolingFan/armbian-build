@@ -1,8 +1,7 @@
-From cb632a5b2fe172f70c6c1b5e5badea33a3b24148 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 4 Aug 2021 16:39:35 +0200
-Subject: [PATCH 002/127] iommu/arm-smmu-qcom: Allow choosing a custom bypass
- emulation context
+Subject: iommu/arm-smmu-qcom: Allow choosing a custom bypass emulation context
 
 It cannot be taken for granted that the last IOMMU context is free
 and available for us to use it to emulate bypass streams and, at least
@@ -19,7 +18,7 @@ the default one (the last context bank) is fine.
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 (JAMI: fixup for v6.0-rc1)
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 14 +++++++++++++-
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 14 +++++++++-
  1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
@@ -62,5 +61,5 @@ index b2708de25ea3..fe7f7478aaa1 100644
  	return &qsmmu->smmu;
  }
 -- 
-2.38.1
+Armbian
 

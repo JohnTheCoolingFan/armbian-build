@@ -1,7 +1,7 @@
-From 3023bce127e6c4934f0965cba058ef0914dd8b9a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Tue, 24 Nov 2020 20:31:05 +0100
-Subject: [PATCH 013/127] soc: qcom: cpr: Move common functions to new file
+Subject: soc: qcom: cpr: Move common functions to new file
 
 In preparation for implementing a new driver that will be handling
 CPRv3, CPRv4 and CPR-Hardened, format out common functions to a new
@@ -12,12 +12,10 @@ Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.
 (JAMI: fixup for 5.15 & 5.17)
 ---
  drivers/soc/qcom/Makefile     |   2 +-
- drivers/soc/qcom/cpr-common.c | 349 +++++++++++++++++++++++++++++
- drivers/soc/qcom/cpr-common.h | 113 ++++++++++
- drivers/soc/qcom/cpr.c        | 408 +++-------------------------------
+ drivers/soc/qcom/cpr-common.c | 349 ++++++++
+ drivers/soc/qcom/cpr-common.h | 113 +++
+ drivers/soc/qcom/cpr.c        | 408 +---------
  4 files changed, 490 insertions(+), 382 deletions(-)
- create mode 100644 drivers/soc/qcom/cpr-common.c
- create mode 100644 drivers/soc/qcom/cpr-common.h
 
 diff --git a/drivers/soc/qcom/Makefile b/drivers/soc/qcom/Makefile
 index d66604aff2b0..f04bcabd450a 100644
@@ -1048,5 +1046,5 @@ index e9b854ed1bdf..6c9947ac2455 100644
  		return ret;
  
 -- 
-2.38.1
+Armbian
 

@@ -1,8 +1,7 @@
-From d50f95a247502f2387f2cf16c7277b4f10574f2d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Tue, 24 Nov 2020 20:39:22 +0100
-Subject: [PATCH 015/127] soc: qcom: Add support for Core Power Reduction v3,
- v4 and Hardened
+Subject: soc: qcom: Add support for Core Power Reduction v3, v4 and Hardened
 
 This commit introduces a new driver, based on the one for cpr v1,
 to enable support for the newer Qualcomm Core Power Reduction
@@ -25,11 +24,9 @@ Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.
  drivers/soc/qcom/Makefile     |    1 +
  drivers/soc/qcom/cpr-common.c |   35 +-
  drivers/soc/qcom/cpr-common.h |    4 +
- drivers/soc/qcom/cpr3.c       | 2897 +++++++++++++++++++++++++++++++++
+ drivers/soc/qcom/cpr3.c       | 2897 ++++++++++
  include/soc/qcom/cpr.h        |   17 +
  6 files changed, 2965 insertions(+), 6 deletions(-)
- create mode 100644 drivers/soc/qcom/cpr3.c
- create mode 100644 include/soc/qcom/cpr.h
 
 diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
 index 024e420f1bb7..da278f796621 100644
@@ -3081,5 +3078,5 @@ index 000000000000..2ba4324d18f6
 +
 +#endif /* __CPR_H__ */
 -- 
-2.38.1
+Armbian
 

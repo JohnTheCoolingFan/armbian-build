@@ -1,8 +1,7 @@
-From b50ac29889e3f6071b554acbe72c855419107853 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 9 Dec 2020 19:27:45 +0100
-Subject: [PATCH 035/127] input: keyboard: Add Fast GPIO-driven keyboard/keypad
- matrix driver
+Subject: input: keyboard: Add Fast GPIO-driven keyboard/keypad matrix driver
 
 This driver is a reimplementation of matrix_keyboard, on which it
 is heavily based: the former was made back in 2009 and then
@@ -44,9 +43,8 @@ Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.
 ---
  drivers/input/keyboard/Kconfig           |  13 +
  drivers/input/keyboard/Makefile          |   1 +
- drivers/input/keyboard/gpio_fastmatrix.c | 528 +++++++++++++++++++++++
+ drivers/input/keyboard/gpio_fastmatrix.c | 528 ++++++++++
  3 files changed, 542 insertions(+)
- create mode 100644 drivers/input/keyboard/gpio_fastmatrix.c
 
 diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
 index 00292118b79b..745335e149fe 100644
@@ -619,5 +617,5 @@ index 000000000000..ed7e028199e4
 +MODULE_LICENSE("GPL v2");
 +MODULE_ALIAS("platform:gpio-fastmatrix-keyboard");
 -- 
-2.38.1
+Armbian
 

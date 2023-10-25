@@ -1,10 +1,10 @@
-From 9bdb7305ac74f096ad511fc4f981e606a394b4ff Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Sat, 22 May 2021 14:26:06 +0300
-Subject: [PATCH 114/127] msm8998-oneplus-common: Configure Adreno 540 GPU
+Subject: msm8998-oneplus-common: Configure Adreno 540 GPU
 
 ---
- .../boot/dts/qcom/msm8998-oneplus-common.dtsi | 44 +++++++++++++++++++
+ arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi | 44 ++++++++++
  1 file changed, 44 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
@@ -63,5 +63,5 @@ index 23321dc73794..e5977d8d193d 100644
  	gpio-reserved-ranges = <0 4>, <81 4>;
  
 -- 
-2.38.1
+Armbian
 

@@ -1,16 +1,14 @@
-From 25dafd5a97bda2483511432103072647b65dec71 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 23 Dec 2020 14:54:10 +0100
-Subject: [PATCH 033/127] dt-bindings: pinctrl: Add bindings for Awinic
- AW9523/AW9523B
+Subject: dt-bindings: pinctrl: Add bindings for Awinic AW9523/AW9523B
 
 Add bindings for the Awinic AW9523/AW9523B I2C GPIO Expander driver.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- .../pinctrl/awinic,aw9523-pinctrl.yaml        | 139 ++++++++++++++++++
+ Documentation/devicetree/bindings/pinctrl/awinic,aw9523-pinctrl.yaml | 139 ++++++++++
  1 file changed, 139 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/pinctrl/awinic,aw9523-pinctrl.yaml
 
 diff --git a/Documentation/devicetree/bindings/pinctrl/awinic,aw9523-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/awinic,aw9523-pinctrl.yaml
 new file mode 100644
@@ -158,5 +156,5 @@ index 000000000000..640d4d7e4cab
 +        };
 +    };
 -- 
-2.38.1
+Armbian
 

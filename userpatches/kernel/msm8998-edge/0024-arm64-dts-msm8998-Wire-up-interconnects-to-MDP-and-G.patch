@@ -1,14 +1,13 @@
-From 05b0ef4f5805951a5e2187def10d825862477990 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Thu, 21 Jan 2021 20:05:15 +0100
-Subject: [PATCH 024/127] arm64: dts: msm8998: Wire up interconnects to MDP and
- GPU
+Subject: arm64: dts: msm8998: Wire up interconnects to MDP and GPU
 
 Wire up the interconnects to both the MDP and the Adreno GPU in
 order to get the right balance between performance and power
 consumption of both devices.
 ---
- arch/arm64/boot/dts/qcom/msm8998.dtsi | 21 ++++++++++++++++++++-
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 21 +++++++++-
  1 file changed, 20 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
@@ -93,5 +92,5 @@ index 3389957032dd..fe9cf081c989 100644
  			interrupt-controller;
  			iommus = <&mmss_smmu 0>;
 -- 
-2.38.1
+Armbian
 

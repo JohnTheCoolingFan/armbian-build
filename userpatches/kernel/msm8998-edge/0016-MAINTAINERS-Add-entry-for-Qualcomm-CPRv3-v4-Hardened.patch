@@ -1,8 +1,7 @@
-From c17be69c091592539c3de335bafa345b6827ff0f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 25 Nov 2020 20:40:26 +0100
-Subject: [PATCH 016/127] MAINTAINERS: Add entry for Qualcomm CPRv3/v4/Hardened
- driver
+Subject: MAINTAINERS: Add entry for Qualcomm CPRv3/v4/Hardened driver
 
 Add maintainers entry for the Qualcomm CPR3/CPR4/CPRh driver.
 
@@ -12,10 +11,10 @@ Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.
  1 file changed, 6 insertions(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 046ff06ff97f..5e1c0c5d0694 100644
+index 886d3f69ee64..cafda331b9ee 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -17025,6 +17025,12 @@ S:	Maintained
+@@ -17029,6 +17029,12 @@ S:	Maintained
  F:	Documentation/devicetree/bindings/power/avs/qcom,cpr.yaml
  F:	drivers/soc/qcom/cpr.c
  
@@ -29,5 +28,5 @@ index 046ff06ff97f..5e1c0c5d0694 100644
  M:	Ilia Lin <ilia.lin@kernel.org>
  L:	linux-pm@vger.kernel.org
 -- 
-2.38.1
+Armbian
 

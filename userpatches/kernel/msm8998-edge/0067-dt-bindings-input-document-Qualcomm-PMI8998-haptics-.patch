@@ -1,17 +1,15 @@
-From df1488009c63c9ebb2e7f21557614562497b4d87 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Caleb Connolly <caleb@connolly.tech>
 Date: Sat, 15 Oct 2022 17:30:35 +0000
-Subject: [PATCH 067/127] dt-bindings: input: document Qualcomm PMI8998 haptics
- driver
+Subject: dt-bindings: input: document Qualcomm PMI8998 haptics driver
 
 Add bindings for qcom PMIC PMI8998 haptics driver.
 
 Signed-off-by: Caleb Connolly <caleb@connolly.tech>
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../bindings/input/qcom,pmi8998-haptics.yaml  | 73 +++++++++++++++++++
+ Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml | 73 ++++++++++
  1 file changed, 73 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml
 
 diff --git a/Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml b/Documentation/devicetree/bindings/input/qcom,pmi8998-haptics.yaml
 new file mode 100644
@@ -93,5 +91,5 @@ index 000000000000..d43324cceb89
 +      };
 +    };
 -- 
-2.38.1
+Armbian
 

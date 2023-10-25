@@ -1,8 +1,7 @@
-From 147874a88c6918a75492ca2d0a051d41ea3a330f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Sat, 5 Dec 2020 12:45:50 +0100
-Subject: [PATCH 019/127] arm64: dts: msm8998: Add disabled configuration for
- DPU1/DSI
+Subject: arm64: dts: msm8998: Add disabled configuration for DPU1/DSI
 
 This SoC supports both the MDP5 and DPU1 drivers, but the
 latter was chosen as it's more feature-complete;
@@ -14,7 +13,7 @@ as not all boards have a usable display attached to them.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- arch/arm64/boot/dts/qcom/msm8998.dtsi | 264 +++++++++++++++++++++++++-
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 264 +++++++++-
  1 file changed, 260 insertions(+), 4 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
@@ -299,5 +298,5 @@ index f05f16ac5cc1..c1b0048f56e4 100644
  			compatible = "qcom,msm8998-smmu-v2", "qcom,smmu-v2";
  			reg = <0x0cd00000 0x40000>;
 -- 
-2.38.1
+Armbian
 

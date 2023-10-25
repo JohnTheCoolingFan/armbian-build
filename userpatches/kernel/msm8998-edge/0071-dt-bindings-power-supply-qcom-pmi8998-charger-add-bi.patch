@@ -1,8 +1,8 @@
-From 1be33df793991444ee706fa1130fa6b4de6019ad Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Caleb Connolly <caleb.connolly@linaro.org>
 Date: Sat, 8 Oct 2022 19:37:52 +0100
-Subject: [PATCH 071/127] dt-bindings: power: supply: qcom,pmi8998-charger: add
- bindings for smb2 driver
+Subject: dt-bindings: power: supply: qcom,pmi8998-charger: add bindings for
+ smb2 driver
 
 Add devicetree bindings for the Qualcomm PMI8998/PM660 SMB2 charger
 driver.
@@ -10,9 +10,8 @@ driver.
 Signed-off-by: Caleb Connolly <caleb.connolly@linaro.org>
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../power/supply/qcom,pmi8998-charger.yaml    | 82 +++++++++++++++++++
+ Documentation/devicetree/bindings/power/supply/qcom,pmi8998-charger.yaml | 82 ++++++++++
  1 file changed, 82 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/power/supply/qcom,pmi8998-charger.yaml
 
 diff --git a/Documentation/devicetree/bindings/power/supply/qcom,pmi8998-charger.yaml b/Documentation/devicetree/bindings/power/supply/qcom,pmi8998-charger.yaml
 new file mode 100644
@@ -103,5 +102,5 @@ index 000000000000..277c47e048b6
 +      };
 +    };
 -- 
-2.38.1
+Armbian
 

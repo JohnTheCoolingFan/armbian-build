@@ -1,19 +1,18 @@
-From 768d9500083e4e929b6b7af9fe799b197f02271e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Fri, 21 May 2021 04:31:36 +0300
-Subject: [PATCH 090/127] Input: synaptics-rmi4 - add support for F1A
+Subject: Input: synaptics-rmi4 - add support for F1A
 
 RMI4 F1A supports the simple capacitive buttons function, it's used for
 example on embedded devices such as smartphones for capacitive Android
 back and recents buttons.
 ---
- drivers/input/rmi4/Kconfig      |   8 ++
+ drivers/input/rmi4/Kconfig      |   8 +
  drivers/input/rmi4/Makefile     |   1 +
  drivers/input/rmi4/rmi_bus.c    |   3 +
  drivers/input/rmi4/rmi_driver.h |   1 +
- drivers/input/rmi4/rmi_f1a.c    | 190 ++++++++++++++++++++++++++++++++
+ drivers/input/rmi4/rmi_f1a.c    | 190 ++++++++++
  5 files changed, 203 insertions(+)
- create mode 100644 drivers/input/rmi4/rmi_f1a.c
 
 diff --git a/drivers/input/rmi4/Kconfig b/drivers/input/rmi4/Kconfig
 index c0163b983ce6..fbd3ace41373 100644
@@ -269,5 +268,5 @@ index 000000000000..d4d47e59fa0d
 +	.attention = rmi_f1a_attention,
 +};
 -- 
-2.38.1
+Armbian
 

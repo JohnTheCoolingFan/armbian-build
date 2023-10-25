@@ -1,13 +1,11 @@
-From b7e60140954f49706d07f8fb90798ba6fbf33ed4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Fri, 28 Jan 2022 19:31:50 +0200
-Subject: [PATCH 103/127] dt-bindings: display: panel: Document Samsung S6E3FA5
- display panel
+Subject: dt-bindings: display: panel: Document Samsung S6E3FA5 display panel
 
 ---
- .../display/panel/samsung,s6e3fa5.yaml        | 55 +++++++++++++++++++
+ Documentation/devicetree/bindings/display/panel/samsung,s6e3fa5.yaml | 55 ++++++++++
  1 file changed, 55 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e3fa5.yaml
 
 diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e3fa5.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e3fa5.yaml
 new file mode 100644
@@ -71,5 +69,5 @@ index 000000000000..6814598477fa
 +            };
 +    };
 -- 
-2.38.1
+Armbian
 

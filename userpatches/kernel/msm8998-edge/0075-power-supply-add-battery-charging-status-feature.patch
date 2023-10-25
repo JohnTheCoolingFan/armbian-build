@@ -1,11 +1,11 @@
-From 1ec03d4a750aeb03669c912dbdd79a5e7d3052c0 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Joel Selvaraj <jo@jsfamily.in>
-Date: Thu, 31 Dec 2020 16:35:41 +0530
-Subject: [PATCH 075/127] power: supply: add battery charging status feature
+Date: Thu, 31 Dec 2020 16:55:41 +0550
+Subject: power: supply: add battery charging status feature
 
 ---
- drivers/power/supply/pmi8998_fg.c | 106 +++++++++++++++++++++++++++---
- drivers/power/supply/pmi8998_fg.h |   7 ++
+ drivers/power/supply/pmi8998_fg.c | 106 +++++++++-
+ drivers/power/supply/pmi8998_fg.h |   7 +
  2 files changed, 105 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/power/supply/pmi8998_fg.c b/drivers/power/supply/pmi8998_fg.c
@@ -205,5 +205,5 @@ index 20dd2d2fc6e8..81a90945c0e6 100644
  	struct mutex lock;
  
 -- 
-2.38.1
+Armbian
 

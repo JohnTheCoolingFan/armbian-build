@@ -1,8 +1,7 @@
-From 72289f40a8be1cae41be6a71fbb250707d60dacc Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Sun, 23 Oct 2022 22:23:36 +0300
-Subject: [PATCH 126/127] msm8998-oneplus-common: Drop GPU down to 257 MHz for
- better stability
+Subject: msm8998-oneplus-common: Drop GPU down to 257 MHz for better stability
 
 ---
  arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi | 6 ++++--
@@ -40,5 +39,5 @@ index f6ff2714fb78..e86b629adebc 100644
  };
  
 -- 
-2.38.1
+Armbian
 

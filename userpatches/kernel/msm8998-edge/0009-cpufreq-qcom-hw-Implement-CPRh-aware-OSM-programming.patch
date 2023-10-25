@@ -1,8 +1,7 @@
-From 16e1affae2c46a8f0cdf61a1164127ef10ee9fb4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Thu, 17 Jun 2021 22:42:25 +0200
-Subject: [PATCH 009/127] cpufreq: qcom-hw: Implement CPRh aware OSM
- programming
+Subject: cpufreq: qcom-hw: Implement CPRh aware OSM programming
 
 On new SoCs (SDM845 onwards) the Operating State Manager (OSM) is
 being programmed in the bootloader and write-protected by the
@@ -52,7 +51,7 @@ and MSM8998.
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 [Fixup for 5.18 & 6.0-rc1 by Jami]
 ---
- drivers/cpufreq/qcom-cpufreq-hw.c | 1078 ++++++++++++++++++++++++++++-
+ drivers/cpufreq/qcom-cpufreq-hw.c | 1078 +++++++++-
  1 file changed, 1057 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/cpufreq/qcom-cpufreq-hw.c b/drivers/cpufreq/qcom-cpufreq-hw.c
@@ -1303,5 +1302,5 @@ index 693957cc1934..feb6c64e3293 100644
  	if (ret)
  		return ret;
 -- 
-2.38.1
+Armbian
 

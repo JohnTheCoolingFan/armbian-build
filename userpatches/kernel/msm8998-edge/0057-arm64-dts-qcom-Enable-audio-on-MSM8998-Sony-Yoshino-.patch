@@ -1,16 +1,15 @@
-From 337dc1ad1aa36d3727fc868cf67e49bad92dcf19 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Fri, 28 Jan 2022 15:48:02 +0200
-Subject: [PATCH 057/127] arm64: dts: qcom: Enable audio on MSM8998 Sony
- Yoshino platform
+Subject: arm64: dts: qcom: Enable audio on MSM8998 Sony Yoshino platform
 
 Originally from: d95b982a
 (JAMI: fixup for 6.0-rc2)
 ---
- .../msm8998-sony-xperia-yoshino-lilac.dts     |   5 +
- .../msm8998-sony-xperia-yoshino-maple.dts     |  14 +-
- .../msm8998-sony-xperia-yoshino-poplar.dts    |  13 +-
- .../dts/qcom/msm8998-sony-xperia-yoshino.dtsi | 231 ++++++++++++++++++
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dts  |   5 +
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts  |  14 +-
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dts |  13 +-
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi       | 231 ++++++++++
  4 files changed, 248 insertions(+), 15 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dts b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dts
@@ -354,5 +353,5 @@ index 6043b720106c..3e152318e012 100644
  		pins = "gpio89";
  		function = "gpio";
 -- 
-2.38.1
+Armbian
 

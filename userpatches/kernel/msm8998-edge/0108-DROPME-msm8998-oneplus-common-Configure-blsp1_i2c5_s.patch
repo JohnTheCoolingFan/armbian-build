@@ -1,8 +1,8 @@
-From 7e4fdd63c14bec58fc84682f18380553e45f139b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Sat, 22 May 2021 14:30:39 +0300
-Subject: [PATCH 108/127] [DROPME?] msm8998-oneplus-common: Configure
- blsp1_i2c5_sleep (TS) as no-pull
+Subject: [DROPME?] msm8998-oneplus-common: Configure blsp1_i2c5_sleep (TS) as
+ no-pull
 
 ---
  arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi | 6 ++++++
@@ -26,5 +26,5 @@ index febaecee503d..cbd1ce05ef1a 100644
  	status = "okay";
  
 -- 
-2.38.1
+Armbian
 

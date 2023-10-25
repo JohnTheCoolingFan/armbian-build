@@ -1,8 +1,7 @@
-From b4265f3db61b2d64875a5ed3eafb19d910ba3bd0 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Fri, 4 Dec 2020 22:34:58 +0100
-Subject: [PATCH 032/127] pinctrl: Add driver for Awinic AW9523/B I2C GPIO
- Expander
+Subject: pinctrl: Add driver for Awinic AW9523/B I2C GPIO Expander
 
 The Awinic AW9523(B) is a multi-function I2C gpio expander in a
 TQFN-24L package, featuring PWM (max 37mA per pin, or total max
@@ -22,9 +21,8 @@ Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.
 ---
  drivers/pinctrl/Kconfig          |   17 +
  drivers/pinctrl/Makefile         |    1 +
- drivers/pinctrl/pinctrl-aw9523.c | 1122 ++++++++++++++++++++++++++++++
+ drivers/pinctrl/pinctrl-aw9523.c | 1122 ++++++++++
  3 files changed, 1140 insertions(+)
- create mode 100644 drivers/pinctrl/pinctrl-aw9523.c
 
 diff --git a/drivers/pinctrl/Kconfig b/drivers/pinctrl/Kconfig
 index f71fefff400f..4db0b6d3fd49 100644
@@ -1195,5 +1193,5 @@ index 000000000000..bc8e1e9d6876
 +MODULE_LICENSE("GPL v2");
 +MODULE_ALIAS("platform:aw9523");
 -- 
-2.38.1
+Armbian
 

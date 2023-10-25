@@ -1,8 +1,7 @@
-From 58222aa8b1ac3675b1ed4ec2301c0a4c53e6703c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Sat, 22 May 2021 14:23:38 +0300
-Subject: [PATCH 111/127] msm8998-oneplus-common: Configure CPUfreq scaling
- hardware
+Subject: msm8998-oneplus-common: Configure CPUfreq scaling hardware
 
 ---
  arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi | 8 ++++++++
@@ -28,5 +27,5 @@ index 58862c04fb1b..2b773695405d 100644
  	status = "okay";
  
 -- 
-2.38.1
+Armbian
 

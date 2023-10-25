@@ -1,8 +1,7 @@
-From b5cfe316a75c42bead7562d299fe7561b7073aa9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Mon, 9 Aug 2021 16:56:45 +0200
-Subject: [PATCH 043/127] dt-bindings: clock: gcc-msm8998: Add Q6 and LPASS
- clocks definitions
+Subject: dt-bindings: clock: gcc-msm8998: Add Q6 and LPASS clocks definitions
 
 Add definitions for the Q6 BIMC, LPASS core and adsp smmu clocks,
 required to enable audio functionality on MSM8998.
@@ -34,5 +33,5 @@ index 1badb4f9c58f..9b124ee63be9 100644
  
  #endif
 -- 
-2.38.1
+Armbian
 

@@ -1,8 +1,7 @@
-From 95bd0dde8c9b7f40220017f493298737ead8f6d7 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Fri, 6 Aug 2021 13:14:41 +0200
-Subject: [PATCH 003/127] iommu/arm-smmu: Allow skipping context bank disable
- at reset time
+Subject: iommu/arm-smmu: Allow skipping context bank disable at reset time
 
 On some SoCs some IOMMU context banks are actively used from TZ
 during system boot, or some hypervisor configurations will trigger
@@ -52,5 +51,5 @@ index 703fd5817ec1..2f1364b1a968 100644
  			struct io_pgtable_cfg *cfg, struct device *dev);
  	void (*tlb_sync)(struct arm_smmu_device *smmu, int page, int sync,
 -- 
-2.38.1
+Armbian
 

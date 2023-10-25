@@ -1,8 +1,7 @@
-From 9400839c4c71bf740fb7d532e2248d740b9a3de7 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Tue, 12 Jan 2021 19:50:09 +0200
-Subject: [PATCH 087/127] [HACK] ath10k: Fake MSA ready event after event
- server arrival
+Subject: [HACK] ath10k: Fake MSA ready event after event server arrival
 
 This finally allowed me to get past the 2 ath10k_info()'s in qmi.c!
 
@@ -31,5 +30,5 @@ index 66cb7a1e628a..a0b1b556f251 100644
  		case ATH10K_QMI_EVENT_SERVER_EXIT:
  			ath10k_qmi_event_server_exit(qmi);
 -- 
-2.38.1
+Armbian
 

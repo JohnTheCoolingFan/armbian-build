@@ -1,18 +1,15 @@
-From 5e4d26775f4718dae2199fd5736e120d69f96a8b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 20 Jan 2021 13:32:32 +0100
-Subject: [PATCH 028/127] dt-bindings: interconnect: Add bindings for Qualcomm
- MSM8998 NoC
+Subject: dt-bindings: interconnect: Add bindings for Qualcomm MSM8998 NoC
 
 Add the bindings for the Qualcomm MSM8998 NoC interconnects.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- .../bindings/interconnect/qcom,msm8998.yaml   | 158 ++++++++++++++++++
- .../dt-bindings/interconnect/qcom,msm8998.h   | 128 ++++++++++++++
+ Documentation/devicetree/bindings/interconnect/qcom,msm8998.yaml | 158 ++++++++++
+ include/dt-bindings/interconnect/qcom,msm8998.h                  | 128 ++++++++
  2 files changed, 286 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/interconnect/qcom,msm8998.yaml
- create mode 100644 include/dt-bindings/interconnect/qcom,msm8998.h
 
 diff --git a/Documentation/devicetree/bindings/interconnect/qcom,msm8998.yaml b/Documentation/devicetree/bindings/interconnect/qcom,msm8998.yaml
 new file mode 100644
@@ -313,5 +310,5 @@ index 000000000000..5b94403ef178
 +
 +#endif
 -- 
-2.38.1
+Armbian
 

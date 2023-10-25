@@ -1,17 +1,15 @@
-From faae1f9e6ea6a8a56b7195aa6eced59c52d0b781 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 23 Dec 2020 15:44:37 +0100
-Subject: [PATCH 034/127] dt-bindings: input: Add binding for
- gpio-fastmatrix-keyboard
+Subject: dt-bindings: input: Add binding for gpio-fastmatrix-keyboard
 
 Add documentation for the gpio-fastmatrix-keyboard driver.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 (JAMI: merge with e7aa905a for 5.17)
 ---
- .../input/gpio-fastmatrix-keyboard.yaml       | 129 ++++++++++++++++++
+ Documentation/devicetree/bindings/input/gpio-fastmatrix-keyboard.yaml | 129 ++++++++++
  1 file changed, 129 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/gpio-fastmatrix-keyboard.yaml
 
 diff --git a/Documentation/devicetree/bindings/input/gpio-fastmatrix-keyboard.yaml b/Documentation/devicetree/bindings/input/gpio-fastmatrix-keyboard.yaml
 new file mode 100644
@@ -149,5 +147,5 @@ index 000000000000..3830997016c0
 +        keypad,num-columns = <8>;
 +    };
 -- 
-2.38.1
+Armbian
 

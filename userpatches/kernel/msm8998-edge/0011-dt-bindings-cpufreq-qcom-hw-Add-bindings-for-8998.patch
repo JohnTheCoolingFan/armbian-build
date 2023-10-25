@@ -1,7 +1,7 @@
-From b21e649c31dfcb6373f7eab8636720974a583160 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Sat, 9 Jan 2021 12:58:27 +0100
-Subject: [PATCH 011/127] dt-bindings: cpufreq: qcom-hw: Add bindings for 8998
+Subject: dt-bindings: cpufreq: qcom-hw: Add bindings for 8998
 
 The OSM programming addition has been done under the
 qcom,cpufreq-hw-8998 compatible name: specify the requirement
@@ -12,7 +12,7 @@ tested on MSM8998 and SDM630.
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 [Fixed up for 5.18 by Jami]
 ---
- .../bindings/cpufreq/cpufreq-qcom-hw.yaml     | 60 +++++++++++++++----
+ Documentation/devicetree/bindings/cpufreq/cpufreq-qcom-hw.yaml | 60 ++++++++--
  1 file changed, 48 insertions(+), 12 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/cpufreq/cpufreq-qcom-hw.yaml b/Documentation/devicetree/bindings/cpufreq/cpufreq-qcom-hw.yaml
@@ -102,5 +102,5 @@ index 24fa3d87a40b..e93904e8d4ef 100644
    - compatible
    - reg
 -- 
-2.38.1
+Armbian
 

@@ -1,8 +1,7 @@
-From 2e9639992d22249d20639c8411ff047542e71aa1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Wed, 30 Mar 2022 03:19:32 +0300
-Subject: [PATCH 095/127] pinctrl: Fix compilation of Awinic AW9523/B I2C GPIO
- Expander
+Subject: pinctrl: Fix compilation of Awinic AW9523/B I2C GPIO Expander
 
 Fixes the following link-time error:
 
@@ -32,5 +31,5 @@ index 4db0b6d3fd49..5c02ed55d6db 100644
  	  The Awinic AW9523/AW9523B is a multi-function I2C GPIO
  	  expander with PWM functionality. This driver bundles a
 -- 
-2.38.1
+Armbian
 

@@ -1,7 +1,7 @@
-From 0a897e316f4e7619c7e9bb27d1b05029d628966a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Wed, 18 Nov 2020 23:41:24 +0200
-Subject: [PATCH 106/127] drm/panel: Add panel driver for Samsung S6E3FC1
+Subject: drm/panel: Add panel driver for Samsung S6E3FC1
 
 The S6E3FC1 is 6" 1080x2160 MIPI DSI command mode AMOLED LCD display
 found on OnePlus 5T (2017) smartphones.
@@ -15,9 +15,8 @@ $ python3 lmdpdg.py dumpling.dtb -r vddio
 ---
  drivers/gpu/drm/panel/Kconfig                 |  15 +
  drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-samsung-s6e3fc1.c | 343 ++++++++++++++++++
+ drivers/gpu/drm/panel/panel-samsung-s6e3fc1.c | 343 ++++++++++
  3 files changed, 359 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6e3fc1.c
 
 diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
 index 7818b4e9b9c9..1e793a359f31 100644
@@ -407,5 +406,5 @@ index 000000000000..a1bd2c3e0cd3
 +MODULE_DESCRIPTION("DRM driver for Samsung S6E3FC1 AMOLED DSI cmd mode panel found on OnePlus 5T phones");
 +MODULE_LICENSE("GPL v2");
 -- 
-2.38.1
+Armbian
 

@@ -1,12 +1,11 @@
-From 6fd59157f85252a96afdb299baeadf795e7d5a1f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Joel Selvaraj <jo@jsfamily.in>
-Date: Fri, 1 Jan 2021 16:18:26 +0530
-Subject: [PATCH 076/127] fg: clean and read charge full and max voltage from
- dts
+Date: Fri, 1 Jan 2021 16:38:26 +0550
+Subject: fg: clean and read charge full and max voltage from dts
 
 ---
- drivers/power/supply/pmi8998_fg.c | 268 +++++++++++++++++++-----------
- drivers/power/supply/pmi8998_fg.h |  69 ++++----
+ drivers/power/supply/pmi8998_fg.c | 268 ++++++----
+ drivers/power/supply/pmi8998_fg.h |  69 +--
  2 files changed, 203 insertions(+), 134 deletions(-)
 
 diff --git a/drivers/power/supply/pmi8998_fg.c b/drivers/power/supply/pmi8998_fg.c
@@ -583,5 +582,5 @@ index 81a90945c0e6..b44f88bc9395 100644
  	int health;
  	int status;
 -- 
-2.38.1
+Armbian
 

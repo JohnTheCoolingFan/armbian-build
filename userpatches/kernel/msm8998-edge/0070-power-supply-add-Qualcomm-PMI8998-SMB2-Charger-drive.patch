@@ -1,8 +1,7 @@
-From 00c238b147842e0e6a3b65e6073b616881785478 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Caleb Connolly <caleb.connolly@linaro.org>
 Date: Sat, 8 Oct 2022 19:37:51 +0100
-Subject: [PATCH 070/127] power: supply: add Qualcomm PMI8998 SMB2 Charger
- driver
+Subject: power: supply: add Qualcomm PMI8998 SMB2 Charger driver
 
 Add a driver for the SMB2 charger block found in the Qualcomm PMI8998
 and PM660.
@@ -13,9 +12,8 @@ Signed-off-by: Caleb Connolly <caleb.connolly@linaro.org>
 ---
  drivers/power/supply/Kconfig                |   16 +
  drivers/power/supply/Makefile               |    1 +
- drivers/power/supply/qcom_pmi8998_charger.c | 1082 +++++++++++++++++++
+ drivers/power/supply/qcom_pmi8998_charger.c | 1082 ++++++++++
  3 files changed, 1099 insertions(+)
- create mode 100644 drivers/power/supply/qcom_pmi8998_charger.c
 
 diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
 index 0bbfe6a7ce4d..b4c39d16bed9 100644
@@ -1143,5 +1141,5 @@ index 000000000000..7e127198ea44
 +MODULE_DESCRIPTION("Qualcomm SMB2 Charger Driver");
 +MODULE_LICENSE("GPL");
 -- 
-2.38.1
+Armbian
 

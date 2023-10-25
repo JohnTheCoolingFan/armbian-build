@@ -1,13 +1,12 @@
-From 506f7637473f336c3b2d11ea69f848f7f3acf0d4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Tue, 30 Aug 2022 22:22:33 +0300
-Subject: [PATCH 124/127] arm64: oneplus5_defconfig: Add for 6.1
+Subject: arm64: oneplus5_defconfig: Add for 6.1
 
 Based on allnoconfig msm8998.config oneplus5.config pmos.config cleanup.config.
 ---
- arch/arm64/configs/oneplus5_defconfig | 552 ++++++++++++++++++++++++++
+ arch/arm64/configs/oneplus5_defconfig | 552 ++++++++++
  1 file changed, 552 insertions(+)
- create mode 100644 arch/arm64/configs/oneplus5_defconfig
 
 diff --git a/arch/arm64/configs/oneplus5_defconfig b/arch/arm64/configs/oneplus5_defconfig
 new file mode 100644
@@ -568,5 +567,5 @@ index 000000000000..0e19626a6577
 +# CONFIG_FTRACE is not set
 +# CONFIG_RUNTIME_TESTING_MENU is not set
 -- 
-2.38.1
+Armbian
 

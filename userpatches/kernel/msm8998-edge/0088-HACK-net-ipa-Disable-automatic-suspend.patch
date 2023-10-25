@@ -1,7 +1,7 @@
-From 51eb7f5d39dd967231b7be70d96faf6d96ccebf1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Thu, 24 Feb 2022 02:59:40 +0200
-Subject: [PATCH 088/127] [HACK] net: ipa: Disable automatic suspend
+Subject: [HACK] net: ipa: Disable automatic suspend
 
 1aac309d3207 ("net: ipa: use autosuspend") currently causes my device to
 enter 900E crashdump mode as soon as IPA is probed :/
@@ -24,5 +24,5 @@ index 8420f93128a2..ed904cf90273 100644
  
  	return power;
 -- 
-2.38.1
+Armbian
 

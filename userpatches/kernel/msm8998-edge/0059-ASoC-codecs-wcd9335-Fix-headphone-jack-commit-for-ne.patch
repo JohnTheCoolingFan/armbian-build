@@ -1,8 +1,8 @@
-From 11e251aeb68cbf51113ed5e6eb3f72f7dff9572b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Tue, 10 Aug 2021 13:34:05 +0200
-Subject: [PATCH 059/127] ASoC: codecs: wcd9335: Fix headphone jack commit for
- new upstream kernel
+Subject: ASoC: codecs: wcd9335: Fix headphone jack commit for new upstream
+ kernel
 
 ---
  sound/soc/codecs/wcd9335.c | 8 ++++----
@@ -49,5 +49,5 @@ index f8e3873008c1..835e14abdc77 100644
  
  		/* check if its BTN0 thats released */
 -- 
-2.38.1
+Armbian
 

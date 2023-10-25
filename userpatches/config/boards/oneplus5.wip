@@ -2,7 +2,74 @@
 BOARD_NAME="Oneplus 5"
 BOARDFAMILY="msm8998"
 BOOTCONFIG="none"
-KERNEL_TARGET="edge"
+KERNEL_TARGET="current,edge"
 FULL_DESKTOP="no"
 SERIALCON="ttyGS1"                                    # ttyGS1 should be setup via an USB gadget ACM function. I dunno if there's a way to get physical access to Qualcomm's proper UART
 BOOT_FDT_FILE="qcom/msm8998-oneplus-cheeseburger.dtb" # this is already in torvald's tree btw
+
+# Don't install any firmware; we ship firmware in the bsp-cli package
+declare -g INSTALL_ARMBIAN_FIRMWARE="no"
+
+# @TODO: add bluetooth package + upower
+# @TODO: add firmwares from pmos? (no, use new qcom extractor by jami, maybe add them somewhere?)
+# @TODO: add firmwares to initrd?
+# @TODO: update kernel .config from jami
+# @TODO: enable heartbeat led trigger
+# @TODO: possibly change to lunar, for pd-mapper and qrtr or such
+# @TODO: add the cmdline params from x13s... [DONE]
+
+# See https://gitlab.com/postmarketOS/pmaports/-/blob/master/device/testing/firmware-oneplus-msm8998/APKBUILD
+# IN INITRD: https://gitlab.com/postmarketOS/pmaports/-/blob/master/device/testing/firmware-oneplus-msm8998/30-gpu-firmware.files
+# Moar stuff general wise https://gitlab.com/postmarketOS/pmaports/-/tree/master/device/testing/device-oneplus-cheeseburger
+#  modules: https://gitlab.com/postmarketOS/pmaports/-/blob/master/device/testing/device-oneplus-cheeseburger/modules-initfs.mainline
+
+## Modules, required to boot, add them to initrd
+function post_family_tweaks_bsp__oneplus5_modules_in_initrd() {
+	display_alert "Adding to bsp-cli" "${BOARD}: modules in initrd" "info"
+	add_file_from_stdin_to_bsp_destination "/etc/initramfs-tools/modules" <<- 'EXTRA_MODULES'
+		panel-samsung-s6e3fa5
+		msm
+		i2c-qup
+		bq27xxx_battery_i2c
+		rmi_i2c
+		qcom_spmi_haptics
+	EXTRA_MODULES
+}
+
+function post_family_tweaks_bsp__thinkpad_x13s_bsp_firmware_in_initrd() {
+	display_alert "Adding to bsp-cli" "${BOARD}: firmware in initrd" "info"
+	declare file_added_to_bsp_destination # will be filled in by add_file_from_stdin_to_bsp_destination
+	add_file_from_stdin_to_bsp_destination "/etc/initramfs-tools/hooks/x13s-firmware" <<- 'FIRMWARE_HOOK'
+		#!/bin/bash
+		[[ "$1" == "prereqs" ]] && exit 0
+		. /usr/share/initramfs-tools/hook-functions
+		add_firmware "qcom/a530_pfp.fw"
+		add_firmware "qcom/a530_pm4.fw"
+		add_firmware "qcom/a540_gpmu.fw2"
+		add_firmware "qcom/msm8998/oneplus/a540_zap.mdt"
+		add_firmware "qcom/msm8998/oneplus/a540_zap.mbn"
+	FIRMWARE_HOOK
+	run_host_command_logged chmod -v +x "${file_added_to_bsp_destination}"
+}
+
+function post_family_tweaks_bsp__oneplus5_firmware_in_bsp() {
+	: "${destination:?}"
+	display_alert "Adding to bsp-cli" "${BOARD}: firmware in bsp-cli" "info"
+
+	mkdir -p "${destination}/lib/firmware"
+	(
+		cd "${destination}/lib/firmware" || exit_with_error "cray-cray about firmware dir"
+		curl -L "https://github.com/JamiKettunen/firmware-mainline-oneplus5/archive/refs/heads/10.0.1.tar.gz" | tar --strip-components 1 -xzvf -
+	)
+
+	return 0
+
+}
+
+
+## can bringup wifi with https://github.com/jhugo/linux/blob/5.5rc2_wifi/README -- not really stable
+
+# with msm8998 kernel: Oct 26 23:32:20 oneplus5 kernel: Filesystem uses "lzo" compression. This is not supported
+# mount: /run/rpc_pipefs: unknown filesystem type 'rpc_pipefs'.
+
+# @TODO: pure mainline, 6.6-rc7; ensure configs etc

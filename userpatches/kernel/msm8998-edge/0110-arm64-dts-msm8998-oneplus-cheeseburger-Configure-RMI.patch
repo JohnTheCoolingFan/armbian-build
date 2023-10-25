@@ -1,8 +1,7 @@
-From 2676119ddbb9387ac02a81063fae264b0b6ada86 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Sat, 22 May 2021 19:18:34 +0300
-Subject: [PATCH 110/127] arm64: dts: msm8998-oneplus-cheeseburger: Configure
- RMI4 F1A buttons
+Subject: arm64: dts: msm8998-oneplus-cheeseburger: Configure RMI4 F1A buttons
 
 This allows the capacitive buttons below the touchscreen to be used on
 e.g. Android normally :)
@@ -41,5 +40,5 @@ index c028632b30b5..58862c04fb1b 100644
  		reg = <0x20>;
  		#address-cells = <1>;
 -- 
-2.38.1
+Armbian
 

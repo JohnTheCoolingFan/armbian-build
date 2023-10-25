@@ -1,8 +1,7 @@
-From f62a1f1106d8e0ebc7a6c4a419e5aa4c09499919 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@hotmail.com>
 Date: Sat, 20 Nov 2021 22:48:10 +0200
-Subject: [PATCH 052/127] ASoC: qcom: lpass-msm8998: Add platform driver for
- lpass audio
+Subject: ASoC: qcom: lpass-msm8998: Add platform driver for lpass audio
 
 Add platform driver for configuring msm8998 lpass core I2S and
 DMA configuration to support playback & capture to external codecs
@@ -13,10 +12,8 @@ connected over primary & secondary MI2S interfaces.
  include/dt-bindings/sound/msm8998-lpass.h |   9 +
  sound/soc/qcom/Kconfig                    |   7 +
  sound/soc/qcom/Makefile                   |   2 +
- sound/soc/qcom/lpass-msm8998.c            | 330 ++++++++++++++++++++++
+ sound/soc/qcom/lpass-msm8998.c            | 330 ++++++++++
  4 files changed, 348 insertions(+)
- create mode 100644 include/dt-bindings/sound/msm8998-lpass.h
- create mode 100644 sound/soc/qcom/lpass-msm8998.c
 
 diff --git a/include/dt-bindings/sound/msm8998-lpass.h b/include/dt-bindings/sound/msm8998-lpass.h
 new file mode 100644
@@ -415,5 +412,5 @@ index 000000000000..56079396337f
 +MODULE_DESCRIPTION("msm8998 LPASS CPU DRIVER");
 +MODULE_LICENSE("GPL v2");
 -- 
-2.38.1
+Armbian
 

@@ -1,15 +1,14 @@
-From 86fe551778c3e3e8fcf54b8800196c11309f158d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 20 Jan 2021 15:27:42 +0100
-Subject: [PATCH 021/127] arm64: dts: msm8998: Wire up interconnects and OPPs
- to sdhci port 2
+Subject: arm64: dts: msm8998: Wire up interconnects and OPPs to sdhci port 2
 
 Wire up the OPP table and interconnects to the SDHCI port 2 to
 improve performance and power consumption.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- arch/arm64/boot/dts/qcom/msm8998.dtsi | 21 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 21 ++++++++++
  1 file changed, 21 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
@@ -52,5 +51,5 @@ index 26a77d5959fe..3389957032dd 100644
  
  		blsp1_dma: dma-controller@c144000 {
 -- 
-2.38.1
+Armbian
 

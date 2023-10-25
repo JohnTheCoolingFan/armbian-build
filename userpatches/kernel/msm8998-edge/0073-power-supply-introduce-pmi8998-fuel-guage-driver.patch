@@ -1,16 +1,14 @@
-From 348fe4142b41442fe39c9d55e11dd69b36f2d2e3 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Joel Selvaraj <jo@jsfamily.in>
-Date: Fri, 25 Dec 2020 12:55:46 +0530
-Subject: [PATCH 073/127] power: supply: introduce pmi8998 fuel guage driver
+Date: Fri, 25 Dec 2020 13:15:46 +0550
+Subject: power: supply: introduce pmi8998 fuel guage driver
 
 ---
  drivers/power/supply/Kconfig      |  10 +
  drivers/power/supply/Makefile     |   1 +
- drivers/power/supply/pmi8998_fg.c | 526 ++++++++++++++++++++++++++++++
- drivers/power/supply/pmi8998_fg.h | 138 ++++++++
+ drivers/power/supply/pmi8998_fg.c | 526 ++++++++++
+ drivers/power/supply/pmi8998_fg.h | 138 +++
  4 files changed, 675 insertions(+)
- create mode 100644 drivers/power/supply/pmi8998_fg.c
- create mode 100644 drivers/power/supply/pmi8998_fg.h
 
 diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
 index b4c39d16bed9..8ad785d54a4a 100644
@@ -717,5 +715,5 @@ index 000000000000..20dd2d2fc6e8
 +	int status;
 +};
 -- 
-2.38.1
+Armbian
 

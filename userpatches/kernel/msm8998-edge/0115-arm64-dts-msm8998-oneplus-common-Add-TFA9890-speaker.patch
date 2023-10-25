@@ -1,11 +1,10 @@
-From 558d4db6fcc6c243682795ce25139cd7ee785d72 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Sun, 25 Jul 2021 04:39:35 +0300
-Subject: [PATCH 115/127] arm64: dts: msm8998-oneplus-common: Add TFA9890
- speaker amp bindings
+Subject: arm64: dts: msm8998-oneplus-common: Add TFA9890 speaker amp bindings
 
 ---
- .../boot/dts/qcom/msm8998-oneplus-common.dtsi   | 17 +++++++++++++++++
+ arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi | 17 ++++++++++
  1 file changed, 17 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
@@ -37,5 +36,5 @@ index e5977d8d193d..0270437704e3 100644
  	status = "okay";
  };
 -- 
-2.38.1
+Armbian
 

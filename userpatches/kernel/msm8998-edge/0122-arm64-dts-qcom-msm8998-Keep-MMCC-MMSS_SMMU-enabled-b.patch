@@ -1,8 +1,7 @@
-From cf1beebd902d7e7d4e01c93562e82bf67f2d27db Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Konrad Dybcio <konrad.dybcio@somainline.org>
 Date: Fri, 22 Apr 2022 22:39:24 +0200
-Subject: [PATCH 122/127] arm64: dts: qcom: msm8998*: Keep MMCC & MMSS_SMMU
- enabled by default
+Subject: arm64: dts: qcom: msm8998*: Keep MMCC & MMSS_SMMU enabled by default
 
 MMCC is a component of the SoC that should always be configured. It was kept
 off due to misconfiguration on clamshell machines. Keep it disabled on these
@@ -55,5 +54,5 @@ index 462d20a9c591..e9f257821bab 100644
  	/* VDD_GFX supply */
  	pm8005_s1: s1 {
 -- 
-2.38.1
+Armbian
 

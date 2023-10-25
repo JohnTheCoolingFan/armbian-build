@@ -1,8 +1,7 @@
-From 5eeca6d7f0f5cbfd5c31a224499bdbc51bc8b639 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Konrad Dybcio <konrad.dybcio@somainline.org>
 Date: Wed, 20 Jan 2021 13:33:59 +0100
-Subject: [PATCH 029/127] interconnect: qcom: Add MSM8998 interconnect provider
- driver
+Subject: interconnect: qcom: Add MSM8998 interconnect provider driver
 
 Introduce a driver for the Qualcomm interconnect busses found in
 the MSM/APQ8998 SoCs.
@@ -24,9 +23,8 @@ Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.
 ---
  drivers/interconnect/qcom/Kconfig   |   9 +
  drivers/interconnect/qcom/Makefile  |   2 +
- drivers/interconnect/qcom/msm8998.c | 981 ++++++++++++++++++++++++++++
+ drivers/interconnect/qcom/msm8998.c | 981 ++++++++++
  3 files changed, 992 insertions(+)
- create mode 100644 drivers/interconnect/qcom/msm8998.c
 
 diff --git a/drivers/interconnect/qcom/Kconfig b/drivers/interconnect/qcom/Kconfig
 index 1a1c941635a2..1109f1204317 100644
@@ -1056,5 +1054,5 @@ index 000000000000..764c2fc18a62
 +MODULE_DESCRIPTION("Qualcomm msm8998 NoC driver");
 +MODULE_LICENSE("GPL v2");
 -- 
-2.38.1
+Armbian
 

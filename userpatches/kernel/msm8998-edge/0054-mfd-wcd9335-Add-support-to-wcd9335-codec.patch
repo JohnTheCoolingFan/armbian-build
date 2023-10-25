@@ -1,7 +1,7 @@
-From 8af2d411dc3ac1e261c1d31d69e1f60cf6787b34 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Fri, 28 Jan 2022 17:46:39 +0200
-Subject: [PATCH 054/127] mfd: wcd9335: Add support to wcd9335 codec
+Subject: mfd: wcd9335: Add support to wcd9335 codec
 
 Qualcomm WCD9335 Codec is a standalone Hi-Fi audio codec IC.
 
@@ -10,11 +10,10 @@ interrupt controller.
 
 Originally from: d95b982a
 ---
- drivers/mfd/Kconfig   |  12 ++
+ drivers/mfd/Kconfig   |  12 +
  drivers/mfd/Makefile  |   1 +
- drivers/mfd/wcd9335.c | 300 ++++++++++++++++++++++++++++++++++++++++++
+ drivers/mfd/wcd9335.c | 300 ++++++++++
  3 files changed, 313 insertions(+)
- create mode 100644 drivers/mfd/wcd9335.c
 
 diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
 index 8b93856de432..2afb69b45193 100644
@@ -358,5 +357,5 @@ index 000000000000..fa8985f97359
 +MODULE_ALIAS("slim:217:250:*");
 +MODULE_AUTHOR("Srinivas Kandagatla <srinivas.kandagatla@linaro.org>");
 -- 
-2.38.1
+Armbian
 

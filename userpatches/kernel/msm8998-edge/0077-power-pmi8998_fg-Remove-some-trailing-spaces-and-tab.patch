@@ -1,12 +1,11 @@
-From d54caaf7bc0c17fb3cb348c4179cb9073c008082 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Yassine Oudjana <y.oudjana@protonmail.com>
 Date: Sat, 6 Mar 2021 07:55:07 +0400
-Subject: [PATCH 077/127] power: pmi8998_fg: Remove some trailing spaces and
- tabs
+Subject: power: pmi8998_fg: Remove some trailing spaces and tabs
 
 This should be squashed.
 ---
- drivers/power/supply/pmi8998_fg.c | 18 +++++++++---------
+ drivers/power/supply/pmi8998_fg.c | 18 +++++-----
  1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/power/supply/pmi8998_fg.c b/drivers/power/supply/pmi8998_fg.c
@@ -95,5 +94,5 @@ index 1aea6eaf30f9..aa848e5577fe 100644
  	 * Change the FG_MEM_INT interrupt to track IACS_READY
  	 * condition instead of end-of-transaction. This makes sure
 -- 
-2.38.1
+Armbian
 

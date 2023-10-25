@@ -1,13 +1,13 @@
-From da466aa583c70ce9cdcb0f97be25688d13ae4b6f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Caleb Connolly <caleb.connolly@linaro.org>
 Date: Thu, 28 Apr 2022 11:42:29 +0100
-Subject: [PATCH 083/127] arm64: dts: qcom: pmi8998: add charger node
+Subject: arm64: dts: qcom: pmi8998: add charger node
 
 Add a node for the smb2 charger hardware found on the pmi8998.
 
 Signed-off-by: Caleb Connolly <caleb.connolly@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/pmi8998.dtsi | 17 +++++++++++++++++
+ arch/arm64/boot/dts/qcom/pmi8998.dtsi | 17 ++++++++++
  1 file changed, 17 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/pmi8998.dtsi b/arch/arm64/boot/dts/qcom/pmi8998.dtsi
@@ -39,5 +39,5 @@ index b22aedd948de..2ba0497c7031 100644
  			compatible = "qcom,pmi8998-gpio", "qcom,spmi-gpio";
  			reg = <0xc000>;
 -- 
-2.38.1
+Armbian
 

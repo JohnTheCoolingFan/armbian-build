@@ -52,6 +52,6 @@ cloud_init_determine_network_config_template__prefer_usb0_static() {
 	# Default to using usb0 with a static IP. effectively no networking, but the user can access it via ssh.
 	# If user goes all the way, they can set up dnsmasq/iptables etc to forward traffic to the internet.
 	# But then it probably is easier to just bridge hosts eth0 and usb0 together and use usb0-dhcp.
-	declare -g CLOUD_INIT_NET_CONFIG_FILE="usb0-staticip"
+	declare -g CLOUD_INIT_NET_CONFIG_FILE="usb0-dhcp-wait" # "usb0-staticip"
 	display_alert "c-i network-config" "${CLOUD_INIT_NET_CONFIG_FILE}" "info"
 }

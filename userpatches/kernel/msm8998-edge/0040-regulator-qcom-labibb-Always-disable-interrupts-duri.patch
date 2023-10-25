@@ -1,12 +1,11 @@
-From 6b3e594bf11ce9aaea6d85c39856ee4e2f6c4028 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Fri, 28 Jan 2022 15:42:37 +0200
-Subject: [PATCH 040/127] regulator: qcom-labibb: Always disable interrupts
- during OCP & SC
+Subject: regulator: qcom-labibb: Always disable interrupts during OCP & SC
 
 Originally from: cd95ecae
 ---
- drivers/regulator/qcom-labibb-regulator.c | 32 +++++++++++++----------
+ drivers/regulator/qcom-labibb-regulator.c | 32 ++++++----
  1 file changed, 18 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/regulator/qcom-labibb-regulator.c b/drivers/regulator/qcom-labibb-regulator.c
@@ -81,5 +80,5 @@ index 639b71eb41ff..3143e9765029 100644
  }
  
 -- 
-2.38.1
+Armbian
 

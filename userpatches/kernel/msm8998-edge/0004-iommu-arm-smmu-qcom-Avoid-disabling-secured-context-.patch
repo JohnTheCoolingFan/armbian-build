@@ -1,8 +1,7 @@
-From a93711ec0df1294528eeeea747aaf20dd517231e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Fri, 6 Aug 2021 13:19:14 +0200
-Subject: [PATCH 004/127] iommu/arm-smmu-qcom: Avoid disabling secured context
- banks
+Subject: iommu/arm-smmu-qcom: Avoid disabling secured context banks
 
 Some Qualcomm SoCs' TZ/hypervisor configuration is disallowing the
 disablement of some context banks, being them used for tzapps and/or
@@ -18,7 +17,7 @@ SoC's firmware, which may vary on different boards.
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 (JAMI: fixup for v6.0-rc1)
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 30 ++++++++++++++++++++++
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 30 ++++++++++
  drivers/iommu/arm/arm-smmu/arm-smmu-qcom.h |  1 +
  2 files changed, 31 insertions(+)
 
@@ -109,5 +108,5 @@ index 99ec8f8629a0..b22763b91775 100644
  	u8 bypass_cbndx;
  	u32 stall_enabled;
 -- 
-2.38.1
+Armbian
 

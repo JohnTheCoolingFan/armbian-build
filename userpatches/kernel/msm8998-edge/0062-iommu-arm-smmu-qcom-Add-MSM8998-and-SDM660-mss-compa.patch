@@ -1,8 +1,8 @@
-From a9caee3e489b027ca2e93dcabde133f753c9afcf Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Tue, 10 Aug 2021 20:42:48 +0200
-Subject: [PATCH 062/127] iommu/arm-smmu-qcom: Add MSM8998 and SDM660 mss
- compatibles for identity
+Subject: iommu/arm-smmu-qcom: Add MSM8998 and SDM660 mss compatibles for
+ identity
 
 Add MSM8998 and SDM660's mss-pil compatibles to switch the default
 iommu domain type to IDENTITY, as similarly required by SDM845 and
@@ -34,5 +34,5 @@ index c743efb35372..03e016058ee5 100644
  	{ .compatible = "qcom,sdm845-mss-pil" },
  	{ }
 -- 
-2.38.1
+Armbian
 

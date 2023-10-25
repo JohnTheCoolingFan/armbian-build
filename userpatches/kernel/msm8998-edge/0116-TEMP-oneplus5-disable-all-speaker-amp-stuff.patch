@@ -1,7 +1,7 @@
-From 02b658bc3252dac2000ebdb5390b5daf4e59a987 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Fri, 3 Sep 2021 20:49:21 +0300
-Subject: [PATCH 116/127] [TEMP] oneplus5: disable all speaker amp stuff
+Subject: [TEMP] oneplus5: disable all speaker amp stuff
 
 We don't want to blow this up while messing around with audio stuff
 early on...
@@ -31,5 +31,5 @@ index 0270437704e3..5fbe0b77d5c7 100644
  };
  
 -- 
-2.38.1
+Armbian
 

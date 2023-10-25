@@ -1,7 +1,7 @@
-From af3366f2046a9e96161cc08d24e65c9a13a6fce6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 25 Nov 2020 11:23:17 +0100
-Subject: [PATCH 014/127] arm64: qcom: qcs404: Change CPR nvmem-names
+Subject: arm64: qcom: qcs404: Change CPR nvmem-names
 
 The CPR driver's common functions were split and put in another
 file in order to support newer CPR revisions: to simplify the
@@ -17,7 +17,7 @@ so change it accordingly.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- arch/arm64/boot/dts/qcom/qcs404.dtsi | 26 +++++++++++++-------------
+ arch/arm64/boot/dts/qcom/qcs404.dtsi | 26 +++++-----
  1 file changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs404.dtsi b/arch/arm64/boot/dts/qcom/qcs404.dtsi
@@ -58,5 +58,5 @@ index 80f2d05595fa..0b793c984fba 100644
  
  		timer@b120000 {
 -- 
-2.38.1
+Armbian
 

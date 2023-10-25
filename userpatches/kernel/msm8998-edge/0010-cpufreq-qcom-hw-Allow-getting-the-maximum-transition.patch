@@ -1,8 +1,8 @@
-From e71a1a1b69f7b2a26ac5a54361c51632f299eb99 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Tue, 19 Jan 2021 13:03:11 +0100
-Subject: [PATCH 010/127] cpufreq: qcom-hw: Allow getting the maximum
- transition latency for OPPs
+Subject: cpufreq: qcom-hw: Allow getting the maximum transition latency for
+ OPPs
 
 In order to fine-tune the frequency scaling from various governors,
 allow to set a maximum transition latency from OPPs, which may be
@@ -11,7 +11,7 @@ different depending on the SoC.
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 [Fixup for 5.18 by Jami]
 ---
- drivers/cpufreq/qcom-cpufreq-hw.c | 35 +++++++++++++++++++++++--------
+ drivers/cpufreq/qcom-cpufreq-hw.c | 35 +++++++---
  1 file changed, 26 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/cpufreq/qcom-cpufreq-hw.c b/drivers/cpufreq/qcom-cpufreq-hw.c
@@ -93,5 +93,5 @@ index feb6c64e3293..879822c6cf95 100644
  unmap_base:
  	iounmap(base);
 -- 
-2.38.1
+Armbian
 

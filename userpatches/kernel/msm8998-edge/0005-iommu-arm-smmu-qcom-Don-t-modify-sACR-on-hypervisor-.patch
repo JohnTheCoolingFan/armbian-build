@@ -1,8 +1,7 @@
-From 7a4a06ed69981dbbae2f8bace69751727df0b201 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Fri, 6 Aug 2021 15:15:33 +0200
-Subject: [PATCH 005/127] iommu/arm-smmu-qcom: Don't modify sACR on hypervisor
- secured iommus
+Subject: iommu/arm-smmu-qcom: Don't modify sACR on hypervisor secured iommus
 
 Avoid modifying the contents of the secure Auxiliary Control Register
 on some Qualcomm SoCs: due to a hypervisor configuration on some
@@ -35,5 +34,5 @@ index 825d6f253ebb..e71706e2964c 100644
  	if (of_device_is_compatible(np, "qcom,sdm845-smmu-500"))
  		return qcom_sdm845_smmu500_reset(smmu);
 -- 
-2.38.1
+Armbian
 

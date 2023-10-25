@@ -1,7 +1,7 @@
-From 30f3218cce923bccb2f3eab8b9ed2d576b6c0a01 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 13 Jan 2021 19:22:24 +0100
-Subject: [PATCH 026/127] i2c: qup: Introduce SCL/SDA noise rejection
+Subject: i2c: qup: Introduce SCL/SDA noise rejection
 
 Some I2C devices may be glitchy due to electrical noise coming
 from the device itself or because of possible board design issues.
@@ -16,7 +16,7 @@ enabled.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- drivers/i2c/busses/i2c-qup.c | 16 ++++++++++++++++
+ drivers/i2c/busses/i2c-qup.c | 16 ++++++++++
  1 file changed, 16 insertions(+)
 
 diff --git a/drivers/i2c/busses/i2c-qup.c b/drivers/i2c/busses/i2c-qup.c
@@ -61,5 +61,5 @@ index 2e153f2f71b6..4b55f0b64e10 100644
  	 * Time it takes for a byte to be clocked out on the bus.
  	 * Each byte takes 9 clock cycles (8 bits + 1 ack).
 -- 
-2.38.1
+Armbian
 

@@ -1,8 +1,7 @@
-From cb1abe5cde54e33d5ac222f7583562bf01021441 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Yassine Oudjana <y.oudjana@protonmail.com>
 Date: Fri, 5 Mar 2021 21:37:13 +0400
-Subject: [PATCH 078/127] power: pmi8998_fg: Rename to qcom_fg and add support
- for PMI8994/6
+Subject: power: pmi8998_fg: Rename to qcom_fg and add support for PMI8994/6
 
 This adds support for accessing SRAM. That includes requesting and releasing
 access to SRAM by setting some registers and handling the mem-avail IRQ,
@@ -13,13 +12,11 @@ and temperature data. Getting capacity is identical to gen3.
 
 Tested on Xiaomi Mi Note 2 with PMI8996.
 ---
- drivers/power/supply/Kconfig                  |   8 +-
- drivers/power/supply/Makefile                 |   2 +-
- .../power/supply/{pmi8998_fg.c => qcom_fg.c}  | 599 ++++++++++++++++--
- .../power/supply/{pmi8998_fg.h => qcom_fg.h}  |  86 ++-
+ drivers/power/supply/Kconfig                     |   8 +-
+ drivers/power/supply/Makefile                    |   2 +-
+ drivers/power/supply/{pmi8998_fg.c => qcom_fg.c} | 599 ++++++++--
+ drivers/power/supply/{pmi8998_fg.h => qcom_fg.h} |  86 +-
  4 files changed, 597 insertions(+), 98 deletions(-)
- rename drivers/power/supply/{pmi8998_fg.c => qcom_fg.c} (50%)
- rename drivers/power/supply/{pmi8998_fg.h => qcom_fg.h} (60%)
 
 diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
 index 8ad785d54a4a..f2e743ff29f5 100644
@@ -1195,5 +1192,5 @@ index b44f88bc9395..2bc6df2fdd9d 100644
  	int batt_cap_uah;
  	int batt_max_voltage_uv;
 -- 
-2.38.1
+Armbian
 

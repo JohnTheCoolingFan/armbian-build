@@ -1,11 +1,10 @@
-From ca2c4b27da6c5c06b7ba35806a317ee64d24f0be Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Mon, 31 Oct 2022 02:05:05 +0200
-Subject: [PATCH 127/127] [WIP] arm64: msm8998-oneplus-common: fix node names
- for reserved mem
+Subject: [WIP] arm64: msm8998-oneplus-common: fix node names for reserved mem
 
 ---
- .../boot/dts/qcom/msm8998-oneplus-common.dtsi | 98 ++++++++++++-------
+ arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi | 98 ++++++----
  1 file changed, 65 insertions(+), 33 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/msm8998-oneplus-common.dtsi
@@ -132,5 +131,5 @@ index e86b629adebc..459625c5d04b 100644
  	status = "okay";
  };
 -- 
-2.38.1
+Armbian
 

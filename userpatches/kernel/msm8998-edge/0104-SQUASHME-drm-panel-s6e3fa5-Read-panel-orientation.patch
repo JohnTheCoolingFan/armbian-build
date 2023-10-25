@@ -1,13 +1,12 @@
-From 41ecb6deba5a1c45f65aac5f1354d9f6d9e7ea2b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Wed, 18 Nov 2020 13:14:15 +0200
-Subject: [PATCH 104/127] [SQUASHME?] drm/panel: s6e3fa5: Read panel
- orientation
+Subject: [SQUASHME?] drm/panel: s6e3fa5: Read panel orientation
 
 The panel is mounted upside down on the OnePlus 5, so we need to handle
 this in the driver.
 ---
- drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c | 11 +++++++++++
+ drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c | 11 ++++++++++
  1 file changed, 11 insertions(+)
 
 diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c b/drivers/gpu/drm/panel/panel-samsung-s6e3fa5.c
@@ -63,5 +62,5 @@ index 90faee3f5a50..061424496a61 100644
  		       DRM_MODE_CONNECTOR_DSI);
  
 -- 
-2.38.1
+Armbian
 

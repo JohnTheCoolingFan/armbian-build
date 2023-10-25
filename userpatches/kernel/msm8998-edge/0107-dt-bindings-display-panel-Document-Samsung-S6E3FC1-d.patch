@@ -1,13 +1,11 @@
-From 658a4aaf824247341fffb7ca28a5f307e2aa37ea Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jami Kettunen <jami.kettunen@protonmail.com>
 Date: Fri, 28 Jan 2022 19:49:49 +0200
-Subject: [PATCH 107/127] dt-bindings: display: panel: Document Samsung S6E3FC1
- display panel
+Subject: dt-bindings: display: panel: Document Samsung S6E3FC1 display panel
 
 ---
- .../display/panel/samsung,s6e3fc1.yaml        | 52 +++++++++++++++++++
+ Documentation/devicetree/bindings/display/panel/samsung,s6e3fc1.yaml | 52 ++++++++++
  1 file changed, 52 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e3fc1.yaml
 
 diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e3fc1.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e3fc1.yaml
 new file mode 100644
@@ -68,5 +66,5 @@ index 000000000000..89e04d9e0f50
 +            };
 +    };
 -- 
-2.38.1
+Armbian
 

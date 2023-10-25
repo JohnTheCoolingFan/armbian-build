@@ -1,7 +1,7 @@
-From 3623b0ba747de49f24a9f788522247f525bb0cf9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Mon, 4 Jan 2021 18:17:58 +0100
-Subject: [PATCH 020/127] arm64: dts: msm8998: Add interconnect nodes
+Subject: arm64: dts: msm8998: Add interconnect nodes
 
 This SoC features Network-on-Chip (NoC) and Bus Integrated Memory
 Controller (BIMC) interconnects: add the required nodes now that
@@ -9,7 +9,7 @@ the driver is present.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- arch/arm64/boot/dts/qcom/msm8998.dtsi | 68 +++++++++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/msm8998.dtsi | 68 ++++++++++
  1 file changed, 68 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
@@ -120,5 +120,5 @@ index c1b0048f56e4..26a77d5959fe 100644
  			compatible = "qcom,msm8998-apcs-hmss-global";
  			reg = <0x17911000 0x1000>;
 -- 
-2.38.1
+Armbian
 

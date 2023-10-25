@@ -1,7 +1,7 @@
-From ef8c07385d4ada3145cca23d816ee7b7e4ab3342 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Mon, 9 Aug 2021 19:21:02 +0200
-Subject: [PATCH 051/127] ASoC: qcom: Add MSM8998 sound card support
+Subject: ASoC: qcom: Add MSM8998 sound card support
 
 Add MSM8998 sound support: this driver supports basic functionality
 and headphone jack.
@@ -11,9 +11,8 @@ Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.
 ---
  sound/soc/qcom/Kconfig   |  11 +
  sound/soc/qcom/Makefile  |   2 +
- sound/soc/qcom/msm8998.c | 501 +++++++++++++++++++++++++++++++++++++++
+ sound/soc/qcom/msm8998.c | 501 ++++++++++
  3 files changed, 514 insertions(+)
- create mode 100644 sound/soc/qcom/msm8998.c
 
 diff --git a/sound/soc/qcom/Kconfig b/sound/soc/qcom/Kconfig
 index 8c7398bc1ca8..8f4d6efa8968 100644
@@ -565,5 +564,5 @@ index 000000000000..e40bade35131
 +MODULE_DESCRIPTION("msm8998 ASoC Machine Driver");
 +MODULE_LICENSE("GPL v2");
 -- 
-2.38.1
+Armbian
 

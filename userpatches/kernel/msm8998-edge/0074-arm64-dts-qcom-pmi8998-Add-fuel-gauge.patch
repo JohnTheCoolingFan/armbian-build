@@ -1,7 +1,7 @@
-From a8868857f9f2a0ee58d445e1eff9a036080b375b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Caleb Connolly <caleb@connolly.tech>
-Date: Fri, 25 Dec 2020 12:56:42 +0530
-Subject: [PATCH 074/127] arm64: dts: qcom: pmi8998: Add fuel gauge
+Date: Fri, 25 Dec 2020 13:16:42 +0550
+Subject: arm64: dts: qcom: pmi8998: Add fuel gauge
 
 Add a node for qcom,pmi8998-fg.
 ---
@@ -30,5 +30,5 @@ index 3852a012bb0f..79d47540fa8b 100644
  
  	pmi8998_lsid1: pmic@3 {
 -- 
-2.38.1
+Armbian
 

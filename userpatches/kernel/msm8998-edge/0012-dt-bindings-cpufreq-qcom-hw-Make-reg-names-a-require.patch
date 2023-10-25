@@ -1,8 +1,7 @@
-From 6e24871c50aae7b730a9031948c6f1340277ede8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Thu, 17 Jun 2021 23:05:40 +0200
-Subject: [PATCH 012/127] dt-bindings: cpufreq: qcom-hw: Make reg-names a
- required property
+Subject: dt-bindings: cpufreq: qcom-hw: Make reg-names a required property
 
 The property reg-names is required after the addition of the OSM
 programming sequence, as that mandates specifying different register
@@ -25,5 +24,5 @@ index e93904e8d4ef..8589a5c06460 100644
    - clock-names
    - '#freq-domain-cells'
 -- 
-2.38.1
+Armbian
 

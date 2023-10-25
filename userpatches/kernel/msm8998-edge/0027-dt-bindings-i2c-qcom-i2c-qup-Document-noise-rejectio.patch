@@ -1,15 +1,14 @@
-From 7415d1bdcf65d6e7e26a0ef4a7675305bc0cc122 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Wed, 13 Jan 2021 19:24:33 +0100
-Subject: [PATCH 027/127] dt-bindings: i2c: qcom,i2c-qup: Document noise
- rejection properties
+Subject: dt-bindings: i2c: qcom,i2c-qup: Document noise rejection properties
 
 Document the new noise rejection properties "qcom,noise-reject-sda"
 and "qcom,noise-reject-scl".
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- .../devicetree/bindings/i2c/qcom,i2c-qup.yaml      | 14 ++++++++++++++
+ Documentation/devicetree/bindings/i2c/qcom,i2c-qup.yaml | 14 ++++++++++
  1 file changed, 14 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/i2c/qcom,i2c-qup.yaml b/Documentation/devicetree/bindings/i2c/qcom,i2c-qup.yaml
@@ -38,5 +37,5 @@ index f43947514d48..520f113c1c0a 100644
    - compatible
    - clock-names
 -- 
-2.38.1
+Armbian
 

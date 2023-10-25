@@ -1,14 +1,13 @@
-From 2e891ea8f6bb35d70200d8cec473d7822156c6c4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 Date: Sat, 5 Dec 2020 17:53:51 +0100
-Subject: [PATCH 018/127] arm64: dts: qcom: Enable panel etc. on MSM8998 Sony
- Yoshino platform
+Subject: arm64: dts: qcom: Enable panel etc. on MSM8998 Sony Yoshino platform
 
 (JAMI: fixup for 5.16 & 6.0-rc2)
 ---
- .../msm8998-sony-xperia-yoshino-maple.dts     |  57 ++++++
- .../msm8998-sony-xperia-yoshino-poplar.dts    |  12 ++
- .../dts/qcom/msm8998-sony-xperia-yoshino.dtsi | 176 +++++++++++++++++-
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts  |  57 +++
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dts |  12 +
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino.dtsi       | 176 +++++++++-
  3 files changed, 244 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts b/arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts
@@ -373,5 +372,5 @@ index d08639082247..65f007429d5e 100644
  
  	hall_sensor0_default: acc-cover-open {
 -- 
-2.38.1
+Armbian
 

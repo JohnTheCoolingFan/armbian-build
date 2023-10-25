@@ -1,8 +1,7 @@
-From bfc846b0113c7f5aa5a10dbf2337a63441164ff0 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Marijn Suijten <marijn.suijten@somainline.org>
 Date: Sun, 11 Apr 2021 23:04:31 +0200
-Subject: [PATCH 001/127] leds: ledtrig-pattern: Use last_repeat when applying
- hw pattern
+Subject: leds: ledtrig-pattern: Use last_repeat when applying hw pattern
 
 `last_repeat` holds the actual value requested by the user whereas
 `repeat` is a software iteration variable that is unused in hardware
@@ -35,5 +34,5 @@ index 43a265dc4696..a11d68143757 100644
  
  	/* At least 2 tuples for software pattern. */
 -- 
-2.38.1
+Armbian
 
