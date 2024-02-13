@@ -49,7 +49,7 @@ function apt_find_upstream_package_version_and_download_url() {
 
 		declare package_info_download_url_file
 		package_info_download_url_file="$(mktemp)"
-		curl --silent --show-error --max-time 10 "${package_info_download_url}" > "${package_info_download_url_file}" || true # don't fail
+		curl --silent --show-error --max-time 20 --resolve packages.debian.org:443:195.192.210.132 "${package_info_download_url}" > "${package_info_download_url_file}" || true # don't fail
 		declare package_info_download_url_file_package_name                                                                   # grep the file for the package name. parse "<kbd>name</kbd>"
 		package_info_download_url_file_package_name="$(grep -oP '(?<=<kbd>)[^<]+' "${package_info_download_url_file}" | grep "^${sought_package_name}_" | head -n 1)"
 		rm -f "${package_info_download_url_file}"
