@@ -29,20 +29,15 @@
 	leds {
 		compatible = "gpio-leds";
 
+		// meko call it "work led"
 		sys_led: led-0 {
-			gpios = <&gpio2 RK_PB7 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio3 RK_PB7 GPIO_ACTIVE_HIGH>;
 			label = "system-led";
 			linux,default-trigger = "heartbeat";
 			pinctrl-names = "default";
 			pinctrl-0 = <&sys_led_pin>;
 		};
 
-		usr_led: led-1 {
-			gpios = <&gpio2 RK_PC0 GPIO_ACTIVE_HIGH>;
-			label = "user-led";
-			pinctrl-names = "default";
-			pinctrl-0 = <&usr_led_pin>;
-		};
 	};
 
 	sound {
@@ -375,30 +370,14 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&hym8563_int>;
 		interrupt-parent = <&gpio0>;
-		interrupts = <RK_PB0 IRQ_TYPE_LEVEL_LOW>;
+		interrupts = <RK_PB2 IRQ_TYPE_LEVEL_LOW>;
 		wakeup-source;
 	};
 };
 
 &i2c7 {
 	clock-frequency = <200000>;
-	status = "okay";
-
-	rt5616: codec@1b {
-		compatible = "realtek,rt5616";
-		reg = <0x1b>;
-		clocks = <&cru I2S0_8CH_MCLKOUT>;
-		clock-names = "mclk";
-		#sound-dai-cells = <0>;
-		assigned-clocks = <&cru I2S0_8CH_MCLKOUT>;
-		assigned-clock-rates = <12288000>;
-
-		port {
-			rt5616_p0_0: endpoint {
-				remote-endpoint = <&i2s0_8ch_p0_0>;
-			};
-		};
-	};
+	status = "disabled";
 
 	/* connected with MIPI-CSI1 */
 };
@@ -433,20 +412,22 @@
 	status = "okay";
 };
 
+// this is disabled on vendor kernel
 &pcie2x1l1 {
 	reset-gpios = <&gpio4 RK_PA2 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_pcie2x1l0>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pcie2_1_rst>;
-	status = "okay";
+	status = "disabled";
 };
 
+// this is disabled on vendor kernel
 &pcie2x1l2 {
 	reset-gpios = <&gpio4 RK_PA4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc_3v3_pcie20>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pcie2_2_rst>;
-	status = "okay";
+	status = "disabled";
 };
 
 &pcie30phy {
@@ -462,12 +443,9 @@
 &pinctrl {
 	gpio-leds {
 		sys_led_pin: sys-led-pin {
-			rockchip,pins = <2 RK_PB7 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <3 RK_PB7 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 
-		usr_led_pin: usr-led-pin {
-			rockchip,pins = <2 RK_PC0 RK_FUNC_GPIO &pcfg_pull_none>;
-		};
 	};
 
 	headphone {
@@ -478,7 +456,7 @@
 
 	hym8563 {
 		hym8563_int: hym8563-int {
-			rockchip,pins = <0 RK_PB0 RK_FUNC_GPIO &pcfg_pull_up>;
+			rockchip,pins = <0 RK_PB2 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 	};
 
@@ -516,8 +494,8 @@
 };
 
 &pwm1 {
-	pinctrl-0 = <&pwm1m1_pins>;
-	status = "okay";
+	//pinctrl-0 = <&pwm1m1_pins>;
+	status = "disabled";
 };
 
 &saradc {
@@ -877,6 +855,25 @@
 
 &tsadc {
 	status = "okay";
+};
+
+//rs485
+&uart0 {
+	pinctrl-0 = <&uart0m2_xfer>;
+	status = "okay";
+};
+
+//rs232
+&uart3 {
+	pinctrl-0 = <&uart3m2_xfer>;
+	status = "okay";
+};
+
+//wireless/bluetooth
+&uart6 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart6m1_xfer &uart6m1_ctsn>;
 };
 
 &uart2 {
