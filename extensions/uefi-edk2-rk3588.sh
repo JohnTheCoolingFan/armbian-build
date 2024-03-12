@@ -9,9 +9,9 @@ enable_extension "initramfs-usb-gadget-ums"
 function extension_prepare_config__config_uefi_edk2_rk3588() {
 	display_alert "Configuring UEFI EDK2 for RK3588" "${BOARD} - edk2 '${UEFI_EDK2_BOARD_ID}'" "info"
 
-	declare -g GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT:-"acpi=off"}" # default to acpi=off
-	declare -g UEFI_GRUB_TIMEOUT=${UEFI_GRUB_TIMEOUT:-3}                              # Default 3-seconds timeout for GRUB menu.
-	declare -g UEFI_GRUB_TERMINAL="gfxterm serial console"                            # gfxterm is a long shot.
+	declare -g GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT:-"acpi=off efi=noruntime"}" # default to acpi=off
+	declare -g UEFI_GRUB_TIMEOUT=${UEFI_GRUB_TIMEOUT:-3}                                            # Default 3-seconds timeout for GRUB menu.
+	declare -g UEFI_GRUB_TERMINAL="gfxterm serial console"                                          # gfxterm is a long shot.
 
 	# Check that UEFI_EDK2_BOARD_ID is set, or bomb
 	if [[ -z "${UEFI_EDK2_BOARD_ID}" ]]; then
