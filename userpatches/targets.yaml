@@ -84,6 +84,14 @@ lists:
     - { BOARD: orangepi3b, BRANCH: edge } # patches live in Kwiboo's tree, needs manual intervention
     - { BOARD: radxa-zero, BRANCH: edge }
     - { BOARD: radxa-zero2, BRANCH: edge }
+    # pyelftools testing
+    - { BOARD: bananapir2pro, BRANCH: edge }
+    - { BOARD: orangepi5, BRANCH: edge }
+    - { BOARD: radxa-zero3, BRANCH: edge }
+    - { BOARD: rock-4se, BRANCH: edge }
+    - { BOARD: rock-5b, BRANCH: edge }
+    - { BOARD: rockpi-4cplus, BRANCH: edge }
+
     # for ja in mekotronics-r58x-pro mixtile-blade3; do echo $ja; ./compile.sh rewrite-uboot-patches BRANCH=legacy BOARD=$ja; done
     # for ja in orangepi3b qemu-uboot-x86 odroidhc4 khadas-vim3l khadas-vim3 tinkerboard-2 rockpro64 odroidm1 radxa-zero radxa-zero2; do echo $ja; ./compile.sh rewrite-uboot-patches BRANCH=edge BOARD=$ja; done
 
