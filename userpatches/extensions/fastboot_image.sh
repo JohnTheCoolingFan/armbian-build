@@ -10,7 +10,12 @@ declare -g ROOT_FS_LABEL="Armbian_root"
 
 ## Hooks
 function add_host_dependencies__fastboot_stuff() {
-	declare -g EXTRA_BUILD_DEPS="${EXTRA_BUILD_DEPS} mkbootimg android-sdk-libsparse-utils fastboot"
+	# Trixie is missing those, see https://tracker.debian.org/pkg/android-platform-tools
+	if [[ "${host_release}" == "trixie" ]]; then
+		display_alert "fastboot_image won't work on trixie" "https://tracker.debian.org/pkg/android-platform-tools" "warn"
+	else
+		declare -g EXTRA_BUILD_DEPS="${EXTRA_BUILD_DEPS} mkbootimg android-sdk-libsparse-utils fastboot"
+	fi
 }
 
 # Early check for host-side tools needed for Android fastboot.
