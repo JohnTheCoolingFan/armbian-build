@@ -18,9 +18,9 @@ function get_desktop_appgroups_id() {
 	elif [[ "${DESKTOP_APPGROUPS_SELECTED}" == "browsers,chat,desktop_tools,editors,email,internet,languages,multimedia,office,programming,remote_desktop" ]]; then
 		desktop_appgroups_id="-appgroups-all-no3d"
 	# if there are no commas in the appgroups...
-	elif [[ "${DESKTOP_APPGROUPS_SELECTED}" != *","* ]]; then
-		# use the appgroup name, simple
-		desktop_appgroups_id="-appgroups-${DESKTOP_APPGROUPS_SELECTED}"
+	#elif [[ "${DESKTOP_APPGROUPS_SELECTED}" != *","* ]]; then
+	#	# use the appgroup names, simple, replace spaces with dashes
+	#	desktop_appgroups_id="-appgroups-${DESKTOP_APPGROUPS_SELECTED// /-}"
 	else
 		# use a hash of the selected appgroups
 		declare appgroups_hash
