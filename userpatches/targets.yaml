@@ -111,7 +111,7 @@ lists:
 
   desktop-boards: &desktop-boards # Gotta define RELEASE here
     #- { BOARD: thinkpad-x13s, BRANCH: sc8280xp, RELEASE: lunar, DESKTOP_ENVIRONMENT: gnome, ENABLE_EXTENSIONS: "nicod-armbian-gaming" }
-    - { BOARD: thinkpad-x13s, BRANCH: sc8280xp, RELEASE: trixie, DESKTOP_ENVIRONMENT: gnome, ENABLE_EXTENSIONS: "nicod-armbian-gaming" }
+    - { BOARD: thinkpad-x13s, BRANCH: sc8280xp, RELEASE: noble, DESKTOP_ENVIRONMENT: gnome }
     #- { BOARD: thinkpad-x13s, BRANCH: jhovoldsc8280xp, RELEASE: lunar, DESKTOP_ENVIRONMENT: gnome, ENABLE_EXTENSIONS: "nicod-armbian-gaming" }
     #- { BOARD: khadas-vim3, BRANCH: edge, RELEASE: bookworm, DESKTOP_ENVIRONMENT: xfce, ENABLE_EXTENSIONS: "nicod-armbian-gaming" }
     #- { BOARD: khadas-vim3l, BRANCH: edge, RELEASE: bookworm, DESKTOP_ENVIRONMENT: xfce, ENABLE_EXTENSIONS: "nicod-armbian-gaming" }
@@ -170,9 +170,9 @@ targets:
     items-from-inventory:
       userspace: # creates items from userspace inventory automatically... 'eos' distributions are always skipped.
         #skip-releases: [ "sid" ] # do NOT include these releases
-        only-releases: [ "bookworm", "jammy", "noble", "trixie" ] # ONLY include these releases
+        only-releases: [ "bookworm", "jammy", "noble" ] # ONLY include these releases, "trixie"
         # skip-desktops: [ "lxde" ] # do NOT include these desktops
-        only-desktops: [ "gnome", "xfce", "kde-neon" ] # ONLY include these desktops
+        only-desktops: [ "gnome", "kde-neon" ] # ONLY include these desktops, "xfce",
         cli: yes # include normal CLI userspace
         minimal: no # include minimal CLI userspace
         cloud: yes # include cloud CLI userspace (rpardini's stuff, default is no)
@@ -391,7 +391,7 @@ targets:
 
 
   rk3588uefi-trixie-edge:
-    enabled: yes
+    enabled: no
     configs: [ rpardini-generic ]
     pipeline:
       gha: *rpardini-gha
