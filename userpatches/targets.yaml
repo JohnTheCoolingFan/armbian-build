@@ -339,41 +339,6 @@ targets:
       - { BOARD: "rock-5a" }
       - { BOARD: "rock-5b" }
 
-  vendor-boogie-panthor:
-    enabled: yes
-    configs: [ rpardini-generic ]
-    pipeline:
-      gha: *rpardini-gha
-      build-image: no # don't build images for this target ("no" here is a boolean, not string)
-    vars:
-      BRANCH: "vendor-boogie-panthor"
-      BUILD_MINIMAL: "no"
-      CLOUD_IMAGE: "no"
-      RELEASE: "jammy"
-      DESKTOP_ENVIRONMENT: "kde-neon"
-      BUILD_DESKTOP: "yes"
-      DESKTOP_ENVIRONMENT_CONFIG_NAME: "config_base"
-      DESKTOP_APPGROUPS_SELECTED: "" # space or comma separated
-    items:
-      - { BOARD: "hinlink-h88k" }
-      - { BOARD: "indiedroid-nova" }
-      - { BOARD: "mekotronics-r58-minipc" }
-      - { BOARD: "mekotronics-r58x" }
-      - { BOARD: "mekotronics-r58x-4g" }
-      - { BOARD: "mekotronics-r58x-pro" }
-      - { BOARD: "mixtile-blade3" }
-      - { BOARD: "nanopct6" }
-      - { BOARD: "orangepi5" }
-      - { BOARD: "orangepi5-plus" }
-      - { BOARD: "rock-5a" }
-      - { BOARD: "rock-5b" }
-      - { BOARD: "armsom-sige7" }
-      - { BOARD: "nanopc-cm3588-nas" }
-      ## missing rk35xx # - { BOARD: "orangepi3b" }
-      ## missing rk35xx # - { BOARD: "radxa-zero3" }
-      ## missing rk35xx # - { BOARD: "rock-3a" }
-
-
   rk3588uefi-cloud-vendor:
     enabled: yes
     configs: [ rpardini-generic ]
