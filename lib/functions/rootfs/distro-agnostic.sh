@@ -183,17 +183,17 @@ function install_distribution_agnostic() {
 		fi
 
 		if [[ -n $OVERLAY_PREFIX && -f "${SDCARD}"/boot/armbianEnv.txt ]]; then
-			display_alert "Adding to armbianEnv.txt" "overlay_prefix=$OVERLAY_PREFIX" "debug"
+			display_alert "Adding to armbianEnv.txt" "overlay_prefix=$OVERLAY_PREFIX" "info"
 			run_host_command_logged echo "overlay_prefix=$OVERLAY_PREFIX" ">>" "${SDCARD}"/boot/armbianEnv.txt
 		fi
 
 		if [[ -n $DEFAULT_OVERLAYS && -f "${SDCARD}"/boot/armbianEnv.txt ]]; then
-			display_alert "Adding to armbianEnv.txt" "overlays=${DEFAULT_OVERLAYS//,/ }" "debug"
+			display_alert "Adding to armbianEnv.txt" "overlays=${DEFAULT_OVERLAYS//,/ }" "info"
 			run_host_command_logged echo "overlays=${DEFAULT_OVERLAYS//,/ }" ">>" "${SDCARD}"/boot/armbianEnv.txt
 		fi
 
 		if [[ -n $BOOT_FDT_FILE && -f "${SDCARD}"/boot/armbianEnv.txt ]]; then
-			display_alert "Adding to armbianEnv.txt" "fdtfile=${BOOT_FDT_FILE}" "debug"
+			display_alert "Adding to armbianEnv.txt" "fdtfile=${BOOT_FDT_FILE}" "info"
 			run_host_command_logged echo "fdtfile=${BOOT_FDT_FILE}" ">>" "${SDCARD}/boot/armbianEnv.txt"
 		fi
 
