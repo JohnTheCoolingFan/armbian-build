@@ -266,7 +266,7 @@ family_tweaks_bsp() {
 	mkdir -p $destination/usr/local/bin
 
 	mkdir -p "$destination"/etc/X11/xorg.conf.d
-	case "${BOARD}" in
+	case "${BOARD}" in # @TODO CRAP HERE
 		"odroidc2" | "nanopik2-s905" | "lepotato" | "lafrite" | "khadas-vim1" | "khadas-vim2" | "aml-s9xx-box")
 			cat <<- EOF > "$destination"/etc/X11/xorg.conf.d/02-driver.conf
 				Section "OutputClass"
