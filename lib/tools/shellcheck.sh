@@ -60,29 +60,25 @@ fi
 ACTUAL_VERSION="$("${SHELLCHECK_BIN}" --version | grep "^version")"
 
 function calculate_params_for_severity() {
-	declare SEVERITY="${SEVERITY:-"critical"}"
+	declare SEVERITY="${SEVERITY:-"armbian"}"
 
 	params+=(--check-sourced --color=always --external-sources --format=tty --shell=bash)
 	case "${SEVERITY}" in
-		important)
-			params+=("--severity=warning")
+		armbian)
+			params+=("--severity=info")
 			excludes+=(
-				"SC2034" # "appears unused" -- bad, but no-one will die of this
-			)
-			;;
-
-		critical)
-			params+=("--severity=warning")
-			excludes+=(
-				"SC2034" # "appears unused" -- bad, but no-one will die of this
+				"SC2034" # "appears unused" -- mostly the same stuff as SC2153, but in reverse. can't see the use of a global var inside some functions which are invoked dynamically/via eval/extensions
 				"SC2207" # "prefer mapfile" -- bad expansion, can lead to trouble; a lot of legacy pre-next code hits this
 				"SC2046" # "quote this to prevent word splitting" -- bad expansion, variant 2, a lot of legacy pre-next code hits this
 				"SC2086" # "quote this to prevent word splitting" -- bad expansion, variant 3, a lot of legacy pre-next code hits this
 				"SC2206" # (warning): Quote to prevent word splitting/globbing, or split robustly with mapfile or read -a.
+				"SC2012" # "(info) Use find instead of ls to better handle non-alphanumeric filenames" -- much code does this. we can't fix it all at once; remove one day & fix some 100s of cases
+				"SC2317" # "(info): Command appears to be unreachable. Check usage (or ignore if invoked indirectly)"; -- happens when hooks (which are invoked dynamically) are used to set functions (function-in-function)
 			)
 			;;
 
 		*)
+			echo "WARNING: unknown severity '${SEVERITY}', passing to shellcheck..." >&2
 			params+=("--severity=${SEVERITY}")
 			;;
 	esac
@@ -90,21 +86,14 @@ function calculate_params_for_severity() {
 	for exclude in "${excludes[@]}"; do
 		params+=(--exclude="${exclude}")
 	done
+
+	echo "Custom severity '${SEVERITY}' params: " "${params[@]}" >&2
 }
 
 declare -a problems=()
-
-# formats:
-# checkstyle -- some XML format
-# gcc - one per line, compact references; does not show the source
-# tty - default for checkstyle
-
 cd "${SRC}" || exit 3
 
-# config/sources errors
-SEVERITY="error"
-declare -a params=()
-calculate_params_for_severity
+# config/sources and config/boards
 declare -a config_files=()
 declare -a config_source_files=()
 declare -a config_board_files=()
@@ -113,28 +102,14 @@ mapfile -t config_board_files < <(find "${SRC}/config/boards" -type f -name "*.w
 # add all elements of config_source_files and config_board_files to config_files
 config_files=("${config_source_files[@]}" "${config_board_files[@]}")
 
-echo "Running shellcheck ${ACTUAL_VERSION} against ${#config_files[@]} config files, severity 'SEVERITY=${SEVERITY}', please wait..."
-#echo "All params: " "${params[@]}"
-#echo "Checked files: " "${config_files[@]}"
-
-if "${SHELLCHECK_BIN}" "${params[@]}" "${config_files[@]}"; then
-	echo "Congrats, no ${SEVERITY}'s detected in config/sources."
-else
-	echo "Ooops, ${SEVERITY}'s detected in config/sources."
-	problems+=("Ooops, ${SEVERITY}'s detected in config/sources.")
-fi
-
-# Lib/ code checks
-SEVERITY="critical"
+echo "Running shellcheck ${ACTUAL_VERSION} against 'compile.sh' -- lib/ checks and against ${#config_files[@]} config/ files, please wait..." >&2
 declare -a params=()
 calculate_params_for_severity
-echo "Running shellcheck ${ACTUAL_VERSION} against 'compile.sh' -- lib/ checks, severity 'SEVERITY=${SEVERITY}', please wait..."
-echo "All params: " "${params[@]}"
 
-if "${SHELLCHECK_BIN}" "${params[@]}" compile.sh; then
-	echo "Congrats, no ${SEVERITY}'s detected in lib/ code."
+if "${SHELLCHECK_BIN}" "${params[@]}" compile.sh "${config_files[@]}"; then
+	echo "Congrats, no problems detected in lib/ code and ${#config_files[@]} config/ files." >&2
 else
-	problems+=("Ooops, ${SEVERITY}'s detected in lib/ code.")
+	problems+=("Ooops, problems detected in lib/ code  and ${#config_files[@]} config/ files.")
 fi
 
 # show the problems, if any
