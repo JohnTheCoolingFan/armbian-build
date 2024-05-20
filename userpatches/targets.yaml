@@ -25,7 +25,7 @@ lists:
     #- { BOARD: radxa-zero2, BRANCH: current, RELEASE: bullseye }
     #- { BOARD: radxa-zero, BRANCH: edge }
     #- { BOARD: orangepi3b, BRANCH: legacy }
-    - { BOARD: orangepi3b, BRANCH: edge }
+    #- { BOARD: orangepi3b, BRANCH: edge }
     - { BOARD: odroidm1, BRANCH: edge }
     # - { BOARD: tinkerboard-2, BRANCH: legacy }
     - { BOARD: rpi4b, BRANCH: current, RELEASE: bookworm }
@@ -33,7 +33,6 @@ lists:
     - { BOARD: rockpro64, BRANCH: edge }
     #- { BOARD: tinker-edge-r, BRANCH: edge }
     #- { BOARD: rockpro64, BRANCH: current }
-    #- { BOARD: t95z, BRANCH: edge }
     #- { BOARD: oneplus5, BRANCH: edge }
     #- { BOARD: phytium-d2000, BRANCH: legacy }
     # - { BOARD: thinkpad-x13s, BRANCH: sc8280xp }
@@ -353,6 +352,23 @@ targets:
       ENABLE_EXTENSIONS: "amazingfated-rk3588,uefi-edk2-rk3588,cloud-metadata"
     items:
       - { BOARD: "mekotronics-r58x-pro" }
+
+  t95z-cloud-edge:
+    enabled: yes
+    configs: [ rpardini-generic ]
+    pipeline:
+      gha: *rpardini-gha
+    vars:
+      BRANCH: "edge"
+      BUILD_MINIMAL: "no"
+      CLOUD_IMAGE: "yes"
+      BUILD_DESKTOP: "no"
+      RELEASE: bookworm
+      ENABLE_EXTENSIONS: "cloud-metadata"
+    items:
+      - { BOARD: "aml-t95z-plus" }
+      - { BOARD: "odroidhc4" }
+      - { BOARD: "khadas-vim3l" }
 
 
   rk3588uefi-trixie-edge:
