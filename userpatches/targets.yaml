@@ -369,7 +369,7 @@ targets:
       - { BOARD: "aml-t95z-plus" }
       - { BOARD: "odroidhc4" }
       - { BOARD: "khadas-vim3l" }
-
+      - { BOARD: "rpi4b", BRANCH: "current" }
 
   rk3588uefi-trixie-edge:
     enabled: no
