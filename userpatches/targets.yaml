@@ -89,6 +89,8 @@ lists:
     - { BOARD: radxa-zero3, BRANCH: edge }
     - { BOARD: rock-4se, BRANCH: edge }
     - { BOARD: rock-5b, BRANCH: edge }
+    - { BOARD: nanopct6, BRANCH: edge }
+    - { BOARD: nanopc-cm3588-nas, BRANCH: edge }
     - { BOARD: rockpi-4cplus, BRANCH: edge }
 
     # for ja in mekotronics-r58x-pro mixtile-blade3; do echo $ja; ./compile.sh rewrite-uboot-patches BRANCH=legacy BOARD=$ja; done
@@ -369,6 +371,8 @@ targets:
       - { BOARD: "aml-t95z-plus" }
       - { BOARD: "odroidhc4" }
       - { BOARD: "khadas-vim3l" }
+      - { BOARD: "nanopct6" }
+      - { BOARD: "nanopc-cm3588-nas" }
       - { BOARD: "rpi4b", BRANCH: "current" }
 
   rk3588uefi-trixie-edge:
