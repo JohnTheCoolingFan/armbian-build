@@ -373,6 +373,8 @@ targets:
       - { BOARD: "khadas-vim3l" }
       - { BOARD: "nanopct6" }
       - { BOARD: "nanopc-cm3588-nas" }
+      - { BOARD: "nanopct6", BRANCH: "oldedge" }
+      - { BOARD: "nanopc-cm3588-nas", BRANCH: "oldedge" }
       - { BOARD: "rpi4b", BRANCH: "current" }
 
   rk3588uefi-trixie-edge:
