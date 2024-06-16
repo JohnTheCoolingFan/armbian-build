@@ -179,6 +179,7 @@ function pre_customize_image__400_k8s_debfoster() {
 	debfoster_keepers+=(
 		cloud-init
 		cloud-initramfs-growroot
+		curl    # generally a good idea to have in the image
 		busybox # needed for growroot inside initrd, lest 'sed not found'
 		toilet  # armbian motd et al
 		netplan.io
