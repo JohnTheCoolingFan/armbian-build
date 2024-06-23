@@ -1,11 +1,21 @@
 # This extension enables cloud-init.
 # It sets up in a way that the user-data, meta-data and network-config reside in /boot (CLOUD_INIT_CONFIG_LOCATION)
 # it can be used to setup users, passwords, ssh keys, install packages, install and delegate to ansible, etc.
-# cloud providers allow setting user-data, but provide network-config and meta-data themselves; here we try
+# cloud providers allow setting user-data, but provide network-config and meta-data themselves.
+
+# This extension (and mluc) handle networking details itself. Declare NETWORKING_STACK='none' to avoid conflicts.
+# This is not kosher, and fixing it requires extra work on the extensions mechanism.
+declare -g -r NETWORKING_STACK="none" # read-only global, part of configuration.
 
 function extension_prepare_config__050_early_add_cloud_image_suffix() {
 	# Add to image suffix. This is done in a 050 hook so should run pretty early, compared to other extensions.
 	EXTRA_IMAGE_SUFFIXES+=("-cloud") # global array
+
+	# Sanity check
+	if [[ "${NETWORKING_STACK}" != "none" ]]; then
+		exit_with_error "Extension: ${EXTENSION}: requires NETWORKING_STACK='none', currently set to '${NETWORKING_STACK}'"
+	fi
+
 }
 
 function extension_prepare_config__950_prepare_cloud_init() { # do it very late so others can set their stuff first
