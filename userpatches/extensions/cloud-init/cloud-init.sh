@@ -5,7 +5,7 @@
 
 # This extension (and mluc) handle networking details itself. Declare NETWORKING_STACK='none' to avoid conflicts.
 # This is not kosher, and fixing it requires extra work on the extensions mechanism.
-declare -g -r NETWORKING_STACK="none" # read-only global, part of configuration.
+declare -g NETWORKING_STACK="none" # read-only global, part of configuration.
 
 function extension_prepare_config__050_early_add_cloud_image_suffix() {
 	# Add to image suffix. This is done in a 050 hook so should run pretty early, compared to other extensions.
@@ -24,8 +24,6 @@ function extension_prepare_config__950_prepare_cloud_init() { # do it very late 
 	declare -g CLOUD_INIT_USER_DATA_URL="${CLOUD_INIT_USER_DATA_URL:-files}"        # "files" to use config files, or an URL to go straight to it
 	declare -g CLOUD_INIT_INSTANCE_ID="${CLOUD_INIT_INSTANCE_ID:-armbian-${BOARD}}" # "files" to use config files, or an URL to go straight to it
 	declare -g CLOUD_INIT_CONFIG_LOCATION="${CLOUD_INIT_CONFIG_LOCATION:-/boot}"    # where on the sdcard c-i will look for user-data, network-config, meta-data files
-
-	declare -g CLOUD_INIT_USE_NETPLAN="${CLOUD_INIT_USE_NETPLAN:-yes}" # use netplan.io and the systemd/networkd renderer. Debian Cloud-images pre-bookworm used ifupdown, but no more
 
 	# Default to using e* devices with dhcp, but not wait for them, so user-data needs to be local-only
 	# Change to eth0-dhcp-wait to use https:// includes in user-data, or to something else for non-ethernet devices
@@ -64,15 +62,9 @@ function extension_prepare_config__990_late_finish_cloud_init_config() {
 	# these should be part of armbian's defaults
 	ci_packages_install+=("zstd")
 
-	if [[ "${CLOUD_INIT_USE_NETPLAN}" == "yes" ]]; then
-		display_alert "Using network-manager with netplan" "${EXTENSION} ${DISTRIBUTION}:${RELEASE}" "info"
-		ci_packages_remove+=("network-manager")
-		ci_packages_install+=("netplan.io")
-	else
-		display_alert "Using network-manager with ifupdown" "${EXTENSION} ${DISTRIBUTION}:${RELEASE}" "warn"
-		ci_packages_install+=("network-manager" "ifupdown")
-		ci_packages_remove+=("netplan.io")
-	fi
+	display_alert "Removing network-manager, adding netplan" "${EXTENSION} ${DISTRIBUTION}:${RELEASE}" "info"
+	ci_packages_remove+=("network-manager")
+	ci_packages_install+=("netplan.io")
 
 	# Force systemd-resolved, but not on Focal / Jammy / Buster / Bullseye, those have resolved inside the main systemd package
 	if [[ "${RELEASE}" != "focal" ]] && [[ "${RELEASE}" != "jammy" ]] && [[ "${RELEASE}" != "buster" ]] && [[ "${RELEASE}" != "bullseye" ]]; then
@@ -198,25 +190,7 @@ function pre_customize_image__restore_preserved_systemd_and_netplan_stuff() {
 	rm -rf "${SDCARD}"/etc/systemd.orig || true
 
 	# Clean netplan config. Cloud-init will create its own.
-	rm -f "${SDCARD}"/etc/netplan/armbian-default.yaml
-
-	# If not using netplan, make sure /etc/network/interfaces exists, otherwise c-i will ignore "eni"/ifupdown
-	if [[ "${CLOUD_INIT_USE_NETPLAN}" == "no" ]]; then
-		#display_alert "enabling" "NetworkManager-wait-online.service" "warn"
-		#chroot_sdcard systemctl enable NetworkManager-wait-online.service
-
-		display_alert "Cloud-init configuring" "/etc/network/interfaces" "info"
-		cat <<- EOD > "${SDCARD}"/etc/network/interfaces
-			# Include files from /etc/network/interfaces.d:
-			source-directory /etc/network/interfaces.d
-
-			# Cloud images dynamically generate config extensions for newly
-			# attached interfaces. See /etc/udev/rules.d/75-cloud-ifupdown.rules
-			# and /etc/network/cloud-ifupdown-helper. Dynamically generated
-			# configuration extensions are stored in /run:
-			source-directory /run/network/interfaces.d
-		EOD
-	fi
+	rm -fv "${SDCARD}"/etc/netplan/armbian-default.yaml
 
 	# Update Debian's c-i template for apt, due to bullseye security layout change.
 	if [[ "${RELEASE}" == "bullseye" ]]; then
