@@ -27,6 +27,7 @@ lists:
     #- { BOARD: orangepi3b, BRANCH: legacy }
     #- { BOARD: orangepi3b, BRANCH: edge }
     - { BOARD: odroidm1, BRANCH: edge }
+    - { BOARD: bigtreetech-cb2, BRANCH: edge }
     # - { BOARD: tinkerboard-2, BRANCH: legacy }
     - { BOARD: rpi4b, BRANCH: current, RELEASE: bookworm }
     #- { BOARD: rpi4b, BRANCH: edge, RELEASE: bookworm }
