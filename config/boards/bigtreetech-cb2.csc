@@ -42,10 +42,10 @@ function bigtreetech_uboot() {
 function mainline_kwiboo_uboot() {
 	display_alert "$BOARD" "mainline (Kwiboo's tree) u-boot overrides" "info"
 
-	declare -g BOOTSOURCE="https://github.com/Kwiboo/u-boot-rockchip.git"
-	declare -g BOOTBRANCH="branch:rk3xxx-2024.07"
-	declare -g BOOTPATCHDIR="v2024.07/board_${BOARD}" # empty
-	declare -g BOOTDIR="u-boot-${BOARD}"              # do not share u-boot directory
+	declare -g BOOTSOURCE="https://github.com/u-boot/u-boot.git"
+	declare -g BOOTBRANCH="tag:v2024.10"
+	declare -g BOOTPATCHDIR="v2024.10"
+	#declare -g BOOTDIR="u-boot-${BOARD}"
 	declare -g BOOTDELAY=1                            # Wait for UART interrupt to enter UMS/RockUSB mode etc
 	declare -g UBOOT_TARGET_MAP="BL31=${RKBIN_DIR}/${BL31_BLOB} ROCKCHIP_TPL=${RKBIN_DIR}/${DDR_BLOB};;u-boot-rockchip.bin"
 	unset uboot_custom_postprocess write_uboot_platform write_uboot_platform_mtd # disable stuff from rockchip64_common; we're using binman here which does all the work already
@@ -55,7 +55,7 @@ function mainline_kwiboo_uboot() {
 		dd if=${1}/u-boot-rockchip.bin of=${2} bs=32k seek=1 conv=fsync
 	}
 
-	#declare -g BOOTCONFIG=generic-rk3568_bootconfig
+	#declare -g BOOTCONFIG=generic-rk3568_defconfig
 }
 
 # vim: ft=bash
