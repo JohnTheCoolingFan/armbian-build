@@ -57,3 +57,5 @@ function mainline_kwiboo_uboot() {
 
 	#declare -g BOOTCONFIG=generic-rk3568_bootconfig
 }
+
+# vim: ft=bash
