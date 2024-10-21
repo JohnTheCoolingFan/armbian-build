@@ -2,7 +2,7 @@
 BOARD_NAME="BigTreeTech CB2"
 BOARDFAMILY="rockchip64"
 BOARD_MAINTAINER=""
-BOOTCONFIG="bigtreetech-cb2_defconfig"
+BOOTCONFIG="bigtreetech-cb2-rk3566_defconfig"
 BOOT_SOC="rk3566"
 KERNEL_TARGET="current,edge"
 BOOT_FDT_FILE="rockchip/rk3566-bigtreetech-cb2.dtb"
@@ -44,7 +44,7 @@ function mainline_uboot() {
 
 	declare -g BOOTSOURCE="https://github.com/u-boot/u-boot.git"
 	declare -g BOOTBRANCH="tag:v2024.10"
-	declare -g BOOTPATCHDIR="v2024.10"
+	declare -g BOOTPATCHDIR="v2024.10/board_bigtreetech-cb2"
 	#declare -g BOOTDIR="u-boot-${BOARD}"
 	declare -g BOOTDELAY=1                            # Wait for UART interrupt to enter UMS/RockUSB mode etc
 	declare -g UBOOT_TARGET_MAP="BL31=${RKBIN_DIR}/${BL31_BLOB} ROCKCHIP_TPL=${RKBIN_DIR}/${DDR_BLOB};;u-boot-rockchip.bin"

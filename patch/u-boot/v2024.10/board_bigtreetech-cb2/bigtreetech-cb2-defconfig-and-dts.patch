@@ -6,7 +6,7 @@ Subject: BigTreeTech CB2 defconfig and dts
 Signed-off-by: JohnTheCoolingFan <ivan8215145640@gmail.com>
 ---
  arch/arm/dts/rk3566-bigtreetech-cb2.dts | 499 ++++++++++
- configs/bigtreetech-cb2_defconfig       | 111 +++
+ configs/bigtreetech-cb2-rk3566_defconfig       | 111 +++
  2 files changed, 610 insertions(+)
 
 diff --git a/arch/arm/dts/rk3566-bigtreetech-cb2.dts b/arch/arm/dts/rk3566-bigtreetech-cb2.dts
@@ -514,11 +514,11 @@ index 00000000000..acb99ef8c9a
 +		};
 +	};
 +};
-diff --git a/configs/bigtreetech-cb2_defconfig b/configs/bigtreetech-cb2_defconfig
+diff --git a/configs/bigtreetech-cb2-rk3566_defconfig b/configs/bigtreetech-cb2-rk3566_defconfig
 new file mode 100644
 index 00000000000..fa8553fd874
 --- /dev/null
-+++ b/configs/bigtreetech-cb2_defconfig
++++ b/configs/bigtreetech-cb2-rk3566_defconfig
 @@ -0,0 +1,111 @@
 +CONFIG_ARM=y
 +CONFIG_ARCH_ROCKCHIP=y
