@@ -12,16 +12,13 @@ OVERLAY_PREFIX='rk3566'
 FULL_DESKTOP="yes"
 BOOT_LOGO="desktop"
 
-DDR_BLOB="rk35/rk3566_ddr_1056MHz_v1.18.bin"
-BL31_BLOB="rk35/rk3568_bl31_v1.43.elf" # NOT a typo, bl31 is shared across 68 and 66
-
-function post_family_config__bigtreetech-cb2_use_mainline_uboot() {
+function post_family_config__bigtreetech-cb2_uboot_overrides() {
 	case $BRANCH in
 		current)
 			bigtreetech_uboot
 			;;
 		edge)
-			mainline_kwiboo_uboot
+			mainline_uboot
 			;;
 	esac
 }
@@ -39,8 +36,11 @@ function bigtreetech_uboot() {
 	declare -g BOOTCONFIG="bigtreetech_cb2_defconfig"
 }
 
-function mainline_kwiboo_uboot() {
-	display_alert "$BOARD" "mainline (Kwiboo's tree) u-boot overrides" "info"
+DDR_BLOB="rk35/rk3566_ddr_1056MHz_v1.21.bin"
+BL31_BLOB="rk35/rk3568_bl31_v1.44.elf" # NOT a typo, bl31 is shared across 68 and 66
+
+function mainline_uboot() {
+	display_alert "$BOARD" "mainline u-boot overrides" "info"
 
 	declare -g BOOTSOURCE="https://github.com/u-boot/u-boot.git"
 	declare -g BOOTBRANCH="tag:v2024.10"
