@@ -123,7 +123,7 @@
 		gpio = <&gpio4 RK_PC6 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&vcc5v0_host2_vbus_en>;
-		regulator-name = "vcc5v0_host";
+		regulator-name = "vcc5v0_host2";
 		regulator-boot-on;
 		regulator-always-on;
 
@@ -135,7 +135,7 @@
 		gpio = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&vcc5v0_host3_vbus_en>;
-		regulator-name = "vcc5v0_host";
+		regulator-name = "vcc5v0_host3";
 		regulator-boot-on;
 		regulator-always-on;
 
