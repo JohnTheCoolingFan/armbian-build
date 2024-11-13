@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: JohnTheCoolingFan <ivan8215145640@gmail.com>
+Date: Wed, 13 Nov 2024 12:39:59 +0000
+Subject: Patching u-boot rockchip64 files
+ configs/bigtreetech-cb2-rk3566_defconfig
+
+Signed-off-by: JohnTheCoolingFan <ivan8215145640@gmail.com>
+---
+ configs/bigtreetech-cb2-rk3566_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/configs/bigtreetech-cb2-rk3566_defconfig b/configs/bigtreetech-cb2-rk3566_defconfig
+index bec31c94e3f..e68e8965810 100644
+--- a/configs/bigtreetech-cb2-rk3566_defconfig
++++ b/configs/bigtreetech-cb2-rk3566_defconfig
+@@ -89,10 +89,11 @@ CONFIG_PCIE_DW_ROCKCHIP=y
+ CONFIG_PHY_ROCKCHIP_INNO_USB2=y
+ CONFIG_PHY_ROCKCHIP_NANENG_COMBOPHY=y
+ CONFIG_SPL_PINCTRL=y
+ CONFIG_DM_PMIC=y
+ CONFIG_PMIC_RK8XX=y
++CONFIG_SPL_PMIC_RK8XX=y
+ CONFIG_REGULATOR_RK8XX=y
+ CONFIG_SPL_RAM=y
+ CONFIG_ROCKCHIP_SDRAM_COMMON=y
+ CONFIG_BAUDRATE=1500000
+ CONFIG_DEBUG_UART_SHIFT=2
+-- 
+Created with Armbian build tools https://github.com/armbian/build
+
