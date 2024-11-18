@@ -1,14 +1,14 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: JohnTheCoolingFan <ivan8215145640@gmail.com>
-Date: Thu, 24 Oct 2024 14:24:10 +0000
-Subject: BigTreeTech CB2 device tree and defconfig
+Date: Mon, 18 Nov 2024 03:35:50 +0000
+Subject: Add BigTreeTech CB2 defconfig and device tree
 
 Signed-off-by: JohnTheCoolingFan <ivan8215145640@gmail.com>
 ---
  arch/arm/dts/rk3566-bigtreetech-cb2-u-boot.dtsi |   3 +
- arch/arm/dts/rk3566-bigtreetech-cb2.dts         | 497 ++++++++++
- configs/bigtreetech-cb2-rk3566_defconfig        | 114 +++
- 3 files changed, 614 insertions(+)
+ arch/arm/dts/rk3566-bigtreetech-cb2.dts         | 494 ++++++++++
+ configs/bigtreetech-cb2-rk3566_defconfig        | 115 +++
+ 3 files changed, 612 insertions(+)
 
 diff --git a/arch/arm/dts/rk3566-bigtreetech-cb2-u-boot.dtsi b/arch/arm/dts/rk3566-bigtreetech-cb2-u-boot.dtsi
 new file mode 100644
@@ -21,10 +21,10 @@ index 00000000000..2e2341667f6
 +#include "rk356x-u-boot.dtsi"
 diff --git a/arch/arm/dts/rk3566-bigtreetech-cb2.dts b/arch/arm/dts/rk3566-bigtreetech-cb2.dts
 new file mode 100644
-index 00000000000..314cc125dc2
+index 00000000000..6bcf5b26f49
 --- /dev/null
 +++ b/arch/arm/dts/rk3566-bigtreetech-cb2.dts
-@@ -0,0 +1,497 @@
+@@ -0,0 +1,494 @@
 +/*
 + * SPDX-License-Identifier:     GPL-2.0+
 + *
@@ -105,11 +105,9 @@ index 00000000000..314cc125dc2
 +		io-channels = <&saradc 0>;
 +		io-channel-names = "buttons";
 +		keyup-threshold-microvolt = <1800000>;
-+		u-boot,dm-spl;
 +		status = "okay";
 +
 +		volumeup-key {
-+			u-boot,dm-spl;
 +			linux,code = <KEY_VOLUMEUP>;
 +			label = "volume up";
 +			press-threshold-microvolt = <9>;
@@ -487,7 +485,6 @@ index 00000000000..314cc125dc2
 +
 +
 +&pinctrl {
-+	u-boot,dm-spl;
 +
 +	pcfg_output_low_pull_down: pcfg_output_low_pull_down {
 +		bias-pull-down;
@@ -524,10 +521,10 @@ index 00000000000..314cc125dc2
 +};
 diff --git a/configs/bigtreetech-cb2-rk3566_defconfig b/configs/bigtreetech-cb2-rk3566_defconfig
 new file mode 100644
-index 00000000000..2f427107089
+index 00000000000..3c7c294545a
 --- /dev/null
 +++ b/configs/bigtreetech-cb2-rk3566_defconfig
-@@ -0,0 +1,114 @@
+@@ -0,0 +1,115 @@
 +CONFIG_ARM=y
 +CONFIG_ARCH_ROCKCHIP=y
 +CONFIG_SYS_MALLOC_F_LEN=0x80000
@@ -620,6 +617,7 @@ index 00000000000..2f427107089
 +CONFIG_SPL_PINCTRL=y
 +CONFIG_DM_PMIC=y
 +CONFIG_PMIC_RK8XX=y
++CONFIG_SPL_PMIC_RK8XX=y
 +CONFIG_REGULATOR_RK8XX=y
 +CONFIG_SPL_RAM=y
 +CONFIG_ROCKCHIP_SDRAM_COMMON=y
