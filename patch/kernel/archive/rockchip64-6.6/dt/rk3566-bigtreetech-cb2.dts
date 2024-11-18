@@ -368,6 +368,7 @@
 
 		rk809_codec: codec {
 			rockchip,mic-in-differential;
+			mic-in-differential;
 		};
 
 		pinctrl_rk8xx {
@@ -405,7 +406,7 @@
 				regulator-initial-mode = <0x2>;
 				regulator-name = "vdd_log";
 				regulator-state-mem {
-					regulator-on-in-suspend;
+					regulator-off-in-suspend;
 				};
 			};
 
@@ -418,7 +419,7 @@
 				regulator-initial-mode = <0x2>;
 				regulator-name = "vdd_gpu";
 				regulator-state-mem {
-					regulator-on-in-suspend;
+					regulator-off-in-suspend;
 				};
 			};
 
@@ -435,13 +436,13 @@
 			vdd_npu: DCDC_REG4 {
 				regulator-always-on;
 				regulator-boot-on;
-				regulator-min-microvolt = <900000>;
+				regulator-min-microvolt = <500000>;
 				regulator-max-microvolt = <1350000>;
 				regulator-ramp-delay = <6001>;
 				regulator-initial-mode = <0x2>;
 				regulator-name = "vdd_npu";
 				regulator-state-mem {
-					regulator-on-in-suspend;
+					regulator-off-in-suspend;
 				};
 			};
 
@@ -482,8 +483,8 @@
 			vccio_acodec: LDO_REG4 {
 				regulator-always-on;
 				regulator-boot-on;
-				regulator-min-microvolt = <3300000>;
-				regulator-max-microvolt = <3300000>;
+				regulator-min-microvolt = <3000000>;
+				regulator-max-microvolt = <3000000>;
 				regulator-name = "vccio_acodec";
 				regulator-state-mem {
 					regulator-off-in-suspend;
