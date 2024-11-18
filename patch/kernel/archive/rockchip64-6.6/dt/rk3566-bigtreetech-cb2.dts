@@ -734,15 +734,15 @@
 				<0 RK_PA3 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 
-		soc_slppin_gpio {
+		soc_slppin_gpio: soc_slppin_gpio {
 			rockchip,pins = <0 RK_PA2 RK_FUNC_GPIO &pcfg_output_low>;
 		};
 
-		soc_slppin_slp {
+		soc_slppin_slp: soc_slppin_slp {
 			rockchip,pins = <0 RK_PA2 0x01 &pcfg_pull_none>;
 		};
 
-		soc_slppin_rst {
+		soc_slppin_rst: soc_slppin_rst {
 			rockchip,pins = <0 RK_PA2 0x02 &pcfg_pull_none>;
 		};
 	};
