@@ -312,10 +312,11 @@
 &i2c0 {
 	status = "okay";
 
-	vdd_cpu: regulator@1c {
-		compatible = "tcs,tcs4525";
+	vdd_cpu: tcs4525@1c {
+		compatible = "tcs,tcs452x";
 		reg = <0x1c>;
 		fcs,suspend-voltage-selector = <1>;
+		regulator-compatible = "fan53555-reg";
 		regulator-name = "vdd_cpu";
 		regulator-always-on;
 		regulator-boot-on;
