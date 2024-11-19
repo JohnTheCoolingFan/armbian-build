@@ -88,6 +88,40 @@
 		regulator-max-microvolt = <12000000>;
 	};
 
+	vcc_5v: vcc-5v-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc_5v";
+		regulator-always-on;
+		regulator-boot-on;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&dc_12v>;
+	};
+
+	vbus: vbus {
+		compatible = "regulator-fixed";
+		regulator-name = "vbus";
+		regulator-always-on;
+		regulator-boot-on;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+	};
+
+
+	vcc3v3_pcie: vcc3v3-pcie-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc3v3_pcie";
+		regulator-always-on;
+		regulator-boot-on;
+		enable-active-high;
+		gpios = <&gpio4 RK_PB1 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pcie_enable_h>;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		vin-supply = <&dc_12v>;
+	};
+
 	vcc3v3_sys: vcc3v3-sys {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v3_sys";
@@ -95,7 +129,7 @@
 		regulator-boot-on;
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
-		vin-supply = <&dc_12v>;
+		vin-supply = <&vbus>;
 	};
 
 	vcc5v0_sys: vcc5v0-sys {
@@ -105,7 +139,7 @@
 		regulator-boot-on;
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
-		vin-supply = <&dc_12v>;
+		vin-supply = <&vbus>;
 	};
 
 	vcc5v0_host: vcc5v0-host-regulator {
@@ -123,7 +157,7 @@
 	vcc5v0_host2: vcc5v0-host2-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
-		gpio = <&gpio4 RK_PD6 GPIO_ACTIVE_HIGH>;
+		gpio = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&vcc5v0_host2_vbus_en>;
 		regulator-name = "vcc5v0_host2";
@@ -141,7 +175,24 @@
 		regulator-name = "vcc5v0_host3";
 		regulator-boot-on;
 		regulator-always-on;
+	};
 
+	vcc5v0_usb: vcc5v0-usb {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc5v0_usb";
+		regulator-always-on;
+		regulator-boot-on;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vbus>;
+	};
+
+	vcc_sd: vcc-sd {
+		compatible = "regulator-fixed";
+		regulator-max-microvolt = <3300000>;
+		regulator-min-microvolt = <3300000>;
+		regulator-name = "vcc_sd";
+		vin-supply = <&vcc3v3_sys>;
 	};
 
 	vcc5v0_otg: vcc5v0-otg-regulator {
@@ -151,18 +202,7 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&vcc5v0_otg_en>;
 		regulator-name = "vcc5v0_otg";
-	};
-
-	vcc3v3_pcie: vcc3v3-pcie-regulator {
-		compatible = "regulator-fixed";
-		enable-active-high;
-		gpios = <&gpio4 RK_PB1 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pcie_enable_h>;
-		regulator-name = "vcc3v3_pcie";
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-		vin-supply = <&vcc5v0_sys>;
+		regulator-always-on;
 	};
 
 	sdio_pwrseq: sdio-pwrseq {
@@ -171,7 +211,7 @@
 		clock-names = "ext_clock";
 		pinctrl-names = "default";
 		pinctrl-0 = <&wifi_enable_h &wifi_32k>;
-		reset-gpios = <&gpio2 RK_PB2 GPIO_ACTIVE_LOW>;
+		reset-gpios = <&gpio0 RK_PD3 GPIO_ACTIVE_LOW>;
 	};
 
 	gmac1_clkin: external-gmac1-clock {
@@ -313,7 +353,7 @@
 	status = "okay";
 
 	vdd_cpu: tcs4525@1c {
-		compatible = "tcs,tcs452x";
+		compatible = "tcs,tcs452x", "tcs,tcs4525";
 		reg = <0x1c>;
 		fcs,suspend-voltage-selector = <1>;
 		regulator-compatible = "fan53555-reg";
@@ -322,6 +362,7 @@
 		regulator-boot-on;
 		regulator-min-microvolt = <712500>;
 		regulator-max-microvolt = <1390000>;
+		regulator-initial-mode = <1>;
 		regulator-ramp-delay = <2300>;
 		vin-supply = <&vcc5v0_sys>;
 
@@ -337,6 +378,8 @@
 		interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
 
 		pinctrl-names = "default", "pmic-sleep", "pmic-power-off", "pmic-reset";
+		assigned-clocks = <&cru I2S1_MCLKOUT_TX>;
+		assigned-clock-parents = <&cru CLK_I2S1_8CH_TX>;
 		pinctrl-0 = <&pmic_int>, <&i2s1m0_mclk>;
 		pinctrl-1 = <&soc_slppin_slp>, <&rk817_slppin_slp>;
 		pinctrl-2 = <&soc_slppin_gpio>, <&rk817_slppin_pwrdn>;
@@ -371,9 +414,9 @@
 			mic-in-differential;
 		};
 
-		pinctrl_rk8xx {
+		pinctrl_rk8xx: pinctrl_rk8xx {
 			gpio-controller;
-			#gpio-cells = <0x02>;
+			#gpio-cells = <2>;
 
 			rk817_slppin_null: rk817_slppin_null {
 				pins = "gpio_slp";
@@ -413,7 +456,7 @@
 			vdd_gpu: DCDC_REG2 {
 				regulator-always-on;
 				regulator-boot-on;
-				regulator-min-microvolt = <900000>;
+				regulator-min-microvolt = <500000>;
 				regulator-max-microvolt = <1350000>;
 				regulator-ramp-delay = <6001>;
 				regulator-initial-mode = <0x2>;
@@ -739,17 +782,18 @@
 		};
 
 		soc_slppin_slp: soc_slppin_slp {
-			rockchip,pins = <0 RK_PA2 0x01 &pcfg_pull_none>;
+			rockchip,pins = <0 RK_PA2 1 &pcfg_pull_none>;
 		};
 
 		soc_slppin_rst: soc_slppin_rst {
-			rockchip,pins = <0 RK_PA2 0x02 &pcfg_pull_none>;
+			rockchip,pins = <0 RK_PA2 2 &pcfg_pull_none>;
 		};
 	};
 
+
 	sdio-pwrseq {
 		wifi_enable_h: wifi-enable-h {
-			rockchip,pins =<2 RK_PB2 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <0 RK_PD3 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 
 		wifi_host_wake: wifi-host-wake {
@@ -761,6 +805,7 @@
 		};
 	};
 
+
 	usb {
 		vcc5v0_otg_en: vcc5v0-otg-en {
 			rockchip,pins = <0 RK_PB5 RK_FUNC_GPIO &pcfg_pull_none>;
@@ -771,7 +816,7 @@
 		};
 
 		vcc5v0_host2_vbus_en: vcc5v0-host2-en {
-			rockchip,pins = <4 RK_PD5 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <3 RK_PD5 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 
 		vcc5v0_host3_vbus_en: vcc5v0-host3-en {
@@ -790,7 +835,7 @@
 	status = "okay";
 	pmuio1-supply = <&vcc3v3_pmu>;
 	pmuio2-supply = <&vcc3v3_pmu>;
-	vccio1-supply = <&vccio_acodec>;
+	vccio1-supply = <&vcc_3v3>;
 	vccio2-supply = <&vcc_1v8>;
 	vccio3-supply = <&vccio_sd>;
 	vccio4-supply = <&vcc_1v8>;
